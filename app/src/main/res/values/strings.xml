@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">Rewizor</string>
     <string name="search_hint">Search</string>
+    <string name="filter_hint">Filter</string>
+    <string-array name="drawer_items">
+        <item>Профиль</item>
+        <item>Главная</item>
+        <item>Афиша</item>
+        <item>Новости</item>
+        <item>Места</item>
+        <item>Материалы</item>
+        <item>Для детей</item>
+        <item>Избранное</item>
+        <item>Поддержка</item>
+        <item>Настройки</item>
+    </string-array>
 </resources>
