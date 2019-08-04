@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single">
+    <item
+        android:id="@+id/main"
+        android:title="@string/main"/>
+    <item
+        android:id="@+id/afisha"
+        android:title="@string/afisha"/>
+    <item
+        android:id="@+id/news"
+        android:title="@string/news"/>
+    <item
+        android:id="@+id/locations"
+        android:title="@string/locations"/>
+    <item
+        android:id="@+id/materials"
+        android:title="@string/materials"/>
+    <item
+        android:id="@+id/kids"
+        android:title="@string/kids"/>
+    <item
+        android:id="@+id/favorite"
+        android:title="@string/favorite"/>
+</group>
+    <item android:title="Other">
+    <menu>
+        <item
+            android:id="@+id/support"
+            android:title="@string/support"/>
+        <item
+            android:id="@+id/options"
+            android:title="@string/options"/>
+    </menu>
+    </item>
+</menu>

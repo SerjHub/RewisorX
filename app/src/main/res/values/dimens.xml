@@ -12,4 +12,10 @@
     <dimen name="Body2">14sp</dimen>
     <dimen name="Button">14sp</dimen>
     <dimen name="Caption">12sp</dimen>
+
+    <dimen name="drawer_weight">320dp</dimen>
+
+    <dimen name="avatar_width">48dp</dimen>
+    <dimen name="avatar_height">48dp</dimen>
+
 </resources>
