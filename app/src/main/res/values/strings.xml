@@ -2,16 +2,17 @@
     <string name="app_name">Rewizor</string>
     <string name="search_hint">Search</string>
     <string name="filter_hint">Filter</string>
-    <string-array name="drawer_items">
-        <item>Профиль</item>
-        <item>Главная</item>
-        <item>Афиша</item>
-        <item>Новости</item>
-        <item>Места</item>
-        <item>Материалы</item>
-        <item>Для детей</item>
-        <item>Избранное</item>
-        <item>Поддержка</item>
-        <item>Настройки</item>
-    </string-array>
+    <string name="main">Главная</string>
+    <string name="news">Новости</string>
+    <string name="afisha">Афиша</string>
+    <string name="locations">Места</string>
+    <string name="materials">Материалы</string>
+    <string name="kids">Для детей</string>
+    <string name="favorite">Избранное</string>
+    <string name="support">Поддержка</string>
+    <string name="options">Настройки</string>
+
+    <string name="navOpen">open</string>
+    <string name="navClose">close</string>
+
 </resources>
