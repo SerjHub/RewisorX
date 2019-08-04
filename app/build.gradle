@@ -5,14 +5,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.app.rewizor"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+     //   buildToolsVersion "29.0.0"
     }
     buildTypes {
         release {
@@ -20,20 +21,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.core:core-ktx:1.2.0-alpha02'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
 
     //DI
-    implementation 'org.koin:koin-android:2.0.1'
+//    implementation 'org.koin:koin-android:2.0.1'
+    //Koin for viewModels
+//    implementation "org.koin:koin-android-architecture:0.9.1"
+    implementation 'org.koin:koin-android-viewmodel:2.0.1'
+
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-RC'
     implementation 'com.squareup.okhttp3:okhttp:4.0.1'
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    //Navigation
     implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
 
     testImplementation 'junit:junit:4.12'
@@ -44,6 +55,5 @@ dependencies {
     apply plugin: 'kotlin-android'
     apply plugin: 'kotlin-android-extensions'
     implementation 'com.google.android.material:material:1.1.0-alpha09'
-
 
 }

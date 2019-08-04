@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="InputField">
+        <attr name="inputFieldHint" format="string"/>
+        <attr name="inputFieldText" format="string"/>
+        <attr name="inputPassword" format="boolean"/>
+    </declare-styleable>
 </resources>

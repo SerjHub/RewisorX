@@ -1,4 +1,4 @@
-package com.app.rewizor.repository
+package com.app.rewizor.data.repository
 
 interface LoginRepository {
     val savedLogin: String

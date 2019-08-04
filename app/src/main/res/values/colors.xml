@@ -6,5 +6,11 @@
 
     <color name="green">#32B271</color>
     <color name="yellow">#FADF54</color>
+
     <color name="grey">#b5b5b5</color>
+
+    <color name="edit_text_line">@color/green</color>
+
+    <color name="confirm_btn">@color/yellow</color>
+
 </resources>
