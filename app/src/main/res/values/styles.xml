@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/redDark</item>
         <item name="colorAccent">@color/redDark</item>
-        <item name="android:textAppearance">@color/white</item>
+
     </style>
 
     <style name="ToolbarTheme" >
