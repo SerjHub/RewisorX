@@ -20,6 +20,9 @@ class App : Application(){
 
     private val modules = listOf(
         androidModule,
+        apiModule,
+        sources,
+        dataModule,
         viewModelModule
     )
 }

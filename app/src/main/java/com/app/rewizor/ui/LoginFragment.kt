@@ -2,17 +2,24 @@ package com.app.rewizor.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import com.app.rewizor.R
 import com.app.rewizor.viewmodel.LoginViewModel
-import org.koin.android.viewmodel.ext.android.getViewModel
+import org.koin.android.ext.android.inject
 
 class LoginFragment : BaseFragment() {
     override val layout = R.layout.fragment_login
-    val viewModel = getViewModel(LoginViewModel::class)
+    private val viewModel: LoginViewModel by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         viewModel.onViewCreated()
+    }
+
+    private fun setObservers() {
+        viewModel.currentEnteredLogin.observe(viewLifecycleOwner, Observer {  })
+
     }
 
 

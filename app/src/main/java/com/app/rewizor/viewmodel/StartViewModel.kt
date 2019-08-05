@@ -2,11 +2,10 @@ package com.app.rewizor.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.app.rewizor.App
 import com.app.rewizor.data.repository.LoginRepository
 
 class StartViewModel(
-  //  private val repository: LoginRepository
+    private val repository: LoginRepository
 ) : BaseViewModel() {
 
     private val currentStartScreen: MutableLiveData<StartView> = MutableLiveData()
@@ -19,9 +18,9 @@ class StartViewModel(
     }
 
     private fun checkLogin() {
-//        if (repository.savedLogin.isEmpty())
-//            currentStartScreen.value = StartView.LOGIN
-//        else openMain.value = true
+        if (repository.savedLogin.isEmpty())
+            currentStartScreen.value = StartView.LOGIN
+        else openMain.value = true
     }
 
     enum class StartView() {

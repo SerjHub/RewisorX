@@ -2,5 +2,5 @@ package com.app.rewizor.data
 
 data class Result<T>(
     val model: T,
-    val error: Error
+    val error: Error? = null
 )

@@ -43,8 +43,6 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             this,drawer,toolbar,, 2)
         )
 */
-
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

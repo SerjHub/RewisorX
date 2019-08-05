@@ -4,6 +4,7 @@ package com.app.rewizor
 import com.app.rewizor.data.repository.LoginRepository
 import com.app.rewizor.data.repositoryImpl.LoginRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
+import com.app.rewizor.viewmodel.LoginViewModel
 import com.app.rewizor.viewmodel.StartViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -18,18 +19,20 @@ val androidModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { StartViewModel() }
+    viewModel { StartViewModel(get()) }
+    viewModel { LoginViewModel(get(),get()) }
 }
 
 
 val apiModule = module {
 
 }
-
+/**repositories */
 val dataModule = module {
     single<LoginRepository> { LoginRepositoryImpl(get()) }
 }
 
 val sources = module {
     single { PreferencesCache(androidContext() as App) }
+
 }
