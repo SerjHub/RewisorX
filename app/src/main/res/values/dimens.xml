@@ -19,6 +19,9 @@
     <dimen name="avatar_width">48dp</dimen>
     <dimen name="avatar_height">48dp</dimen>
 
+    <dimen name="standard_width">328dp</dimen>
+    <dimen name="standard_height">56dp</dimen>
+
     <!--Input Field View -->
 
 

@@ -2,8 +2,11 @@ package com.app.rewizor
 
 
 import com.app.rewizor.data.repository.LoginRepository
+import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.data.repositoryImpl.LoginRepositoryImpl
+import com.app.rewizor.data.repositoryImpl.SystemRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
+import com.app.rewizor.remote.RestClient
 import com.app.rewizor.viewmodel.LoginViewModel
 import com.app.rewizor.viewmodel.StartViewModel
 import org.koin.android.ext.koin.androidContext
@@ -18,21 +21,25 @@ val androidModule = module {
     single { Router() }
 }
 
+val sources = module {
+    single { PreferencesCache(androidContext() as App) }
+}
+
+val apiModule = module {
+    single { RestClient(get(), androidContext().resources.getString(R.string.rewizor_url)) }
+}
+
+/**repositories */
+val dataModule = module {
+    single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
+    single<SystemRepository> { SystemRepositoryImpl(get()) }
+}
+
 val viewModelModule = module {
-    viewModel { StartViewModel(get()) }
+    viewModel { StartViewModel(get(), get()) }
     viewModel { LoginViewModel(get(),get()) }
 }
 
 
-val apiModule = module {
 
-}
-/**repositories */
-val dataModule = module {
-    single<LoginRepository> { LoginRepositoryImpl(get()) }
-}
 
-val sources = module {
-    single { PreferencesCache(androidContext() as App) }
-
-}

@@ -7,24 +7,24 @@
 
     <ImageView
             android:id="@+id/app_logo"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            app:srcCompat="@mipmap/logo_white"
-
+            android:layout_width="260dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:srcCompat="@mipmap/logo_white"/>
 
     <com.app.rewizor.ui.custom.InputField
             android:id="@+id/loginInputView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
 
             app:inputEmail="true"
             app:inputFieldHint="E-mail*"
             app:inputFieldText="фыв"
-            android:paddingStart="60dp"
-            android:paddingEnd="60dp"
+            android:layout_marginTop="56dp"
             app:layout_constraintTop_toBottomOf="@id/app_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,18 +34,28 @@
 
     <com.app.rewizor.ui.custom.InputField
             android:id="@+id/passwordInputView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
             app:inputPassword="true"
             app:inputFieldHint="Пароль*"
             app:inputFieldText="пароль"
-            android:paddingStart="60dp"
-            android:paddingEnd="60dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/loginInputView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
     </com.app.rewizor.ui.custom.InputField>
+
+    <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwordInputView"
+            style="@style/confirm_button_standard"
+
+            android:text="Войти"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,6 @@
 package com.app.rewizor.coroutine
 
-import com.app.rewizor.data.Result
+import com.app.rewizor.data.RewizorResult
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -12,10 +12,10 @@ class AsyncProvider (uiComponentContext: CoroutineContext): CoroutineScope {
     fun startSuspend(bgTask: suspend CoroutineScope.() -> Unit) = launch { bgTask() }
 
     @Synchronized
-    suspend fun <T>startBlockingOperationWithResultAsync(block: suspend CoroutineScope.() -> Result<T>): Deferred<Result<T>> =
+    suspend fun <T>startBlockingOperationWithResultAsync(block: suspend CoroutineScope.() -> RewizorResult<T>): Deferred<RewizorResult<T>> =
         coroutineScope { async(Dispatchers.IO) { block()} }
 
     @Synchronized
-    suspend fun <T>startBlockingOperationWithResultAsyncAwait(block: suspend CoroutineScope.() -> Result<T>): Result<T> =
+    suspend fun <T>startBlockingOperationWithResultAsyncAwait(block: suspend CoroutineScope.() -> RewizorResult<T>): RewizorResult<T> =
         startBlockingOperationWithResultAsync(block).await()
 }

@@ -1,8 +1,11 @@
 package com.app.rewizor.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.repository.LoginRepository
+import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class LoginViewModel(
     private val viewModel: StartViewModel?,
@@ -18,6 +21,9 @@ class LoginViewModel(
     private val validationErrorModel: MutableLiveData<VALIDATION> = MutableLiveData()
     val onValidationErrorLiveData: LiveData<VALIDATION> get() = validationErrorModel
 
+    private val loginFail: MutableLiveData<String> = SingleLiveEvent()
+    val onLoginFailedLiveData: LiveData<String> = loginFail
+
 
     override fun onViewCreated() {
 
@@ -32,20 +38,22 @@ class LoginViewModel(
         enteredPassword.value = str
     }
 
-    private fun loginRequest() {
+    fun loginRequest() {
+        Log.i("FindResp", "${isValid()}")
         if (isValid()) {
             asyncProvider.startSuspend {
                 val result = asyncProvider.startBlockingOperationWithResultAsyncAwait {
+                    Log.i("FindResp", "ui scope")
                     repository.login(enteredLogin.value!!, enteredPassword.value!!)
                 }
-                if (result.error != null) {
-
-                }
+                if (result.error != null) onLoginFail(result.error)
                 else onLoginSuccess()
             }
-
         }
+    }
 
+    private fun onLoginFail(error: RewizorError) {
+        loginFail.value = error.message
     }
 
     private fun onLoginSuccess() {
@@ -55,9 +63,9 @@ class LoginViewModel(
     private fun isValid(): Boolean {
         when {
             enteredLogin.value == null -> validationErrorModel.value = VALIDATION.ENTER_LOGIN
-            enteredLogin.value!!.length < 4 -> validationErrorModel.value = VALIDATION.SHORT_LOGIN
+            enteredLogin.value!!.isEmpty() -> validationErrorModel.value = VALIDATION.SHORT_LOGIN
             enteredPassword.value == null -> validationErrorModel.value = VALIDATION.ENTER_PASSWORD
-            enteredPassword.value!!.length < 4 -> validationErrorModel.value = VALIDATION.SHORT_PASSWORD
+            enteredPassword.value!!.isEmpty() -> validationErrorModel.value = VALIDATION.SHORT_PASSWORD
             else -> return true
         }
         return false

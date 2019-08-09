@@ -1,10 +1,15 @@
 package com.app.rewizor.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.app.rewizor.R
+import com.app.rewizor.exstension.onTextChange
+import com.app.rewizor.ui.utils.AlertDialogHelper
 import com.app.rewizor.viewmodel.LoginViewModel
+import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.view_input_field.view.*
 import org.koin.android.ext.android.inject
 
 class LoginFragment : BaseFragment() {
@@ -15,11 +20,28 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         viewModel.onViewCreated()
+        initClickListeners()
     }
 
     private fun setObservers() {
-        viewModel.currentEnteredLogin.observe(viewLifecycleOwner, Observer {  })
+        with(viewModel) {
+            onLoginFailedLiveData.observe(viewLifecycleOwner, Observer { showLoginFailAlert(it) })
+            onValidationErrorLiveData.observe(viewLifecycleOwner, Observer { Log.i("FindResp", "$it") })
+        }
+    }
 
+    private fun initClickListeners() {
+        with(viewModel) {
+            loginButton.setOnClickListener { loginRequest() }
+            loginInputView.inputField.onTextChange { onLoginInput(it) }
+            passwordInputView.inputField.onTextChange { onPasswordInput(it) }
+        }
+    }
+
+    private fun showLoginFailAlert(text: String) {
+        activity?.let {
+            AlertDialogHelper.showSingleActionAlert(it, text)
+        }
     }
 
 

@@ -16,6 +16,13 @@
     <style name="confirm_button" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@color/confirm_btn</item>
         <item name="cornerRadius">2dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="confirm_button_standard" parent="confirm_button">
+        <item name="android:width">@dimen/standard_width</item>
+        <item name="android:height">@dimen/standard_height</item>
     </style>
 
 </resources>

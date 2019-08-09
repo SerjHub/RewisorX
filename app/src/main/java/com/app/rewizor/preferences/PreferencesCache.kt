@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import java.lang.IllegalArgumentException
 
 class PreferencesCache(private val context: Application) {
     init {
@@ -13,8 +12,19 @@ class PreferencesCache(private val context: Application) {
     companion object {
         const val APP_PREFS = "app"
         const val LOGIN = "login_pref"
-
+        const val ACCESS_TOKEN = "token"
     }
+
+    var sessionToken: String?
+        get() = prefs(APP_PREFS)
+            .getString(ACCESS_TOKEN, "")
+        set(value) {
+            prefs(APP_PREFS)
+                .edit()
+                .putString(ACCESS_TOKEN, value)
+                .apply()
+        }
+
     var savedLogin: String?
     get() = prefs(APP_PREFS)
             .getString(LOGIN, "")
