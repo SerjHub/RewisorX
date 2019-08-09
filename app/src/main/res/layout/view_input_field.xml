@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                       android:id="@+id/inputFieldLayout"
-                                                       android:background="@color/white"
-                                                       app:boxBackgroundColor="@color/green"
+                                                       android:id="@+id/viewSelf"
+                                                       android:background="@color/superWhite"
+                                                       android:orientation="vertical"
                                                        android:layout_width="match_parent"
                                                        android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputField"
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputFieldLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:paddingBottom="0dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="6dp"
+            app:boxBackgroundColor="@color/green"
 
-</com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputField"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+            android:id="@+id/imageCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+    android:src="@drawable/ic_check"/>
+
+    <View
+            android:id="@+id/underlineView"
+            android:background="@color/green"
+            android:layout_width="match_parent"
+            android:layout_height="2.5dp"
+            android:layout_below="@id/inputFieldLayout"/>
+
+
+
+</RelativeLayout>

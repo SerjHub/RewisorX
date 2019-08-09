@@ -2,7 +2,9 @@
 <resources>
     <color name="red">#DC0B2C</color>
     <color name="redDark">#942335</color>
-    <color name="white">#EDF2F6</color>
+    <color name="white">#EDF2F6</color>  //ахуенный белый)
+    <color name="superWhite">#FFFFFF</color>
+    <color name="black">#034F5A</color>
 
     <color name="green">#32B271</color>
     <color name="yellow">#FADF54</color>

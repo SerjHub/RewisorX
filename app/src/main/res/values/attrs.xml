@@ -5,5 +5,6 @@
         <attr name="inputFieldHint" format="string"/>
         <attr name="inputFieldText" format="string"/>
         <attr name="inputPassword" format="boolean"/>
+        <attr name="inputEmail" format="boolean"/>
     </declare-styleable>
 </resources>
