@@ -1,10 +1,10 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.repository.LoginRepository
+import com.app.rewizor.exstension.isNullOrNorChars
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class LoginViewModel(
@@ -39,11 +39,9 @@ class LoginViewModel(
     }
 
     fun loginRequest() {
-        Log.i("FindResp", "${isValid()}")
         if (isValid()) {
             asyncProvider.startSuspend {
-                val result = asyncProvider.startBlockingOperationWithResultAsyncAwait {
-                    Log.i("FindResp", "ui scope")
+                val result = asyncProvider.executeBackGroundTask {
                     repository.login(enteredLogin.value!!, enteredPassword.value!!)
                 }
                 if (result.error != null) onLoginFail(result.error)
@@ -62,19 +60,15 @@ class LoginViewModel(
 
     private fun isValid(): Boolean {
         when {
-            enteredLogin.value == null -> validationErrorModel.value = VALIDATION.ENTER_LOGIN
-            enteredLogin.value!!.isEmpty() -> validationErrorModel.value = VALIDATION.SHORT_LOGIN
-            enteredPassword.value == null -> validationErrorModel.value = VALIDATION.ENTER_PASSWORD
-            enteredPassword.value!!.isEmpty() -> validationErrorModel.value = VALIDATION.SHORT_PASSWORD
+            enteredLogin.value.isNullOrNorChars() -> validationErrorModel.value = VALIDATION.ENTER_LOGIN
+            enteredPassword.value.isNullOrNorChars() -> validationErrorModel.value = VALIDATION.ENTER_PASSWORD
             else -> return true
         }
         return false
     }
 
     enum class VALIDATION(val info: String) {
-        SHORT_PASSWORD("Слишком короткий пароль"),
         ENTER_PASSWORD("Введите пароль"),
-        SHORT_LOGIN("Слишком короткий логин"),
         ENTER_LOGIN("Введите логин"),
         SOME_ERROR("Ошибка")
     }

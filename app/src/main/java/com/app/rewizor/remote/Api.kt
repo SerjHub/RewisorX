@@ -4,6 +4,7 @@ import com.app.rewizor.data.model.Account
 import kotlinx.coroutines.Deferred
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface Api {
@@ -21,4 +22,30 @@ interface Api {
         @Field("Email") login: String,
         @Field("Password") password: String
     ): Deferred<RewizorResponse<Account>>
+
+    @POST(API_REGISTRATION)
+    fun register(
+        @Field("LastName") lastName: String,
+        @Field("FirstName") firstName: String,
+        @Field("Email") email: String,
+        @Field("Phone") phone: String
+    ): Deferred<RewizorResponse<Account>>
+
+    @GET(API_PROFILE)
+    fun getProfile():Deferred<RewizorResponse<Account>>
+
+//    @POST(API_PROFILE)
+//    fun updateProfile(
+//        @Field("LastName") lastName: String,
+//        @Field("FirstName") firstName: String,
+//        @Field("FirstName") firstName: String,
+//        @Field("Email") email: String,
+//        @Field("Phone") phone: String
+//    )
+
+    @POST(API_RECOVER_PASSWORD)
+    fun recoverPassword(
+        @Field("Email") email: String
+    ): Deferred<RewizorResponse<Unit>>
+
 }

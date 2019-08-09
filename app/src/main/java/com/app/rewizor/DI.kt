@@ -2,8 +2,10 @@ package com.app.rewizor
 
 
 import com.app.rewizor.data.repository.LoginRepository
+import com.app.rewizor.data.repository.RegistrationRepository
 import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.data.repositoryImpl.LoginRepositoryImpl
+import com.app.rewizor.data.repositoryImpl.RegistrationRepositoryImpl
 import com.app.rewizor.data.repositoryImpl.SystemRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
 import com.app.rewizor.remote.RestClient
@@ -33,6 +35,7 @@ val apiModule = module {
 val dataModule = module {
     single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
     single<SystemRepository> { SystemRepositoryImpl(get()) }
+    single<RegistrationRepository> { RegistrationRepositoryImpl(get()) }
 }
 
 val viewModelModule = module {

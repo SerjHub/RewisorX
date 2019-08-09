@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:background="@color/red"
+              android:gravity="center_horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/app_logo"
+            android:layout_width="260dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+
+            app:srcCompat="@mipmap/logo_white"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/superWhite"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:layout_marginTop="32dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="Чтобы восстановить пароль, введите адрес электронной почты, указанный при регистрации."/>
+
+    <com.app.rewizor.ui.custom.InputField
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
+            android:layout_marginTop="45dp"
+            app:inputFieldHint="E-mail*"
+            app:inputEmail="true"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/confirm_button_standard"
+            android:text="Восстановить пароль"/>
+
+</LinearLayout>

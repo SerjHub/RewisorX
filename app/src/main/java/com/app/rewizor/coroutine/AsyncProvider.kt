@@ -16,6 +16,6 @@ class AsyncProvider (uiComponentContext: CoroutineContext): CoroutineScope {
         coroutineScope { async(Dispatchers.IO) { block()} }
 
     @Synchronized
-    suspend fun <T>startBlockingOperationWithResultAsyncAwait(block: suspend CoroutineScope.() -> RewizorResult<T>): RewizorResult<T> =
+    suspend fun <T>executeBackGroundTask(block: suspend CoroutineScope.() -> RewizorResult<T>): RewizorResult<T> =
         startBlockingOperationWithResultAsync(block).await()
 }

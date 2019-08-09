@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:background="@color/red"
+              android:gravity="center_horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/app_logo"
+            android:layout_width="260dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+
+            app:srcCompat="@mipmap/logo_white"/>
+
+    <com.app.rewizor.ui.custom.InputField
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
+            android:layout_marginTop="56dp"
+            app:inputFieldHint="Фамилия*"/>
+
+    <com.app.rewizor.ui.custom.InputField
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="Имя*"/>
+
+    <com.app.rewizor.ui.custom.InputField
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="E-mail*"/>
+
+    <com.app.rewizor.ui.custom.InputField
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="Телефон*"/>
+
+    <com.app.rewizor.ui.custom.InputField
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="@dimen/standard_height"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="Имя*"
+            />
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Зарегистрироваться"
+            style="@style/confirm_button_standard"/>
+
+    <RelativeLayout
+            android:layout_width="@dimen/standard_width"
+            android:layout_height="wrap_content">
+        <CheckBox
+                android:id="@+id/politics_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/superWhite"
+                android:checked="false"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/politics_check"
+                android:textColor="@color/superWhite"
+                android:textSize="12sp"
+                android:text="Я соглашаюсь на передачу персональных  данных согласно политике конфиденциальности  и пользовательскому соглашению."
+        />
+
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>

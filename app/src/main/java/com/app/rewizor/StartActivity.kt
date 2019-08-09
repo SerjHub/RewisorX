@@ -1,17 +1,22 @@
 package com.app.rewizor
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.app.rewizor.exstension.replaceFragment
 import com.app.rewizor.ui.LoginFragment
 import com.app.rewizor.viewmodel.StartViewModel
+import kotlinx.android.synthetic.main.activity_start.*
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.getViewModel
 
 class StartActivity : AppCompatActivity() {
     private val viewModel: StartViewModel by inject()
+    var toolbarTitle: String
+        get() = start_toolbar.title.toString()
+        set(value) {
+            start_toolbar.title = value
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

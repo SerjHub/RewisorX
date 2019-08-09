@@ -1,10 +1,10 @@
 package com.app.rewizor.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import com.app.rewizor.R
+import com.app.rewizor.StartActivity
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.ui.utils.AlertDialogHelper
 import com.app.rewizor.viewmodel.LoginViewModel
@@ -23,10 +23,15 @@ class LoginFragment : BaseFragment() {
         initClickListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as StartActivity).toolbarTitle = TOOLBAR_TITLE
+    }
+
     private fun setObservers() {
         with(viewModel) {
             onLoginFailedLiveData.observe(viewLifecycleOwner, Observer { showLoginFailAlert(it) })
-            onValidationErrorLiveData.observe(viewLifecycleOwner, Observer { Log.i("FindResp", "$it") })
+            onValidationErrorLiveData.observe(viewLifecycleOwner, Observer { showLoginFailAlert(it.info)})
         }
     }
 
@@ -47,4 +52,8 @@ class LoginFragment : BaseFragment() {
 
     override val TAG: String
         get() = LoginFragment::class.java.name
+
+    companion object {
+        const val TOOLBAR_TITLE = "Авторизация"
+    }
 }
