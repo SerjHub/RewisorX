@@ -12,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
-class RestClient(prefs: PreferencesCache,private val baseUrl: String) : KoinComponent {
+class RestClient(prefs: PreferencesCache, private val baseUrl: String) : KoinComponent {
     lateinit var api: Api
     private val accessToken: String = prefs.sessionToken ?: ""
 

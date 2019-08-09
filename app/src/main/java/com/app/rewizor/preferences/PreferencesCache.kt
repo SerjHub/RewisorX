@@ -17,7 +17,7 @@ class PreferencesCache(private val context: Application) {
 
     var sessionToken: String?
         get() = prefs(APP_PREFS)
-            .getString(ACCESS_TOKEN, "")
+            .getString(ACCESS_TOKEN, null)
         set(value) {
             prefs(APP_PREFS)
                 .edit()
