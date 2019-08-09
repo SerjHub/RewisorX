@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.text.InputType
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -24,7 +23,6 @@ class InputField @JvmOverloads constructor(
         context.obtainStyledAttributes(attrRes, R.styleable.InputField).apply {
             if(getBoolean(R.styleable.InputField_inputPassword, false))
             inputField.inputType = setInputType(this)
-            Log.i("FindInp", "${inputField.inputType}")
             inputFieldLayout.hint = getString(R.styleable.InputField_inputFieldHint)
             inputField.setText(getString(R.styleable.InputField_inputFieldText))
             recycle()
@@ -48,6 +46,7 @@ class InputField @JvmOverloads constructor(
 
     fun setUnchecked() {
         imageCheck.setImageResource(R.drawable.ic_unchecked)
+        inputFieldLayout.boxBackgroundColor = resources.getColor(R.color.brightRed)
     }
 
 }

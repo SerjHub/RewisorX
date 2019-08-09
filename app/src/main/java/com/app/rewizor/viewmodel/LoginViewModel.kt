@@ -59,12 +59,10 @@ class LoginViewModel(
     }
 
     private fun isValid(): Boolean {
-        when {
-            enteredLogin.value.isNullOrNorChars() -> validationErrorModel.value = VALIDATION.ENTER_LOGIN
-            enteredPassword.value.isNullOrNorChars() -> validationErrorModel.value = VALIDATION.ENTER_PASSWORD
-            else -> return true
-        }
-        return false
+        val validationResults: MutableList<VALIDATION> = mutableListOf()
+        enteredLogin.value.isNullOrNorChars { validationResults.add(VALIDATION.ENTER_LOGIN) }
+        enteredPassword.value.isNullOrNorChars { validationResults.add(VALIDATION.ENTER_PASSWORD) }
+        return validationResults.isEmpty()
     }
 
     enum class VALIDATION(val info: String) {

@@ -22,4 +22,6 @@ data class Account(
             ""
         )
     }
+
+    fun isAuthorized() = token.isNotEmpty()
 }

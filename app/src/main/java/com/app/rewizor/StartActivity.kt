@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.app.rewizor.exstension.replaceFragment
 import com.app.rewizor.ui.LoginFragment
+import com.app.rewizor.ui.RecoverPasswordFragment
+import com.app.rewizor.ui.RegistrationFragment
 import com.app.rewizor.viewmodel.StartViewModel
 import kotlinx.android.synthetic.main.activity_start.*
 import org.koin.android.ext.android.inject
@@ -30,17 +32,16 @@ class StartActivity : AppCompatActivity() {
         viewModel.openMain.observe(this, Observer { if (it) openMainApp() })
     }
 
-    private fun onStartViewOpen(view: StartViewModel.StartView) {
+    private fun onStartViewOpen(view: StartViewModel.FRAGMENT) {
         when(view) {
-            StartViewModel.StartView.LOGIN -> replaceFragment(fragment = LoginFragment())
-            StartViewModel.StartView.REGISTRATION -> replaceFragment(fragment = LoginFragment())
-            StartViewModel.StartView.RECOVER -> replaceFragment(fragment = LoginFragment())
+            StartViewModel.FRAGMENT.LOGIN -> replaceFragment(fragment = LoginFragment())
+            StartViewModel.FRAGMENT.REGISTRATION -> replaceFragment(fragment = RegistrationFragment())
+            StartViewModel.FRAGMENT.RECOVER -> replaceFragment(fragment = RecoverPasswordFragment())
         }
     }
 
     private fun openMainApp() {
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
+        Intent(this, MainActivity::class.java).also { startActivity(it) }
         finish()
     }
     

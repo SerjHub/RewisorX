@@ -11,8 +11,8 @@ class StartViewModel(
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
 
-    private val currentStartScreen: MutableLiveData<StartView> = MutableLiveData()
-    val screen: LiveData<StartView> get() = currentStartScreen
+    private val currentStartScreen: MutableLiveData<FRAGMENT> = MutableLiveData()
+    val screen: LiveData<FRAGMENT> get() = currentStartScreen
 
     val openMain: MutableLiveData<Boolean> = SingleLiveEvent()
 
@@ -22,13 +22,13 @@ class StartViewModel(
     }
 
     private fun checkLogin() {
-        currentStartScreen.value = StartView.LOGIN
+        currentStartScreen.value = FRAGMENT.LOGIN
 //        if (loginRepository.savedLogin.isEmpty())
-//            currentStartScreen.value = StartView.LOGIN
+//            currentStartScreen.value = FRAGMENT.LOGIN
 //        else openMain.value = true
     }
 
-    enum class StartView() {
+    enum class FRAGMENT() {
         LOGIN,
         REGISTRATION,
         RECOVER

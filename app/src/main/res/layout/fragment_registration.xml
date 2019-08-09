@@ -16,35 +16,33 @@
             app:srcCompat="@mipmap/logo_white"/>
 
     <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/lastName"
             android:layout_width="@dimen/standard_width"
             android:layout_height="@dimen/standard_height"
             android:layout_marginTop="56dp"
             app:inputFieldHint="Фамилия*"/>
 
     <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/firstName"
             android:layout_width="@dimen/standard_width"
             android:layout_height="@dimen/standard_height"
             android:layout_marginTop="16dp"
             app:inputFieldHint="Имя*"/>
 
     <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/email"
             android:layout_width="@dimen/standard_width"
             android:layout_height="@dimen/standard_height"
             android:layout_marginTop="16dp"
             app:inputFieldHint="E-mail*"/>
 
     <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/phone"
             android:layout_width="@dimen/standard_width"
             android:layout_height="@dimen/standard_height"
             android:layout_marginTop="16dp"
             app:inputFieldHint="Телефон*"/>
 
-    <com.app.rewizor.ui.custom.InputField
-            android:layout_width="@dimen/standard_width"
-            android:layout_height="@dimen/standard_height"
-            android:layout_marginTop="16dp"
-            app:inputFieldHint="Имя*"
-            />
 
     <Button
             android:layout_width="wrap_content"

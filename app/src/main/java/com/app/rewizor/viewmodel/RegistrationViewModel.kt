@@ -6,6 +6,7 @@ import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.repository.RegistrationRepository
 import com.app.rewizor.exstension.isNullOrNorChars
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
+import okhttp3.internal.toImmutableList
 
 class RegistrationViewModel(
     private val registrationRepository: RegistrationRepository,
@@ -16,8 +17,8 @@ class RegistrationViewModel(
     private val email: MutableLiveData<String> = MutableLiveData()
     private val phone: MutableLiveData<String> = MutableLiveData()
 
-    private val validationInfo: MutableLiveData<VALIDATION> = SingleLiveEvent()
-    val validationInfoLiveData: LiveData<VALIDATION> get() = validationInfo
+    private val validationInfo: MutableLiveData<List<VALIDATION>> = SingleLiveEvent()
+    val validationInfoLiveData: LiveData<List<VALIDATION>> get() = validationInfo
 
     private val registrationFail: MutableLiveData<String> = SingleLiveEvent()
     val registrationRequestFailedLiveData: LiveData<String> get() = registrationFail
@@ -51,14 +52,14 @@ class RegistrationViewModel(
     }
 
     private fun isValid(): Boolean {
-        when {
-            lastName.value.isNullOrNorChars() -> validationInfo.value = VALIDATION.LASTNAME
-            firstName.value.isNullOrNorChars() -> validationInfo.value = VALIDATION.FIRSTNAME
-            email.value.isNullOrNorChars() -> validationInfo.value = VALIDATION.EMAIL
-            phone.value.isNullOrNorChars() -> validationInfo.value = VALIDATION.PHONE
-            else -> return true
-        }
-        return false
+        val validationResults: MutableList<VALIDATION> = mutableListOf()
+        lastName.value.isNullOrNorChars { validationResults.add(VALIDATION.LASTNAME) }
+        firstName.value.isNullOrNorChars { validationResults.add(VALIDATION.FIRSTNAME) }
+        email.value.isNullOrNorChars { validationResults.add(VALIDATION.EMAIL) }
+        phone.value.isNullOrNorChars { validationResults.add(VALIDATION.PHONE) }
+        if (validationResults.isNotEmpty()) validationInfo.value = validationResults.toImmutableList()
+        return validationResults.isEmpty()
+
     }
 
     enum class VALIDATION(val info: String) {
