@@ -1,8 +1,6 @@
 package com.app.rewizor.viewmodel
 
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
-import com.app.rewizor.App
 import com.app.rewizor.coroutine.AsyncProvider
 import kotlinx.coroutines.Job
 import org.koin.core.KoinComponent

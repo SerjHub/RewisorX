@@ -1,19 +1,27 @@
 package com.app.rewizor
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.app.rewizor.viewmodel.StartViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.core.KoinComponent
 import kotlinx.android.synthetic.main.toolbar.*
+import org.koin.android.ext.android.inject
+import org.koin.core.KoinComponent
 
 class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNavigationItemSelectedListener {
 
+    private val viewModel: StartViewModel by inject()
+    var toolbarTitle: CharSequence
+        get() = toolbar.title
+        set(value) {
+            toolbar.title = value
+        }
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -46,8 +54,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // var id = item.itemId
-
+        //        var id = item.itemId
+        toolbarTitle = item.title
         var drawer: DrawerLayout = drawer_layout
         drawer.closeDrawer(GravityCompat.START)
         return true

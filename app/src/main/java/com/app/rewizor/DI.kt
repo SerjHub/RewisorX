@@ -1,9 +1,11 @@
 package com.app.rewizor
 
 
+import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.LoginRepository
 import com.app.rewizor.data.repository.RegistrationRepository
 import com.app.rewizor.data.repository.SystemRepository
+import com.app.rewizor.data.repositoryImpl.AccountRepositoryImpl
 import com.app.rewizor.data.repositoryImpl.LoginRepositoryImpl
 import com.app.rewizor.data.repositoryImpl.RegistrationRepositoryImpl
 import com.app.rewizor.data.repositoryImpl.SystemRepositoryImpl
@@ -33,9 +35,10 @@ val apiModule = module {
 
 /**repositories */
 val dataModule = module {
-    single<LoginRepository> { LoginRepositoryImpl(get(), get()) }
+    single<AccountRepository> { AccountRepositoryImpl(get(), get()) }
+    single<LoginRepository> { LoginRepositoryImpl(get(), get(), get()) }
     single<SystemRepository> { SystemRepositoryImpl(get()) }
-    single<RegistrationRepository> { RegistrationRepositoryImpl(get()) }
+    single<RegistrationRepository> { RegistrationRepositoryImpl(get(), get()) }
 }
 
 val viewModelModule = module {
