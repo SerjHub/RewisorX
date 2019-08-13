@@ -5,9 +5,11 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.app.rewizor.R
 import com.app.rewizor.StartActivity
+import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
 import com.app.rewizor.viewmodel.RegistrationViewModel
 import kotlinx.android.synthetic.main.fragment_registration.*
+import kotlinx.android.synthetic.main.view_input_field.view.*
 import org.koin.android.ext.android.inject
 
 class RegistrationFragment : BaseFragment() {
@@ -16,7 +18,8 @@ class RegistrationFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initClickListeners()
+        initListeners()
+        setObservers()
     }
 
     override fun onResume() {
@@ -27,12 +30,17 @@ class RegistrationFragment : BaseFragment() {
     private fun setObservers() {
         with(viewModel) {
             validationInfoLiveData.observe(viewLifecycleOwner, Observer { updateValidationUi(it) })
+
         }
     }
 
-    private fun initClickListeners() {
+    private fun initListeners() {
         with(viewModel) {
-            onRegistrationClicked()
+            registerNewUserButton.setOnClickListener { onRegistrationClicked() }
+            lastName.inputField.onTextChange { setLast(it) }
+            firstName.inputField.onTextChange { setFirst(it) }
+            email.inputField.onTextChange { setEmail(it) }
+            phone.inputField.onTextChange { setPhone(it) }
         }
     }
 
@@ -42,7 +50,7 @@ class RegistrationFragment : BaseFragment() {
         email.setChecked()
         phone.setChecked()
         showMessageAlert(
-            list.map { "${list}/n" }.toString()
+            list.map { "${it}/n" }.toString()
         ) {
             list.forEach {
                 when (it) {

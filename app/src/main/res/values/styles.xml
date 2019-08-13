@@ -25,4 +25,13 @@
         <item name="android:height">@dimen/standard_height</item>
     </style>
 
+    <style name="confirm_button_standard_bordered" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/superWhite</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:width">@dimen/standard_width</item>
+        <item name="android:height">@dimen/standard_height</item>
+        <item name="android:background">@drawable/button_border</item>
+    </style>
+
 </resources>

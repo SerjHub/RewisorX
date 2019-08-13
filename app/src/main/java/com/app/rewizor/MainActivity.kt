@@ -7,6 +7,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.app.rewizor.exstension.replaceFragment
+import com.app.rewizor.ui.TopicTabFragment
+import com.app.rewizor.ui.utils.TOPIC
+import com.app.rewizor.ui.utils.TOPIC_KEY
 import com.app.rewizor.viewmodel.StartViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,7 +33,14 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+        setNavigation()
+        replaceFragment(fragment = TopicTabFragment.getInstance(
+            Bundle().apply { putString(TOPIC_KEY, TOPIC.MAIN.title) })
+        )
+
+    }
+
+    private fun setNavigation() {
         setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(R.drawable.ic_menu)
 
@@ -64,5 +75,9 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    companion object {
+        const val FRAGMENT_CONTAINER = R.id.fr_container
     }
 }

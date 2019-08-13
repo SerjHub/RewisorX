@@ -5,5 +5,6 @@ import com.app.rewizor.data.model.Account
 
 interface AccountRepository {
     var account: Account
+    val isAuthorized: Boolean
     suspend fun recoverPassword(email: String): RewizorResult<Unit>
 }

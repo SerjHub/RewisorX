@@ -1,6 +1,9 @@
 package com.app.rewizor.ui.utils
 
-enum class TOPIC(title: String, requestKey: String){
+const val CATEGORY_KEY = "category"
+const val TOPIC_KEY = "topic"
+
+enum class TOPIC(val title: String,val requestKey: String){
     MAIN("ГЛАВНАЯ", "mail"),
     NEWS("НОВОСТИ", "news"),
     AFISHA("АФИША", "mail"),
@@ -13,4 +16,10 @@ enum class CATEGORY(val categoryTitle: String,val requestKey: String) {
     THEATRE("ТЕАТР", "the"),
     MOVIE("КИНО", "movie"),
     LITERATURE("ЛИТЕРАТУРА", "lit")
+}
+
+sealed class FragmentParams
+
+object Main : FragmentParams() {
+
 }

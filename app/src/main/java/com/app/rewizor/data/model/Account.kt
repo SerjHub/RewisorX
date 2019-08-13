@@ -1,5 +1,7 @@
 package com.app.rewizor.data.model
 
+import com.app.rewizor.data.repositoryImpl.AccountRepositoryImpl
+
 data class Account(
     val lastName: String,
     val firstName: String,
@@ -11,6 +13,7 @@ data class Account(
     val token: String
 ) {
     companion object {
+        const val ANONYM_TOKEN = AccountRepositoryImpl.ANONYM_TOKEN
         val DEFAULT = Account(
             "",
             "",
@@ -19,9 +22,7 @@ data class Account(
             "",
             Region.DEFAULT,
             Avatar.DEFAULT,
-            ""
+            ANONYM_TOKEN
         )
     }
-
-    fun isAuthorized() = token.isNotEmpty()
 }

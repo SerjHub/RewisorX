@@ -2,7 +2,7 @@ package com.app.rewizor.exstension
 
 fun String?.isNullOrNorChars(block: NoCharsAction? = null) =
     (isNullOrBlank() || isNullOrEmpty()).also {
-        if (it) block?.invoke(this!!)
+        if (it) block?.invoke(String())
     }
 
 fun String.isUnProcessable(block: String.() -> Unit): Boolean {

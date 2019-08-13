@@ -12,6 +12,8 @@ import com.app.rewizor.data.repositoryImpl.SystemRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
 import com.app.rewizor.remote.RestClient
 import com.app.rewizor.viewmodel.LoginViewModel
+import com.app.rewizor.viewmodel.RecoverPasswordViewModel
+import com.app.rewizor.viewmodel.RegistrationViewModel
 import com.app.rewizor.viewmodel.StartViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -30,7 +32,7 @@ val sources = module {
 }
 
 val apiModule = module {
-    single { RestClient(get(), androidContext().resources.getString(R.string.rewizor_url)) }
+    single { RestClient(androidContext().resources.getString(R.string.rewizor_url)) }
 }
 
 /**repositories */
@@ -42,8 +44,10 @@ val dataModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { StartViewModel(get(), get()) }
-    viewModel { LoginViewModel(get(),get()) }
+    single { StartViewModel(get(), get()) }
+    viewModel { LoginViewModel(get(), get()) }
+    viewModel { RegistrationViewModel(get(), get()) }
+    viewModel { RecoverPasswordViewModel(get()) }
 }
 
 

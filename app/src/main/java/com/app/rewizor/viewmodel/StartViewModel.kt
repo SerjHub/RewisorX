@@ -1,15 +1,20 @@
 package com.app.rewizor.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.app.rewizor.data.repository.LoginRepository
+import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class StartViewModel(
-    private val loginRepository: LoginRepository,
+    private val accountRepository: AccountRepository,
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
+
+    init {
+        Log.i("FinClick", "init")
+    }
 
     private val currentStartScreen: MutableLiveData<FRAGMENT> = MutableLiveData()
     val screen: LiveData<FRAGMENT> get() = currentStartScreen
@@ -21,14 +26,23 @@ class StartViewModel(
         checkLogin()
     }
 
-    private fun checkLogin() {
-        currentStartScreen.value = FRAGMENT.LOGIN
-//        if (loginRepository.savedLogin.isEmpty())
-//            currentStartScreen.value = FRAGMENT.LOGIN
-//        else openMain.value = true
+    fun onRecover() {
+        currentStartScreen.value = FRAGMENT.RECOVER
     }
 
-    enum class FRAGMENT() {
+    fun onRegistration() {
+        Log.i("FinClick", "vm")
+        currentStartScreen.value = FRAGMENT.REGISTRATION
+        Log.i("FinClick", "${currentStartScreen.value}")
+    }
+
+    private fun checkLogin() {
+        if (accountRepository.isAuthorized) openMain.value = true
+        else currentStartScreen.value = FRAGMENT.LOGIN
+    }
+
+
+    enum class FRAGMENT {
         LOGIN,
         REGISTRATION,
         RECOVER

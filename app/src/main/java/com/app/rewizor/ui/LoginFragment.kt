@@ -20,7 +20,7 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         viewModel.onViewCreated()
-        initClickListeners()
+        initListeners()
     }
 
     override fun onResume() {
@@ -35,11 +35,13 @@ class LoginFragment : BaseFragment() {
         }
     }
 
-    private fun initClickListeners() {
+    private fun initListeners() {
         with(viewModel) {
             loginButton.setOnClickListener { loginRequest() }
             loginInputView.inputField.onTextChange { onLoginInput(it) }
             passwordInputView.inputField.onTextChange { onPasswordInput(it) }
+            recoverPasswordButton.setOnClickListener { onRecoverPasswordClicked() }
+            registrationButton.setOnClickListener { onRegistrationClicked() }
         }
     }
 

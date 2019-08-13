@@ -10,25 +10,25 @@ class RewizorResponse<T> {
     @Expose
     var data: T? = null
 
-    @SerializedName("code")
+    @SerializedName("status")
     @Expose
-    var code: Int? = null
+    var status: Int? = null
 
     @SerializedName("message")
     @Expose
     var message: String? = null
 
-    fun isError() = code != 0
+    val isError = status != 0
 
     fun map(default: T) =
         RewizorResult(
             data ?: default,
-            if (isError()) RewizorError(code ?: -10, message ?: "Empty message")
+            if (isError) RewizorError(status ?: -10, message ?: "Empty message")
             else null
         )
 
     override fun toString() =
-        "code = $code :: message = $message :: data = $data"
+        "status = $status :: message = $message :: data = $data"
 
 }
 

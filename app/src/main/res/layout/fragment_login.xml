@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    android:background="@color/red"
                                                    android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto">
+                                                   android:layout_height="match_parent">
 
     <ImageView
             android:id="@+id/app_logo"
@@ -58,5 +58,57 @@
             style="@style/confirm_button_standard"
 
             android:text="Войти"/>
+
+
+    <TextView
+            android:id="@+id/recoverPasswordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/superWhite"
+            android:text="Забыли пароль?"/>
+
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recoverPasswordButton"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+
+            android:background="@color/yellow"/>
+
+    <TextView
+            android:id="@+id/chooseTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/recoverPasswordButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="6dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:background="@color/red"
+            android:textColor="@color/superWhite"
+            android:text="или"/>
+
+    <Button
+            android:id="@+id/registrationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            android:background="@drawable/button_border"
+
+        style="@style/confirm_button_standard_bordered"
+        android:text="Зарегистрироваться"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

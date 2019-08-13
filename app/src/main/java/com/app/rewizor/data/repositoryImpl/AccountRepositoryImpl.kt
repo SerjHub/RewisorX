@@ -10,6 +10,10 @@ class AccountRepositoryImpl(
     private val prefs: PreferencesCache,
     private val apiClient: RestClient
 ) : AccountRepository {
+
+    override val isAuthorized: Boolean
+        get() = account.token != Account.ANONYM_TOKEN
+
     override var account: Account = Account.DEFAULT
         set(value) {
             if (value.token.isNotEmpty()) prefs.sessionToken = value.token
@@ -19,5 +23,9 @@ class AccountRepositoryImpl(
     override suspend fun recoverPassword(email: String): RewizorResult<Unit> {
         val remoteResult = apiClient.run { callApi { api.recoverPassword(email) } }
         return remoteResult.map(Unit)
+    }
+
+    companion object {
+        const val ANONYM_TOKEN = "a0e6f6497e2c492dbd09e119a7340bd3"
     }
 }

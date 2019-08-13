@@ -8,7 +8,7 @@ import com.app.rewizor.exstension.isNullOrNorChars
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class LoginViewModel(
-    private val viewModel: StartViewModel?,
+    private val parentViewModel: StartViewModel?,
     private val repository: LoginRepository
 ) : BaseViewModel() {
 
@@ -38,6 +38,14 @@ class LoginViewModel(
         enteredPassword.value = str
     }
 
+    fun onRecoverPasswordClicked() {
+        parentViewModel?.onRecover()
+    }
+
+    fun onRegistrationClicked() {
+        parentViewModel?.onRegistration()
+    }
+
     fun loginRequest() {
         if (isValid()) {
             asyncProvider.startSuspend {
@@ -55,7 +63,7 @@ class LoginViewModel(
     }
 
     private fun onLoginSuccess() {
-        viewModel?.openMain?.value = true
+        parentViewModel?.openMain?.value = true
     }
 
     private fun isValid(): Boolean {
