@@ -35,7 +35,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/navigation_drawer"
+        app:headerLayout="@layout/fragment_drawer_profile"
         app:menu="@menu/drawer_menu"
 
         tools:visibility="gone"/>

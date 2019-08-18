@@ -10,14 +10,14 @@ import com.app.rewizor.ui.model.FragmentParamsModel
 import com.app.rewizor.ui.utils.ListFragmentProvider
 import com.app.rewizor.ui.utils.TOPIC_KEY
 import com.app.rewizor.viewmodel.TopicViewModel
-import kotlinx.android.synthetic.main.topic_fragment.*
+import kotlinx.android.synthetic.main.fragment_topic.*
 import org.koin.android.ext.android.inject
 
 class TopicTabFragment: TabFragment() {
 
     override val tabViewId = category_tabs
     override val pagerViewId = category_pager
-    override val layout = R.layout.topic_fragment
+    override val layout = R.layout.fragment_topic
     override val TAG: String = "TopicTabFragment"
     override val viewModel: TopicViewModel by inject()
     lateinit var topicFragments: List<CategoryListFragment>

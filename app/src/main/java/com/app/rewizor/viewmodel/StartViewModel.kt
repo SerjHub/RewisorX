@@ -17,12 +17,7 @@ class StartViewModel(
     val openMain: MutableLiveData<Boolean> = SingleLiveEvent()
 
     override fun onViewCreated() {
-        with(asyncProvider) {
-            startSuspend {
-                val start = systemRepository.coldStart()
-                if (!start.isError) checkLogin()
-            }
-        }
+
     }
 
     fun onRecover() {

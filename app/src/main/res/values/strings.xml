@@ -4,6 +4,8 @@
     <string name="app_name">Rewizor</string>
     <string name="search_hint">Search</string>
     <string name="filter_hint">Filter</string>
+    <string name="profile">Профиль</string>
+    <string name="your_city">Ваш город</string>
     <string name="main">Главная</string>
     <string name="news">Новости</string>
     <string name="afisha">Афиша</string>

@@ -15,7 +15,9 @@ class AccountRepositoryImpl(
     }
 
     override val isAuthorized: Boolean
-        get() = prefs.sessionToken != Account.ANONYM_TOKEN
+        get() = prefs.sessionToken.let {
+            it != ANON_TOKEN && it != null
+        }
 
     override var account: Account = Account.DEFAULT
         set(value) {

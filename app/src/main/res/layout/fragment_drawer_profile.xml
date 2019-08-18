@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+
+              android:paddingBottom="16dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    
+    <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+    android:src="@drawable/ic_cancel"/>
+
+    <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+    />
+
+    <TextView
+            android:id="@+id/fio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="12dp"
+            tools:text="Петров Сергей Николаевич"
+    android:textSize="26sp"/>
+
+    <include
+        layout="@layout/grey_divider"
+        style="@style/menu_divider"/>
+    
+    <TextView
+            android:id="@+id/profileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:visibility="gone"
+            tools:text="Профиль"/>
+    <LinearLayout
+            android:id="@+id/authButtons"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+
+                  android:orientation="vertical" android:layout_height="wrap_content">
+
+        <Button android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/button_white_bordered"
+                android:text="Войти"
+        />
+
+        <Button android:id="@+id/registration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/button_white_bordered"
+                android:text="Зарегистрироваться"/>
+    </LinearLayout>
+
+
+    <include
+            layout="@layout/grey_divider"
+            style="@style/menu_divider"/>
+
+</LinearLayout>
