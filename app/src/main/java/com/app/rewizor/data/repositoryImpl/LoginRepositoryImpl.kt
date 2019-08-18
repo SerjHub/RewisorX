@@ -23,5 +23,10 @@ class LoginRepositoryImpl(
         }
     }
 
+    override suspend fun recoverPassword(email: String): RewizorResult<Unit> {
+        val remoteResult = apiClient.run { callApi { api.recoverPassword(email) } }
+        return remoteResult.map(Unit)
+    }
+
 
 }

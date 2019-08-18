@@ -14,13 +14,9 @@ class RegistrationViewModel(
     private val startViewModel: StartViewModel?
 ) : BaseViewModel() {
     private val lastName: MutableLiveData<String> = MutableLiveData()
-    private val lastNameData: MutableLiveData<String> get() = lastName
     private val firstName: MutableLiveData<String> = MutableLiveData()
-    private val firstNameData: MutableLiveData<String> get() = firstName
     private val email: MutableLiveData<String> = MutableLiveData()
-    private val emailData: MutableLiveData<String> get() = email
     private val phone: MutableLiveData<String> = MutableLiveData()
-    private val phoneData: MutableLiveData<String> get() = phone
 
     private val validationInfo: MutableLiveData<List<VALIDATION>> = SingleLiveEvent()
     val validationInfoLiveData: LiveData<List<VALIDATION>> get() = validationInfo
@@ -63,15 +59,16 @@ class RegistrationViewModel(
     }
 
     private fun onRegistrationSuccess() {
+        Log.i("FindRes", "succ")
         startViewModel?.openMain?.value = true
     }
 
     private fun onRegistrationFail(error: RewizorError) {
+        Log.i("FindRes", "fail")
         registrationFail.value = error.message
     }
 
     private fun isValid(): Boolean {
-        Log.i("FindViewM", "${lastName.value} ${firstName.value} ${email.value} ${phone.value}")
         val validationResults: MutableList<VALIDATION> = mutableListOf()
         lastName.value.isNullOrNorChars { validationResults.add(VALIDATION.LASTNAME) }
         firstName.value.isNullOrNorChars { validationResults.add(VALIDATION.FIRSTNAME) }

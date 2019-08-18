@@ -6,4 +6,7 @@ data class RewizorResult<T>(
 ) {
     val isError
         get() = error != null
+
+    override fun toString(): String =
+        "model = $model :: ${error?.let { "code = ${it.code} ::  message = ${it.message}"} ?: "no error"}"
 }

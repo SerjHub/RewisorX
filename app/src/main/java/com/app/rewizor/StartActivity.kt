@@ -18,7 +18,8 @@ class StartActivity : AppCompatActivity() {
     var toolbarTitle: String
         get() = start_toolbar.title.toString()
         set(value) {
-            start_toolbar.title = value
+            supportActionBar?.title = value
+  //          start_toolbar.title = value
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,7 @@ class StartActivity : AppCompatActivity() {
         setSupportActionBar(start_toolbar as Toolbar)
         supportActionBar?.setHomeButtonEnabled(false)
         start_toolbar.setNavigationOnClickListener { onBackClicked() }
+
     }
 
     private fun setViewModel() {

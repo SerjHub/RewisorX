@@ -3,12 +3,12 @@ package com.app.rewizor.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.RewizorError
-import com.app.rewizor.data.repository.AccountRepository
+import com.app.rewizor.data.repository.LoginRepository
 import com.app.rewizor.exstension.isNullOrNorChars
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class RecoverPasswordViewModel(
-    private val accountRepository: AccountRepository
+    private val loginRepository: LoginRepository
 ) : BaseViewModel() {
 
     private val insertedEmail: MutableLiveData<String> = MutableLiveData()
@@ -30,7 +30,7 @@ class RecoverPasswordViewModel(
         if (!isValid()) return
         with(asyncProvider) {
             startSuspend {
-                val result = executeBackGroundTask { accountRepository.recoverPassword(insertedEmail.value!!) }
+                val result = executeBackGroundTask { loginRepository.recoverPassword(insertedEmail.value!!) }
                 when { result.isError -> recoverFailed(result.error!!)
                        else -> recoverSuccess() }
             }

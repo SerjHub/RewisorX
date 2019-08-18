@@ -10,22 +10,34 @@ class AccountRepositoryImpl(
     private val prefs: PreferencesCache,
     private val apiClient: RestClient
 ) : AccountRepository {
+    override suspend fun updateAccount(account: Account): RewizorResult<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override val isAuthorized: Boolean
-        get() = account.token != Account.ANONYM_TOKEN
+        get() = prefs.sessionToken != Account.ANONYM_TOKEN
 
     override var account: Account = Account.DEFAULT
         set(value) {
-            if (value.token.isNotEmpty()) prefs.sessionToken = value.token
+            updateAccountSettings(value)
             field = value
         }
 
-    override suspend fun recoverPassword(email: String): RewizorResult<Unit> {
-        val remoteResult = apiClient.run { callApi { api.recoverPassword(email) } }
-        return remoteResult.map(Unit)
+    private fun updateAccountSettings(account: Account) {
+        prefs.sessionToken = account.accessToken
+        account.region?.id?.let { apiClient.region = it }
+    }
+
+
+
+    override suspend fun getAccount(): RewizorResult<Account> {
+        val accountResult = apiClient.run { callApi { api.getProfile() } }
+        return accountResult.map(Account.DEFAULT).also {
+            if (!it.isError) account = it.model
+        }
     }
 
     companion object {
-        const val ANONYM_TOKEN = "a0e6f6497e2c492dbd09e119a7340bd3"
+        const val ANON_TOKEN = "a0e6f6497e2c492dbd09e119a7340bd3"
     }
 }

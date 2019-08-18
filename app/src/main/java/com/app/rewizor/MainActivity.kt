@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         setContentView(R.layout.activity_main)
         setNavigation()
         replaceFragment(fragment = TopicTabFragment.getInstance(
-            Bundle().apply { putString(TOPIC_KEY, TOPIC.MAIN.title) })
-        )
-
+            Bundle().apply { putString(TOPIC_KEY, TOPIC.MAIN.title) }
+        ))
+        supportActionBar?.title = TOPIC.MAIN.title
     }
 
     private fun setNavigation() {
@@ -65,8 +65,9 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        //        var id = item.itemId
-        toolbarTitle = item.title
+        //        var categoryId = item.itemId
+   //     toolbarTitle = item.title
+   //     supportActionBar?.title = item.title
         var drawer: DrawerLayout = drawer_layout
         drawer.closeDrawer(GravityCompat.START)
         return true

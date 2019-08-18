@@ -5,7 +5,10 @@
     <color name="brightRed">#F44336</color>
     <color name="white">#EDF2F6</color>  //ахуенный белый)
     <color name="superWhite">#FFFFFF</color>
+
     <color name="black">#034F5A</color>
+    <color name="fullBlack">#000000</color>
+    <color name="semi_transparent_black">#99000000</color>
 
     <color name="green">#32B271</color>
     <color name="yellow">#FADF54</color>

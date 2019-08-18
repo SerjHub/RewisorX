@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:padding="4dp"
+              android:gravity="center"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <ImageView
+            android:layout_width="@dimen/pub_icon_size"
+            android:layout_height="@dimen/pub_icon_size"
+    android:src="@drawable/ic_seen_item"/>
+
+    <TextView
+            android:id="@+id/seen_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/publicationItemActionsCounter"
+            tools:text="256"/>
+
+    <ImageView
+            android:layout_width="@dimen/pub_icon_size"
+            android:layout_height="@dimen/pub_icon_size"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_comments_item"/>
+
+    <TextView
+            android:id="@+id/comments_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/publicationItemActionsCounter"
+            tools:text="0"/>
+
+    <ImageView
+            android:layout_width="@dimen/pub_icon_size"
+            android:layout_height="@dimen/pub_icon_size"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_item_like"/>
+
+    <TextView
+            android:id="@+id/likes_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/publicationItemActionsCounter"
+
+            tools:text="0"/>
+
+
+
+</LinearLayout>

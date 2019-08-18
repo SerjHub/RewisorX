@@ -1,4 +1,4 @@
-package com.app.rewizor.ui
+package com.app.rewizor.ui.utils
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog

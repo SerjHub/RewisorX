@@ -34,4 +34,32 @@
         <item name="android:background">@drawable/button_border</item>
     </style>
 
+    <style name="rewizorText">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="publicationItemTitle" parent="rewizorText">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/superWhite</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">start</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16sp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="publicationItemActionsCounter" parent="rewizorText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/semi_transparent_black</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:minWidth">24dp</item>
+    </style>
+
+    <style name="publicationItemDescription" parent="rewizorText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/fullBlack</item>
+    </style>
+
+
 </resources>

@@ -8,12 +8,12 @@ data class Account(
     val middleName: String,
     val email: String,
     val phone: String,
-    val region: Region,
-    val avatar: Avatar,
-    val token: String
+    val region: Region?,
+    val avatar: ImageInfo,
+    val accessToken: String?
 ) {
     companion object {
-        const val ANONYM_TOKEN = AccountRepositoryImpl.ANONYM_TOKEN
+        const val ANONYM_TOKEN = AccountRepositoryImpl.ANON_TOKEN
         val DEFAULT = Account(
             "",
             "",
@@ -21,7 +21,7 @@ data class Account(
             "",
             "",
             Region.DEFAULT,
-            Avatar.DEFAULT,
+            ImageInfo.DEFAULT,
             ANONYM_TOKEN
         )
     }

@@ -8,17 +8,18 @@ import com.google.gson.annotations.SerializedName
 class RewizorResponse<T> {
     @SerializedName("data")
     @Expose
-    var data: T? = null
+    val data: T? = null
 
     @SerializedName("status")
     @Expose
-    var status: Int? = null
+    val status: Int? = null
 
     @SerializedName("message")
     @Expose
-    var message: String? = null
+    val message: String? = null
 
-    val isError = status != 0
+    val isError
+        get() = status != 0
 
     fun map(default: T) =
         RewizorResult(

@@ -2,27 +2,34 @@ package com.app.rewizor.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.app.rewizor.data.model.CommonPublication
 import com.app.rewizor.data.repository.PublicationRepository
+import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class CategoryListViewModel(
     private val publicationsRepository: PublicationRepository
 ) : BaseViewModel() {
-    private var currentPage = 0
-    private val topicId: MutableLiveData<String> = MutableLiveData()
-    private val categoryId: MutableLiveData<String> = MutableLiveData()
+    private lateinit var parentViewModel: TopicViewModel
+    private var currentPage = START_PAGE
 
-    private val publicationList: MutableLiveData<List<String>> = MutableLiveData()
-    val publicationListLiveData: LiveData<List<String>> get() = publicationList
+    private val currentCategoryId: MutableLiveData<String> = MutableLiveData()
+
+    private val publicationList: MutableLiveData<List<CommonPublication>> = MutableLiveData()
+    val publicationListLiveData: LiveData<List<CommonPublication>> get() = publicationList
+
+    private val refreshList: MutableLiveData<Boolean> = SingleLiveEvent()
+    val refreshListLiveData: MutableLiveData<Boolean> get() = refreshList
 
     private val loadingSate: MutableLiveData<Boolean> = MutableLiveData()
     val loadingStateLiveData: LiveData<Boolean> get() = loadingSate
 
-    fun setUpModelParams(topic: String, category: String){
-        topicId.value = topic
-        categoryId.value = category
+    fun setUpModelParams(topicViewModel: TopicViewModel, categoryId: String) {
+        parentViewModel = topicViewModel
+        this.currentCategoryId.value = categoryId
     }
 
     override fun onViewCreated() {
+        onRefresh()
         onNextPage()
     }
 
@@ -30,20 +37,43 @@ class CategoryListViewModel(
         if (loadingSate.value != true) {
             with(asyncProvider) {
                 startSuspend {
-                    executeBackGroundTask { publicationsRepository.getPublicationsList(
-                        currentPage,
-                        PAGE_SIZE,
-                        topicId.value!!,
-                        categoryId.value!!
-                    ) }
+
+                    loadingSate.value = true
+                    val listResult = requestParams(currentCategoryId.value!!)!!.run {
+                        executeBackGroundTask { publicationsRepository.getMainPublicationsList(
+                            currentPage,
+                            PAGE_SIZE,
+                            topic,
+                            currentCategoryId.value!!
+                        ) }
+                    }
+                    if (!listResult.isError) {
+                        onPageLoaded(listResult.model)
+                    }
+
+                    loadingSate.value = false
                 }
             }
         }
     }
 
+    fun onRefresh() {
+        refreshList.value = true
+        currentPage = START_PAGE
+    }
+
+    private fun onPageLoaded(list: List<CommonPublication>) {
+        currentPage += 1
+        publicationList.value = list
+    }
+
+    private fun requestParams(categoryId: String) =
+        parentViewModel.getParams(categoryId)
+
 
 
     companion object {
         const val PAGE_SIZE = 10
+        const val START_PAGE = 1
     }
 }

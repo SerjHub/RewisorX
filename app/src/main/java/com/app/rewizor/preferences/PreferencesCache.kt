@@ -3,12 +3,9 @@ package com.app.rewizor.preferences
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 
 class PreferencesCache(private val context: Application) {
-    init {
-        Log.i("FindBean", "pref")
-    }
+
     companion object {
         const val APP_PREFS = "app"
         const val LOGIN = "login_pref"
@@ -40,5 +37,12 @@ class PreferencesCache(private val context: Application) {
             APP_PREFS -> context.getSharedPreferences(APP_PREFS, Context.MODE_PRIVATE)
             else  -> throw IllegalArgumentException("Put correct pref name in ${this::class.java.name}")
         }
+
+    val tokenClients: MutableList<TokenChangeListener> = mutableListOf()
+
+    interface TokenChangeListener {
+        fun onTokenChanged(newToken: String)
+
+    }
 
 }

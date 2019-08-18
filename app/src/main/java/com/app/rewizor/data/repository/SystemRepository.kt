@@ -1,5 +1,11 @@
 package com.app.rewizor.data.repository
 
+import com.app.rewizor.data.RewizorResult
+import com.app.rewizor.data.model.Region
+import com.app.rewizor.data.model.RewizorCategory
+
 interface SystemRepository {
-    fun initApiClient()
+    var rewizorCategories: List<RewizorCategory>
+    var regions: List<Region>
+    suspend fun coldStart(): RewizorResult<Boolean>
 }

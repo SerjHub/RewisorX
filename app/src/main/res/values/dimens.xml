@@ -26,5 +26,11 @@
 
 
 
+    <!--publications_list_item-->
+
+    <dimen name="pub_icon_size">18dp</dimen>
+
+
+
 
 </resources>

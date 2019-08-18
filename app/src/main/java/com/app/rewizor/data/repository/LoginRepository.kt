@@ -6,4 +6,5 @@ import com.app.rewizor.data.model.Account
 interface LoginRepository {
     val savedLogin: String
     suspend fun login(login: String, password: String): RewizorResult<Account>
+    suspend fun recoverPassword(email: String): RewizorResult<Unit>
 }

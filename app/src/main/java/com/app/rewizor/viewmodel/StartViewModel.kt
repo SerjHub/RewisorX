@@ -1,6 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.repository.AccountRepository
@@ -12,18 +11,18 @@ class StartViewModel(
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
 
-    init {
-        Log.i("FinClick", "init")
-    }
-
     private val currentStartScreen: MutableLiveData<FRAGMENT> = MutableLiveData()
     val screen: LiveData<FRAGMENT> get() = currentStartScreen
 
     val openMain: MutableLiveData<Boolean> = SingleLiveEvent()
 
     override fun onViewCreated() {
-        systemRepository.initApiClient()
-        checkLogin()
+        with(asyncProvider) {
+            startSuspend {
+                val start = systemRepository.coldStart()
+                if (!start.isError) checkLogin()
+            }
+        }
     }
 
     fun onRecover() {
@@ -31,12 +30,11 @@ class StartViewModel(
     }
 
     fun onRegistration() {
-        Log.i("FinClick", "vm")
         currentStartScreen.value = FRAGMENT.REGISTRATION
-        Log.i("FinClick", "${currentStartScreen.value}")
     }
 
     private fun checkLogin() {
+
         if (accountRepository.isAuthorized) openMain.value = true
         else currentStartScreen.value = FRAGMENT.LOGIN
     }

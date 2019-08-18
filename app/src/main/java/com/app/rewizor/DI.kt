@@ -1,20 +1,11 @@
 package com.app.rewizor
 
 
-import com.app.rewizor.data.repository.AccountRepository
-import com.app.rewizor.data.repository.LoginRepository
-import com.app.rewizor.data.repository.RegistrationRepository
-import com.app.rewizor.data.repository.SystemRepository
-import com.app.rewizor.data.repositoryImpl.AccountRepositoryImpl
-import com.app.rewizor.data.repositoryImpl.LoginRepositoryImpl
-import com.app.rewizor.data.repositoryImpl.RegistrationRepositoryImpl
-import com.app.rewizor.data.repositoryImpl.SystemRepositoryImpl
+import com.app.rewizor.data.repository.*
+import com.app.rewizor.data.repositoryImpl.*
 import com.app.rewizor.preferences.PreferencesCache
 import com.app.rewizor.remote.RestClient
-import com.app.rewizor.viewmodel.LoginViewModel
-import com.app.rewizor.viewmodel.RecoverPasswordViewModel
-import com.app.rewizor.viewmodel.RegistrationViewModel
-import com.app.rewizor.viewmodel.StartViewModel
+import com.app.rewizor.viewmodel.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -32,7 +23,7 @@ val sources = module {
 }
 
 val apiModule = module {
-    single { RestClient(androidContext().resources.getString(R.string.rewizor_url)) }
+    single { RestClient(androidContext().resources.getString(R.string.rewizor_url), get()) }
 }
 
 /**repositories */
@@ -41,6 +32,7 @@ val dataModule = module {
     single<LoginRepository> { LoginRepositoryImpl(get(), get(), get()) }
     single<SystemRepository> { SystemRepositoryImpl(get()) }
     single<RegistrationRepository> { RegistrationRepositoryImpl(get(), get()) }
+    single<PublicationRepository> { PublicationRepositoryImpl(get()) }
 }
 
 val viewModelModule = module {
@@ -48,6 +40,8 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { RecoverPasswordViewModel(get()) }
+    viewModel { CategoryListViewModel(get()) }
+    viewModel { TopicViewModel(get()) }
 }
 
 
