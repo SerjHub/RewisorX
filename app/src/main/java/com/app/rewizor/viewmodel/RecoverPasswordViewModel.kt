@@ -16,8 +16,8 @@ class RecoverPasswordViewModel(
     private val invalidInput: MutableLiveData<String> = SingleLiveEvent()
     val invalidInputLiveData: LiveData<String> get() = invalidInput
 
-    private val passwordRecovered: MutableLiveData<Boolean> = MutableLiveData()
-    val passwordRecoveredLiveData: LiveData<Boolean> = passwordRecovered
+    private val passwordRecovered: MutableLiveData<String> = MutableLiveData()
+    val passwordRecoveredLiveData: LiveData<String> = passwordRecovered
 
     private val recoverFailedInfo: MutableLiveData<String> = MutableLiveData()
     val recoverFailedInfoLiveData: LiveData<String> get() = recoverFailedInfo
@@ -43,7 +43,7 @@ class RecoverPasswordViewModel(
     }
 
     private fun recoverSuccess() {
-        passwordRecovered.value = true
+        passwordRecovered.value = insertedEmail.value
     }
 
     private fun isValid(): Boolean =

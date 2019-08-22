@@ -1,5 +1,6 @@
 package com.app.rewizor
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,8 +13,7 @@ import com.app.rewizor.data.model.Account
 import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.replaceFragment
 import com.app.rewizor.ui.TopicTabFragment
-import com.app.rewizor.ui.utils.TOPIC
-import com.app.rewizor.ui.utils.TOPIC_KEY
+import com.app.rewizor.ui.utils.*
 import com.app.rewizor.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
@@ -26,24 +26,20 @@ import org.koin.core.KoinComponent
 class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNavigationItemSelectedListener {
 
     private val viewModel: MainViewModel by inject()
-    var toolbarTitle: CharSequence
-        get() = toolbar.title
+    var toolbarTitle: CharSequence?
+        get() = supportActionBar?.title
         set(value) {
-            toolbar.title = value
+            supportActionBar?.title = value
         }
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
-
-    private val navHeaderView
-        get() = nav_view.getHeaderView(0)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setNavigation()
         setViewModel(viewModel)
-        supportActionBar?.title = TOPIC.MAIN.title
+        toolbarTitle = TOPIC.MAIN.title
 
     }
 
@@ -75,8 +71,22 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         with(viewModel) {
             anonModelLiveData.observeViewModel(this@MainActivity) { if (it) hideProfile() }
             profileLiveData.observeViewModel(this@MainActivity) { setProfileView(it) }
-            onNavigationSettingsLiveData.observeViewModel(this@MainActivity) { openTopic() }
+            onNavigationSettingsLiveEvent.observeViewModel(this@MainActivity) { openTopic() }
+            onLoadSettingsErrorLiveEvent.observeViewModel(this@MainActivity) { Alerts.showAlertToUser(this@MainActivity, it)}
             onViewCreated()
+        }
+    }
+
+    private fun initClickListeners() {
+        login.setOnClickListener {
+            startActivity(Intent(
+                this, StartActivity::class.java
+            ).apply { putExtra(AUTHORIZATION_INTENT_KEY, AUTHORIZATION.LOGIN.name) })
+        }
+        registration.setOnClickListener {
+            startActivity(Intent(
+                this, StartActivity::class.java
+            ).apply { putExtra(AUTHORIZATION_INTENT_KEY, AUTHORIZATION.REGISTRATION.name) })
         }
     }
 
@@ -88,13 +98,15 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
     private fun hideProfile() {
         authButtons.isVisible = true
-        profileName.isVisible = false
+        profileMenuItem.isVisible = false
+        fio.text = "Неизвестный пользователь"
         avatar.setImageResource(R.drawable.ic_cancel)
     }
 
     private fun setProfileView(account: Account) {
         authButtons.isVisible = false
-        profileName.isVisible = true
+        profileMenuItem.isVisible = true
+        profileMenuItem.text = account.run { "$lastName $firstName $middleName" }
         Glide
             .with(this)
             .load(account.avatar.guid)
@@ -112,6 +124,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+        initClickListeners()
         return super.onCreateOptionsMenu(menu)
     }
 

@@ -21,11 +21,20 @@ class LoginFragment : BaseFragment() {
         setObservers()
         viewModel.onViewCreated()
         initListeners()
+        getExtras()
     }
 
     override fun onResume() {
         super.onResume()
         (activity as StartActivity).toolbarTitle = TOOLBAR_TITLE
+    }
+
+    private fun getExtras() {
+        arguments?.run {
+            loginInputView.inputField.setText(
+                getString(LOGIN_RECOVERED_PASSWORD_KEY) ?: ""
+            )
+        }
     }
 
     private fun setObservers() {
@@ -57,5 +66,8 @@ class LoginFragment : BaseFragment() {
 
     companion object {
         const val TOOLBAR_TITLE = "Авторизация"
+
+        const val LOGIN_RECOVERED_PASSWORD_KEY = "recovered_password_login"
+
     }
 }

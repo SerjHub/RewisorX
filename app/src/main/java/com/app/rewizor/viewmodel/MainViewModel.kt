@@ -19,7 +19,10 @@ class MainViewModel(
     val profileLiveData: LiveData<Account> get() = profile
 
     private val onNavigationSettings: MutableLiveData<Boolean> = SingleLiveEvent()
-    val onNavigationSettingsLiveData: LiveData<Boolean> get() = onNavigationSettings
+    val onNavigationSettingsLiveEvent: LiveData<Boolean> get() = onNavigationSettings
+
+    private val onLoadSettingsError: MutableLiveData<String> = SingleLiveEvent()
+    val onLoadSettingsErrorLiveEvent: LiveData<String> get() = onLoadSettingsError
 
     override fun onViewCreated() {
         with(asyncProvider) {
@@ -28,6 +31,8 @@ class MainViewModel(
                 if (!start.isError) {
                     onNavigationSettings.value = true
                     setProfile()
+                } else {
+                    onLoadSettingsError.value = start.error?.message ?: "${start.error?.code}"
                 }
             }
         }
@@ -35,8 +40,10 @@ class MainViewModel(
     }
 
     private fun setProfile() {
-        anonModel.value = accountRepository.isAuthorized
-        if (anonModel.value != true) profile.value = accountRepository.account
+        anonModel.value = !accountRepository.isAuthorized
+        if (anonModel.value != true) {
+            profile.value = accountRepository.account
+        }
     }
 
 }

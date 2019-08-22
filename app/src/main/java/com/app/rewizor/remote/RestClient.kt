@@ -1,5 +1,6 @@
 package com.app.rewizor.remote
 
+import android.util.Log
 import com.app.rewizor.data.repositoryImpl.AccountRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
 import com.google.gson.GsonBuilder
@@ -40,6 +41,7 @@ class RestClient(
     }.build()
 
     fun setEndpoint() {
+        Log.i("profileLog", "${prefs.sessionToken}")
         accessToken = prefs.sessionToken ?: AccountRepositoryImpl.ANON_TOKEN
         with (prefs.tokenClients) {
             if (none { it == this@RestClient }) add(this@RestClient)

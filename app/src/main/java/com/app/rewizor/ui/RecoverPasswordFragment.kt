@@ -2,8 +2,9 @@ package com.app.rewizor.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.app.rewizor.R
+import com.app.rewizor.StartActivity
+import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
 import com.app.rewizor.viewmodel.RecoverPasswordViewModel
@@ -26,9 +27,13 @@ class RecoverPasswordFragment : BaseFragment() {
                 onRecoverClicked()
             }
 
-            invalidInputLiveData.observe(viewLifecycleOwner, Observer {
+            invalidInputLiveData.observeViewModel(viewLifecycleOwner, {
                 showMessageAlert(it)
             })
+
+            passwordRecoveredLiveData.observeViewModel(viewLifecycleOwner) {
+                (activity as StartActivity).onPasswordRecovered(it)
+            }
         }
 
 

@@ -26,6 +26,7 @@ class AccountRepositoryImpl(
         }
 
     private fun updateAccountSettings(account: Account) {
+        if (account === Account.DEFAULT) return
         prefs.sessionToken = account.accessToken
         account.region?.id?.let { apiClient.region = it }
     }

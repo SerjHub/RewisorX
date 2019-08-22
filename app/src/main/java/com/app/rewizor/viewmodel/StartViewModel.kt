@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.SystemRepository
+import com.app.rewizor.ui.utils.AUTHORIZATION
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class StartViewModel(
@@ -11,8 +12,8 @@ class StartViewModel(
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
 
-    private val currentStartScreen: MutableLiveData<FRAGMENT> = MutableLiveData()
-    val screen: LiveData<FRAGMENT> get() = currentStartScreen
+    private val currentStartScreen: MutableLiveData<String> = MutableLiveData()
+    val screen: LiveData<String> get() = currentStartScreen
 
     val openMain: MutableLiveData<Boolean> = SingleLiveEvent()
 
@@ -21,23 +22,10 @@ class StartViewModel(
     }
 
     fun onRecover() {
-        currentStartScreen.value = FRAGMENT.RECOVER
+        currentStartScreen.value = AUTHORIZATION.RECOVER.name
     }
 
     fun onRegistration() {
-        currentStartScreen.value = FRAGMENT.REGISTRATION
-    }
-
-    private fun checkLogin() {
-
-        if (accountRepository.isAuthorized) openMain.value = true
-        else currentStartScreen.value = FRAGMENT.LOGIN
-    }
-
-
-    enum class FRAGMENT {
-        LOGIN,
-        REGISTRATION,
-        RECOVER
+        currentStartScreen.value = AUTHORIZATION.REGISTRATION.name
     }
 }
