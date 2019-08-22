@@ -4,10 +4,15 @@ import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.RewizorResult
 import com.app.rewizor.data.model.Region
 import com.app.rewizor.data.model.RewizorCategory
+import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.SystemRepository
+import com.app.rewizor.preferences.PreferencesCache
 import com.app.rewizor.remote.RestClient
 
-class SystemRepositoryImpl (private val apiClient: RestClient): SystemRepository {
+class SystemRepositoryImpl (
+    private val prefs: PreferencesCache,
+    private val accountRepository: AccountRepository,
+    private val apiClient: RestClient): SystemRepository {
     override lateinit var rewizorCategories: List<RewizorCategory>
     override lateinit var regions: List<Region>
 
@@ -23,6 +28,15 @@ class SystemRepositoryImpl (private val apiClient: RestClient): SystemRepository
         val regionsResult = apiClient.run { callApi { api.getRegions() } }
         if (regionsResult.isError) return RewizorResult(false, RewizorError(message = "Ошибка получения городов"))
         regions = regionsResult.map(listOf()).model
+
+        if (prefs.sessionToken != null) {
+            val accountResult = accountRepository.getAccount()
+            if (accountResult.isError) {
+                apiClient.accessToken = AccountRepositoryImpl.ANON_TOKEN
+                accountRepository.getAccount()
+              //  return RewizorResult(false, RewizorError(message = "Ошибка получения аккаунта"))
+            }
+        }
 
         return RewizorResult(true)
     }

@@ -30,9 +30,9 @@ val apiModule = module {
 val dataModule = module {
     single<AccountRepository> { AccountRepositoryImpl(get(), get()) }
     single<LoginRepository> { LoginRepositoryImpl(get(), get(), get()) }
-    single<SystemRepository> { SystemRepositoryImpl(get()) }
+    single<SystemRepository> { SystemRepositoryImpl(get(), get(), get()) }
     single<RegistrationRepository> { RegistrationRepositoryImpl(get(), get()) }
-    single<PublicationRepository> { PublicationRepositoryImpl(get()) }
+    single<PublicationRepository> { PublicationRepositoryImpl(get(), get()) }
 }
 
 val viewModelModule = module {

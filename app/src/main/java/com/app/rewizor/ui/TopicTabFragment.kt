@@ -36,6 +36,11 @@ class TopicTabFragment: TabFragment() {
         }
     }
 
+    private fun createFragments(withParams: List<FragmentParamsModel>) {
+        topicFragments = ListFragmentProvider.getTopicFragments(withParams)
+        setPagerAdapter()
+    }
+
     private fun setPagerAdapter() {
         val adapter = object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             override fun getItem(position: Int) = topicFragments[position]
@@ -44,11 +49,6 @@ class TopicTabFragment: TabFragment() {
 
         }
         category_pager.adapter = adapter
-    }
-
-    private fun createFragments(withParams: List<FragmentParamsModel>) {
-        topicFragments = ListFragmentProvider.getTopicFragments(withParams)
-        setPagerAdapter()
     }
 
     companion object {

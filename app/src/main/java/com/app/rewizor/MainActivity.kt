@@ -2,10 +2,12 @@ package com.app.rewizor
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -100,16 +102,27 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         authButtons.isVisible = true
         profileMenuItem.isVisible = false
         fio.text = "Неизвестный пользователь"
-        avatar.setImageResource(R.drawable.ic_cancel)
+        avatar.setImageResource(R.drawable.ic_avatar_icons)
     }
 
     private fun setProfileView(account: Account) {
         authButtons.isVisible = false
         profileMenuItem.isVisible = true
+        val name = "${account.lastName} ${account.firstName} ${account.middleName}"
+        Log.i("NameAcc", "real: ${account}")
+        Log.i("NameAcc", "name: $name")
+        Log.i("NameAcc", "run: ${account.run { "$lastName $firstName $middleName" }}")
+        profileMenuItem.text = name
         profileMenuItem.text = account.run { "$lastName $firstName $middleName" }
         Glide
             .with(this)
-            .load(account.avatar.guid)
+            .run {
+                if (account.avatar.url == null) {
+                    load(ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_avatar_icons))
+                } else {
+                    load(account.avatar.url)
+                }
+            }
             .into(avatar)
     }
 

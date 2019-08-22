@@ -62,6 +62,7 @@ class RestClient(
         HttpLoggingInterceptor().also { it.level = HttpLoggingInterceptor.Level.BODY }
 
     override fun onTokenChanged(newToken: String) {
+        Log.i("profileLog", "${prefs.sessionToken}")
         accessToken = newToken
     }
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.rewizor.R
 import com.app.rewizor.data.model.CommonPublication
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_publication.view.*
 import kotlinx.android.synthetic.main.view_date.view.*
@@ -49,10 +50,21 @@ class PublicationsAdapter(
     {
         fun bind(item: CommonPublication, topic: String) = with(containerView) {
             title.text = item.name
-            publication_tag.text = "${topic.toUpperCase()} * ${item.category}"
+         //   val titleTxt = topic.toUpperCase()
+            val category = item.categoryTitle?.let { " * $it" }
+            val titleTxt = topic.toUpperCase().plus(category ?: "")
+          //  val titleTxt = topic.toUpperCase().plus(" * ${item.categoryTitle}")
+//            item.categoryTitle?.let {
+//                Log.i("FindCateg", "not null")
+//                titleTxt.plus("* $it") }
+            publication_tag.text = titleTxt
+
+
+            description.isVisible = item.description?.isNotEmpty() ?: false
             description.text = item.description
 
-            Glide.with(context).load(item.image.url).into(image_banner)
+            item.image.url?.let { setBanner(it) }
+
 
             if (item.date != null) {
                 start_date.isVisible = true
@@ -69,6 +81,15 @@ class PublicationsAdapter(
             if (item.hasLike) {
                 //TODO change color?
             }
+        }
+
+        private fun setBanner(url: String) {
+
+            Glide
+                .with(containerView)
+                .applyDefaultRequestOptions(RequestOptions.centerCropTransform())
+                .load(url)
+                .into(containerView.image_banner)
         }
     }
 }

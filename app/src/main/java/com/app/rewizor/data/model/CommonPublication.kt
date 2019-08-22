@@ -5,7 +5,7 @@ data class CommonPublication(
     val id: String,
     val category: String,
     val name: String,
-    val description: String,
+    val description: String?,
     val date: String?,
     val end: String?,
     val age: Int?,
@@ -16,5 +16,6 @@ data class CommonPublication(
     val comments: Int,
     val views: Int,
     val likes: Int,
-    val hasLike: Boolean
+    val hasLike: Boolean,
+    var categoryTitle: String? = ""
 )
