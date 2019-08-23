@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         setNavigation()
         setViewModel(viewModel)
         toolbarTitle = TOPIC.MAIN.title
+        Log.i("FindCreate", "create")
 
     }
 
@@ -84,12 +85,16 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             startActivity(Intent(
                 this, StartActivity::class.java
             ).apply { putExtra(AUTHORIZATION_INTENT_KEY, AUTHORIZATION.LOGIN.name) })
+         //   finish()
         }
         registration.setOnClickListener {
             startActivity(Intent(
                 this, StartActivity::class.java
             ).apply { putExtra(AUTHORIZATION_INTENT_KEY, AUTHORIZATION.REGISTRATION.name) })
+          //  finish()
         }
+
+
     }
 
     private fun openTopic() {
@@ -107,17 +112,13 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
     private fun setProfileView(account: Account) {
         authButtons.isVisible = false
+        val name = "${account.lastName ?: ""} ${account.firstName ?: ""} ${account.middleName ?: ""}"
+        fio.text = name
         profileMenuItem.isVisible = true
-        val name = "${account.lastName} ${account.firstName} ${account.middleName}"
-        Log.i("NameAcc", "real: ${account}")
-        Log.i("NameAcc", "name: $name")
-        Log.i("NameAcc", "run: ${account.run { "$lastName $firstName $middleName" }}")
-        profileMenuItem.text = name
-        profileMenuItem.text = account.run { "$lastName $firstName $middleName" }
         Glide
             .with(this)
             .run {
-                if (account.avatar.url == null) {
+                if (account.avatar?.url == null) {
                     load(ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_avatar_icons))
                 } else {
                     load(account.avatar.url)
@@ -138,6 +139,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         initClickListeners()
+        menu?.findItem(R.id.filter)?.setOnMenuItemClickListener { viewModel.logout(); return@setOnMenuItemClickListener true }
         return super.onCreateOptionsMenu(menu)
     }
 

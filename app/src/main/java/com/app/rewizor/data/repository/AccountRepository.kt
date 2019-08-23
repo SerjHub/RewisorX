@@ -8,4 +8,5 @@ interface AccountRepository {
     val isAuthorized: Boolean
     suspend fun getAccount(): RewizorResult<Account>
     suspend fun updateAccount(account: Account): RewizorResult<Boolean>
+    fun logout()
 }

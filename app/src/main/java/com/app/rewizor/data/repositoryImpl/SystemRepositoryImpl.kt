@@ -16,7 +16,11 @@ class SystemRepositoryImpl (
     override lateinit var rewizorCategories: List<RewizorCategory>
     override lateinit var regions: List<Region>
 
+    var isInitialized: Boolean = false
+
     override suspend fun coldStart(): RewizorResult<Boolean> {
+        if (isInitialized) return RewizorResult(true)
+        isInitialized = true
         //init api
         apiClient.setEndpoint()
 

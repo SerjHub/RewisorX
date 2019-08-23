@@ -19,4 +19,7 @@
     <string name="navOpen">open</string>
     <string name="navClose">close</string>
 
+    <string name="registration_acceptance">Я соглашаюсь на передачу персональных  данных согласно политике конфиденциальности  и пользовательскому соглашению.</string>
+    <string name="acceptance">Я соглашаюсь на передачу персональных данных согласно политике конфиденциальности и пользовательскому соглашению</string>
+
 </resources>

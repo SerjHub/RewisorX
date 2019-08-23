@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.app.rewizor.R
 import com.app.rewizor.StartActivity
 import com.app.rewizor.exstension.onTextChange
-import com.app.rewizor.ui.utils.AlertDialogHelper
+import com.app.rewizor.exstension.showMessageAlert
 import com.app.rewizor.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.view_input_field.view.*
@@ -55,9 +55,7 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun showLoginFailAlert(text: String) {
-        activity?.let {
-            AlertDialogHelper.showSingleActionAlert(it, text)
-        }
+        showMessageAlert(text)
     }
 
 

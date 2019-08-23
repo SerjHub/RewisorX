@@ -9,6 +9,7 @@ class Alerts {
         fun showAlertToUser(context: Context, message: String, action: AlertMessageAction? = null) {
             AlertDialog.Builder(context)
                 .setMessage(message)
+                .setPositiveButton("Ok") { dialog, _ -> action?.invoke().also { dialog.dismiss() } ?: dialog.dismiss() }
                 .setOnDismissListener { action?.invoke() }
                 .show()
         }

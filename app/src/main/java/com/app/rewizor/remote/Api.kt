@@ -50,7 +50,7 @@ interface Api {
         @Field("Phone") phone: String
     ): Deferred<RewizorResponse<Account>>
 
-    @GET(API_PROFILE)
+    @POST(API_PROFILE)
     fun getProfile():Deferred<RewizorResponse<Account>>
 
 //    @POST(API_PROFILE)

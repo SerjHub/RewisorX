@@ -50,13 +50,8 @@ class PublicationsAdapter(
     {
         fun bind(item: CommonPublication, topic: String) = with(containerView) {
             title.text = item.name
-         //   val titleTxt = topic.toUpperCase()
             val category = item.categoryTitle?.let { " * $it" }
             val titleTxt = topic.toUpperCase().plus(category ?: "")
-          //  val titleTxt = topic.toUpperCase().plus(" * ${item.categoryTitle}")
-//            item.categoryTitle?.let {
-//                Log.i("FindCateg", "not null")
-//                titleTxt.plus("* $it") }
             publication_tag.text = titleTxt
 
 

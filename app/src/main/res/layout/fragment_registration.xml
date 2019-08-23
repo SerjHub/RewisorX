@@ -68,7 +68,7 @@
                 android:layout_toEndOf="@id/politics_check"
                 android:textColor="@color/superWhite"
                 android:textSize="12sp"
-                android:text="Я соглашаюсь на передачу персональных  данных согласно политике конфиденциальности  и пользовательскому соглашению."
+                android:text="@string/acceptance"
         />
 
     </RelativeLayout>

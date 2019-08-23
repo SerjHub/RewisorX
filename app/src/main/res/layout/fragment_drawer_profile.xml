@@ -5,7 +5,7 @@
               android:paddingBottom="16dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    
+
     <ImageView
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
             android:padding="16dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
-    android:src="@drawable/ic_cancel"/>
+            android:src="@drawable/ic_cancel"/>
 
     <ImageView
             android:id="@+id/avatar"
@@ -30,25 +30,30 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
+            android:textStyle="bold"
             tools:text="Петров Сергей Николаевич"
-    android:textSize="18sp"/>
+            android:textSize="18sp"/>
 
     <include
-        layout="@layout/grey_divider"
-        style="@style/menu_divider"/>
-    
+            layout="@layout/grey_divider"
+            style="@style/menu_divider"/>
+
     <TextView
             android:id="@+id/profileMenuItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:visibility="gone"
-            tools:text="Профиль"/>
+            android:textColor="@color/fullBlack"
+            android:layout_marginStart="12dp"
+            tools:visibility="visible"
+            android:textStyle="bold"
+            android:text="Профиль"/>
     <LinearLayout
             android:id="@+id/authButtons"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
+            android:visibility="gone"
 
-                  android:orientation="vertical" android:layout_height="wrap_content">
+            android:orientation="vertical" android:layout_height="wrap_content">
 
         <Button android:id="@+id/login"
                 android:layout_width="match_parent"

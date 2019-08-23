@@ -41,6 +41,7 @@ class RegistrationFragment : BaseFragment() {
             firstName.inputField.onTextChange { setFirst(it) }
             email.inputField.onTextChange { setEmail(it) }
             phone.inputField.onTextChange { setPhone(it) }
+            politics_check.setOnCheckedChangeListener { _, isChecked -> setAgreement(isChecked) }
         }
     }
 
@@ -50,7 +51,9 @@ class RegistrationFragment : BaseFragment() {
         email.setChecked()
         phone.setChecked()
         showMessageAlert(
-            list.map { "${it}/n" }.toString()
+            StringBuilder().also { builder ->
+                list.forEach { builder.append("${it.info}\n") }
+            }.toString()
         ) {
             list.forEach {
                 when (it) {
@@ -58,6 +61,7 @@ class RegistrationFragment : BaseFragment() {
                     RegistrationViewModel.VALIDATION.FIRSTNAME -> firstName.setUnchecked()
                     RegistrationViewModel.VALIDATION.EMAIL -> email.setUnchecked()
                     RegistrationViewModel.VALIDATION.PHONE -> phone.setUnchecked()
+                    RegistrationViewModel.VALIDATION.AGREEMENT -> {}
                 }
             }
         }

@@ -25,6 +25,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 style="@style/publicationItemTitle"
                 android:id="@+id/title"
+                android:paddingTop="12dp"
+                android:background="@drawable/bg_item_title_gradient"
                 tools:text="Под Пермью начались съемки фильма Сердце Пармы по одноименной книге Алексея Иванова"/>
 
 

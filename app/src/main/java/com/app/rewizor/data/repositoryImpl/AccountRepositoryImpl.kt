@@ -40,6 +40,11 @@ class AccountRepositoryImpl(
         }
     }
 
+    override fun logout() {
+        account = Account.DEFAULT
+        prefs.sessionToken = null
+    }
+
     companion object {
         const val ANON_TOKEN = "a0e6f6497e2c492dbd09e119a7340bd3"
     }

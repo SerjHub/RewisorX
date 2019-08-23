@@ -1,9 +1,11 @@
 package com.app.rewizor
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.app.rewizor.exstension.replaceFragment
@@ -19,11 +21,10 @@ import org.koin.android.ext.android.inject
 
 class StartActivity : AppCompatActivity() {
     private val viewModel: StartViewModel by inject()
-    var toolbarTitle: String
-        get() = start_toolbar.title.toString()
+    var toolbarTitle: String?
+        get() = supportActionBar?.title.toString()
         set(value) {
             supportActionBar?.title = value
-  //          start_toolbar.title = value
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +38,17 @@ class StartActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         setSupportActionBar(start_toolbar as Toolbar)
-        supportActionBar?.setHomeButtonEnabled(true)
-//        supportActionBar?
-        start_toolbar.setNavigationOnClickListener { onBackPressed() }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        start_toolbar.navigationIcon?.setColorFilter(
+            ContextCompat.getColor(this, R.color.superWhite),
+            PorterDuff.Mode.SRC_ATOP
+            )
+    }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun setViewModel() {
@@ -49,7 +57,6 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun onStartViewOpen(view: String) {
-        supportActionBar?.setHomeButtonEnabled(view != AUTHORIZATION.LOGIN.name)
         when(view) {
             AUTHORIZATION.LOGIN.name -> replaceFragment(fragment = LoginFragment())
             AUTHORIZATION.REGISTRATION.name -> replaceFragment(fragment = RegistrationFragment())
@@ -73,7 +80,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun openMainApp() {
-        Intent(this, MainActivity::class.java).also { startActivity(it) }
+        startActivity(Intent(this@StartActivity, MainActivity::class.java))
         finish()
     }
 
@@ -94,32 +101,17 @@ class StartActivity : AppCompatActivity() {
                 first { it.isVisible } is RegistrationFragment &&
                         intent.getStringExtra(AUTHORIZATION_INTENT_KEY) == AUTHORIZATION.REGISTRATION.name -> {
                     forEach { supportFragmentManager.beginTransaction().remove(it) }
-                    finish()
+                    super.onBackPressed()
                 }
                 first { it.isVisible } is LoginFragment -> {
                     forEach { supportFragmentManager.beginTransaction().remove(it) }
-                    finish()
+                    super.onBackPressed()
                 }
                 else -> replaceFragment(fragment = LoginFragment())
 
             }
         }
     }
-//            if (first { it.isVisible } is RegistrationFragment &&
-//                intent.getStringExtra(AUTHORIZATION_INTENT_KEY) == AUTHORIZATION.REGISTRATION.name)
-//                super.onBackPressed()
-//            else
-//
-//            if (first { it.isVisible }.arguments?.getBoolean("") == true)
-//                replaceFragment(fragment = LoginFragment())
-//            else super.onBackPressed()
-////            when (val f = first { it.isVisible }) {
-////                is LoginFragment -> { super.onBackPressed() }
-////                is RegistrationFragment -> { checkBackward(f) }
-////                is RecoverPasswordFragment -> { checkBackward(f) }
-////            }
-//        }
-  //  }
 
     private fun checkBackward(fragment: Fragment) {
         if (fragment.arguments?.getBoolean("") == true) {

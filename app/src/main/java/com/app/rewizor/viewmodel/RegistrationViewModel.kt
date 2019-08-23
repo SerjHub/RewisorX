@@ -1,6 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.RewizorError
@@ -24,6 +23,8 @@ class RegistrationViewModel(
     private val registrationFail: MutableLiveData<String> = SingleLiveEvent()
     val registrationRequestFailedLiveData: LiveData<String> get() = registrationFail
 
+    private val agreementAccepted: MutableLiveData<Boolean> = MutableLiveData()
+
 
     fun setLast(txt: String){
         lastName.value = txt
@@ -36,6 +37,9 @@ class RegistrationViewModel(
     }
     fun setPhone(txt: String){
         phone.value = txt
+    }
+    fun setAgreement(accepted: Boolean) {
+        agreementAccepted.value = accepted
     }
 
 
@@ -59,12 +63,10 @@ class RegistrationViewModel(
     }
 
     private fun onRegistrationSuccess() {
-        Log.i("FindRes", "succ")
         startViewModel?.openMain?.value = true
     }
 
     private fun onRegistrationFail(error: RewizorError) {
-        Log.i("FindRes", "fail")
         registrationFail.value = error.message
     }
 
@@ -74,7 +76,8 @@ class RegistrationViewModel(
         firstName.value.isNullOrNorChars { validationResults.add(VALIDATION.FIRSTNAME) }
         email.value.isNullOrNorChars { validationResults.add(VALIDATION.EMAIL) }
         phone.value.isNullOrNorChars { validationResults.add(VALIDATION.PHONE) }
-        if (validationResults.isNotEmpty()) validationInfo.value = validationResults.toImmutableList()
+        if (agreementAccepted.value != true) validationResults.add(VALIDATION.AGREEMENT)
+        if (validationResults.isNotEmpty())  validationInfo.value = validationResults.toImmutableList()
         return validationResults.isEmpty()
 
     }
@@ -83,6 +86,7 @@ class RegistrationViewModel(
         LASTNAME("Введите фамилию"),
         FIRSTNAME("Введите имя"),
         EMAIL("Введите почту"),
-        PHONE("Введите телефон")
+        PHONE("Введите телефон"),
+        AGREEMENT("Требуется пользовательское оглашение")
     }
 }

@@ -1,5 +1,6 @@
 package com.app.rewizor.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.Account
@@ -11,6 +12,10 @@ class MainViewModel(
     private val accountRepository: AccountRepository,
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
+
+    init {
+        Log.i("ViewModel", "created")
+    }
 
     private val anonModel: MutableLiveData<Boolean> = MutableLiveData()
     val anonModelLiveData: LiveData<Boolean> get() = anonModel
@@ -44,6 +49,11 @@ class MainViewModel(
         if (anonModel.value != true) {
             profile.value = accountRepository.account
         }
+    }
+
+    fun logout() {
+        anonModel.value = true
+        accountRepository.logout()
     }
 
 }
