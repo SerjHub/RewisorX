@@ -1,6 +1,5 @@
 package com.app.rewizor.remote
 
-import android.util.Log
 import com.app.rewizor.data.repositoryImpl.AccountRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
 import com.google.gson.GsonBuilder
@@ -15,11 +14,13 @@ import java.io.IOException
 
 class RestClient(
     private val baseUrl: String,
-    private val prefs: PreferencesCache)
-    : KoinComponent, PreferencesCache.TokenChangeListener
+    private val prefs: PreferencesCache) :
+    KoinComponent,
+    PreferencesCache.TokenChangeListener,
+        PreferencesCache.RegionChangeListener
 {
     lateinit var api: Api
-    var region = 4001
+    var region = "4001"
     lateinit var accessToken: String
     private val gson = GsonConverterFactory.create(GsonBuilder().create())
 
@@ -28,7 +29,7 @@ class RestClient(
         addInterceptor {  chain ->
             val request = chain.request()
             val urlBuilder = request.url.newBuilder()
-            urlBuilder.addQueryParameter(REGION_QUERY, region.toString())
+            urlBuilder.addQueryParameter(REGION_QUERY, region)
             urlBuilder.addQueryParameter(TOKEN_QUERY, accessToken)
             val url = urlBuilder.build()
             val builder = request.newBuilder().url(url)
@@ -41,9 +42,11 @@ class RestClient(
     }.build()
 
     fun setEndpoint() {
-        Log.i("profileLog", "${prefs.sessionToken}")
         accessToken = prefs.sessionToken ?: AccountRepositoryImpl.ANON_TOKEN
         with (prefs.tokenClients) {
+            if (none { it == this@RestClient }) add(this@RestClient)
+        }
+        with (prefs.regionClients) {
             if (none { it == this@RestClient }) add(this@RestClient)
         }
         api = Retrofit.Builder().apply {
@@ -62,8 +65,11 @@ class RestClient(
         HttpLoggingInterceptor().also { it.level = HttpLoggingInterceptor.Level.BODY }
 
     override fun onTokenChanged(newToken: String) {
-        Log.i("profileLog", "${prefs.sessionToken}")
         accessToken = newToken
+    }
+
+    override fun onRegionChanged(newRegionId: String) {
+        region = newRegionId
     }
 
     companion object {

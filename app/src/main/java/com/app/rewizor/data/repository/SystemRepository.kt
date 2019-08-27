@@ -6,6 +6,6 @@ import com.app.rewizor.data.model.RewizorCategory
 
 interface SystemRepository {
     var rewizorCategories: List<RewizorCategory>
-    var regions: List<Region>
+    var regions: MutableList<Region>
     suspend fun coldStart(): RewizorResult<Boolean>
 }

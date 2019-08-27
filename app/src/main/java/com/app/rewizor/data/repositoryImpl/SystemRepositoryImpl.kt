@@ -9,12 +9,14 @@ import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.preferences.PreferencesCache
 import com.app.rewizor.remote.RestClient
 
-class SystemRepositoryImpl (
+class SystemRepositoryImpl(
     private val prefs: PreferencesCache,
     private val accountRepository: AccountRepository,
-    private val apiClient: RestClient): SystemRepository {
+    private val apiClient: RestClient
+) :
+    SystemRepository {
     override lateinit var rewizorCategories: List<RewizorCategory>
-    override lateinit var regions: List<Region>
+    override lateinit var regions: MutableList<Region>
 
     var isInitialized: Boolean = false
 
@@ -25,23 +27,59 @@ class SystemRepositoryImpl (
         apiClient.setEndpoint()
 
         val categoriesResult = apiClient.run { callApi { api.getCategories() } }
-        if (categoriesResult.isError) return RewizorResult(false, RewizorError(message = "Ошибка получения категорий публикаций"))
+        if (categoriesResult.isError) return RewizorResult(
+            false,
+            RewizorError(message = "Ошибка получения категорий публикаций")
+        )
         rewizorCategories = listOf(RewizorCategory.ALL).plus(categoriesResult.map(listOf()).model as MutableList)
 
 
         val regionsResult = apiClient.run { callApi { api.getRegions() } }
         if (regionsResult.isError) return RewizorResult(false, RewizorError(message = "Ошибка получения городов"))
-        regions = regionsResult.map(listOf()).model
+        regions = mutableListOf()
+        regionsResult.map(listOf()).model.forEach {
+            regions.add(
+                Region(
+                    it.id,
+                    it.name,
+                    regions.none { reg -> reg.name.first() == it.name.first() }
+                )
+            )
+        }
 
-        if (prefs.sessionToken != null) {
+        //если аккаунт не анонимный - запрашиваем на старте, если анонимный - подставляем сохраненный регион
+        if (AccountRepositoryImpl.ANON_TOKEN != prefs.sessionToken && prefs.sessionToken != null) {
             val accountResult = accountRepository.getAccount()
             if (accountResult.isError) {
-                apiClient.accessToken = AccountRepositoryImpl.ANON_TOKEN
-                accountRepository.getAccount()
-              //  return RewizorResult(false, RewizorError(message = "Ошибка получения аккаунта"))
+                return RewizorResult(false, RewizorError(message = "Ошибка получения аккаунта"))
             }
+        } else {
+            setCity()
         }
 
         return RewizorResult(true)
+
+
+//        if (prefs.sessionToken != null) {
+//            val accountResult = accountRepository.getAccount()
+//            if (accountResult.isError) {
+//                apiClient.accessToken = AccountRepositoryImpl.ANON_TOKEN
+//                accountRepository.getAccount()
+//              //  return RewizorResult(false, RewizorError(message = "Ошибка получения аккаунта"))
+//            }
+//        }
+
+    }
+
+    private fun setCity() {
+        with(accountRepository) {
+            account = account.copy(
+                region = regions.find { region ->
+                    region.id == prefs.savedRegionId.let {
+                        if (it == 0) regions.first().id else it
+                    }
+                }
+            )
+        }
     }
 }

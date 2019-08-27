@@ -16,10 +16,15 @@ class PublicationRepositoryImpl(
     override suspend fun getMainPublicationsList(
         page: Int,
         pageCount: Int,
-        topic: String,
-        category: String?
+        category: String?,
+        pageType: String?
     ): RewizorResult<List<CommonPublication>> {
-        val publicationsResult = apiClient.run { callApi { api.getNodes(category) } }
+        val publicationsResult = apiClient.run { callApi { api.getNodes(
+            page.toString(),
+            pageCount.toString(),
+            category,
+            pageType
+        ) } }
         val pageResult = publicationsResult.map(PageInfo.DEFAULT)
         pageResult.model.records.forEach { record ->
             systemRepository.rewizorCategories

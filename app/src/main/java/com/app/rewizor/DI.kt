@@ -43,6 +43,7 @@ val viewModelModule = module {
     viewModel { CategoryListViewModel(get()) }
     viewModel { TopicViewModel(get()) }
     viewModel { MainViewModel(get(), get()) }
+    viewModel { RegionViewModel(get(), get()) }
 }
 
 

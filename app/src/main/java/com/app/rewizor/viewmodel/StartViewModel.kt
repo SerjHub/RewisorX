@@ -6,6 +6,7 @@ import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.ui.utils.AUTHORIZATION
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
+import kotlinx.coroutines.runBlocking
 
 class StartViewModel(
     private val accountRepository: AccountRepository,
@@ -18,7 +19,9 @@ class StartViewModel(
     val openMain: MutableLiveData<Boolean> = SingleLiveEvent()
 
     override fun onViewCreated() {
-
+        asyncProvider.startSuspend {
+            val r = runBlocking { 1 }
+        }
     }
 
     fun onRecover() {

@@ -8,8 +8,8 @@ interface PublicationRepository {
     suspend fun getMainPublicationsList(
         page: Int,
         pageCount: Int,
-        topic: String,
-        category: String? = null
+        category: String? = null,
+        pageType: String? = null
     ): RewizorResult<List<CommonPublication>>
 
     suspend fun getPublicationsList(

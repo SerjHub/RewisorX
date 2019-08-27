@@ -22,6 +22,9 @@
     <dimen name="standard_width">328dp</dimen>
     <dimen name="standard_height">56dp</dimen>
 
+    <dimen name="standard_width_btn">342dp</dimen>
+    <dimen name="standard_height_btn">64dp</dimen>
+
     <!--Input Field View -->
 
 

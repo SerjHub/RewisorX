@@ -21,7 +21,7 @@
             android:layout_width="@dimen/standard_width"
             android:layout_height="@dimen/standard_height"
             android:layout_marginTop="56dp"
-
+            android:nextFocusDown="@id/passwordInputView"
             app:inputEmail="true"
             app:inputFieldHint="E-mail*"
 

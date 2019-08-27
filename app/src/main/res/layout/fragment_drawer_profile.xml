@@ -51,26 +51,39 @@
             android:id="@+id/authButtons"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
 
             android:orientation="vertical" android:layout_height="wrap_content">
 
-        <Button android:id="@+id/login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/button_white_bordered"
-                android:text="Войти"
+
+        <TextView android:id="@+id/login"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="12dp"
+                  android:layout_marginTop="12dp"
+                  android:layout_marginEnd="12dp"
+                  android:paddingTop="14dp"
+                  android:paddingBottom="14dp"
+                  android:textSize="16sp"
+                  android:gravity="center"
+                  android:textColor="@color/fullBlack"
+                  style="@style/rewizorText"
+                  android:background="@drawable/button_white_bordered"
+                  android:text="Войти"
         />
 
-        <Button android:id="@+id/registration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:background="@drawable/button_white_bordered"
-                android:text="Зарегистрироваться"/>
+        <TextView android:id="@+id/registration"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="12dp"
+                  android:paddingTop="14dp"
+                  android:paddingBottom="14dp"
+                  android:textSize="16sp"
+                  android:gravity="center"
+                  android:textColor="@color/fullBlack"
+                  style="@style/rewizorText"
+                  android:background="@drawable/button_white_bordered"
+                  android:text="Зарегистрироваться"/>
     </LinearLayout>
 
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingTop="14dp"
+              android:paddingBottom="14dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/firstSign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/red"
+            android:paddingStart="16dp"
+            android:paddingEnd="37dp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            tools:text="А"/>
+
+    <TextView
+            android:id="@+id/fullCityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:textColor="@color/fullBlack"
+            tools:text="Александров"/>
+
+</LinearLayout>

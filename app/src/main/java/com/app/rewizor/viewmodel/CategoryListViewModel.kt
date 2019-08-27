@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.CommonPublication
 import com.app.rewizor.data.repository.PublicationRepository
+import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class CategoryListViewModel(
@@ -37,14 +38,13 @@ class CategoryListViewModel(
         if (loadingSate.value != true) {
             with(asyncProvider) {
                 startSuspend {
-
                     loadingSate.value = true
                     val listResult = requestParams(currentCategoryId.value!!)!!.run {
                         executeBackGroundTask { publicationsRepository.getMainPublicationsList(
                             currentPage,
                             PAGE_SIZE,
-                            topic,
-                            currentCategoryId.value!!
+                            currentCategoryId.value!!,
+                            TOPIC.valueOf(topic).requestKey
                         ) }
                     }
                     if (!listResult.isError) {

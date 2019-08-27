@@ -10,9 +10,6 @@ class AccountRepositoryImpl(
     private val prefs: PreferencesCache,
     private val apiClient: RestClient
 ) : AccountRepository {
-    override suspend fun updateAccount(account: Account): RewizorResult<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override val isAuthorized: Boolean
         get() = prefs.sessionToken.let {
@@ -26,9 +23,9 @@ class AccountRepositoryImpl(
         }
 
     private fun updateAccountSettings(account: Account) {
+        account.region?.id?.let { prefs.savedRegionId = it }
         if (account === Account.DEFAULT) return
         prefs.sessionToken = account.accessToken
-        account.region?.id?.let { apiClient.region = it }
     }
 
 
@@ -38,6 +35,27 @@ class AccountRepositoryImpl(
         return accountResult.map(Account.DEFAULT).also {
             if (!it.isError) account = it.model
         }
+    }
+
+    override suspend fun updateAccount(account: Account): RewizorResult<Account> {
+        val updateResult = apiClient.run { callApi { api.updateProfile(account) } }
+        return updateResult.map(Account.DEFAULT)
+            .also { if (!it.isError) this.account = it.model }
+
+    }
+
+    override suspend fun updateCity(account: Account): RewizorResult<Account> {
+        val accountResult: RewizorResult<Account>
+        if (prefs.sessionToken == null || prefs.sessionToken == ANON_TOKEN) {
+            prefs.savedRegionId = account.region?.id ?: 0
+            accountResult = RewizorResult(account)
+        }
+        else {
+            val updateResult = apiClient.run { callApi { api.updateProfile(account) } }
+            accountResult = updateResult.map(Account.DEFAULT)
+            if (!updateResult.isError) this.account = accountResult.model
+        }
+        return accountResult
     }
 
     override fun logout() {

@@ -5,10 +5,7 @@ import com.app.rewizor.data.model.PageInfo
 import com.app.rewizor.data.model.Region
 import com.app.rewizor.data.model.RewizorCategory
 import kotlinx.coroutines.Deferred
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface Api {
 
@@ -50,8 +47,13 @@ interface Api {
         @Field("Phone") phone: String
     ): Deferred<RewizorResponse<Account>>
 
-    @POST(API_PROFILE)
+    @GET(API_PROFILE)
     fun getProfile():Deferred<RewizorResponse<Account>>
+
+    @POST(API_PROFILE)
+    fun updateProfile(
+        @Body account: Account
+    ): Deferred<RewizorResponse<Account>>
 
 //    @POST(API_PROFILE)
 //    fun updateProfile(
@@ -71,7 +73,10 @@ interface Api {
     @POST(API_NODES)
     @FormUrlEncoded
     fun getNodes(
-        @Field("parent") category: String? = null
+        @Field("page") page: String,
+        @Field("pageSize") pageSize: String,
+        @Field("parent") category: String? = null,
+        @Field("pageType") pageType: String? = null
     ): Deferred<RewizorResponse<PageInfo>>
 
 //    @GET(API_NODES)
