@@ -19,8 +19,11 @@
     <dimen name="avatar_width">48dp</dimen>
     <dimen name="avatar_height">48dp</dimen>
 
-    <dimen name="standard_width">328dp</dimen>
+    <dimen name="standard_width">336dp</dimen>
     <dimen name="standard_height">56dp</dimen>
+
+    <dimen name="standard_btn_width_visible">342dp</dimen>
+    <dimen name="standard_btn_height_visible">64dp</dimen>
 
     <dimen name="standard_width_btn">342dp</dimen>
     <dimen name="standard_height_btn">64dp</dimen>

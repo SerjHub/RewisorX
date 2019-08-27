@@ -13,8 +13,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
-            app:srcCompat="@mipmap/logo_white"/>
+            android:src="@drawable/ic_main_logo"/>
 
     <com.app.rewizor.ui.custom.InputField
             android:id="@+id/loginInputView"

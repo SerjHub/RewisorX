@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.app.rewizor.R
 import com.app.rewizor.data.model.CommonPublication
 import com.app.rewizor.ui.adapter.PublicationsAdapter
+import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.ui.utils.TOPIC_KEY
 import com.app.rewizor.viewmodel.CategoryListViewModel
 import kotlinx.android.synthetic.main.fragment_publications_list.*
@@ -28,7 +29,9 @@ class CategoryListFragment : BaseFragment() {
     }
 
     private fun setAdapter() {
-        publicationsRecyclerView.adapter = PublicationsAdapter(topicParam)
+        publicationsRecyclerView.adapter = PublicationsAdapter(TOPIC.valueOf(topicParam).title) {
+            viewModel.listScrolled(it)
+        }
     }
 
     private fun setViewModel(viewModel: CategoryListViewModel) {

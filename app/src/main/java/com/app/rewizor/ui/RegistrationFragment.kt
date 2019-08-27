@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.app.rewizor.R
-import com.app.rewizor.StartActivity
+import com.app.rewizor.AuthorizationActivity
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
 import com.app.rewizor.viewmodel.RegistrationViewModel
@@ -24,7 +24,7 @@ class RegistrationFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as StartActivity).toolbarTitle = TOOLBAR_TITLE
+        (activity as AuthorizationActivity).toolbarTitle = TOOLBAR_TITLE
     }
 
     private fun setObservers() {

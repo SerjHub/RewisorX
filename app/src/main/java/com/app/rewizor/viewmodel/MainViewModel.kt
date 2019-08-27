@@ -78,7 +78,7 @@ class MainViewModel(
 
     private fun setProfile() {
         if (cityFilterOpened.value == null) {
-            regionModel.value = accountRepository.account.region!!.name
+            regionModel.value = accountRepository.account.region?.name ?: Region.DEFAULT.name
             anonModel.value = !accountRepository.isAuthorized
             if (anonModel.value != true) {
                 profile.value = accountRepository.account

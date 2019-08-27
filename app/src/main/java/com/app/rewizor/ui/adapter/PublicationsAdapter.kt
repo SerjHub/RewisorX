@@ -1,5 +1,6 @@
 package com.app.rewizor.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +16,12 @@ import kotlinx.android.synthetic.main.item_publication.view.*
 import kotlinx.android.synthetic.main.view_date.view.*
 import kotlinx.android.synthetic.main.view_publication_actions.view.*
 import kotlinx.android.synthetic.main.view_publication_tag.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PublicationsAdapter(
-    private val topic: String
+    private val topic: String,
+    private val scrollListener: (Int) -> Unit
 ) : RecyclerView.Adapter<PublicationsAdapter.PublicationViewHolder>() {
 
     private val itemsList: MutableList <CommonPublication> = mutableListOf()
@@ -42,6 +46,7 @@ class PublicationsAdapter(
 
     override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
         holder.bind(itemsList[position], topic)
+        scrollListener.invoke(holder.adapterPosition)
     }
 
 
@@ -50,7 +55,7 @@ class PublicationsAdapter(
     {
         fun bind(item: CommonPublication, topic: String) = with(containerView) {
             title.text = item.name
-            val category = item.categoryTitle?.let { " * $it" }
+            val category = item.categoryTitle?.let { " • $it" }
             val titleTxt = topic.toUpperCase().plus(category ?: "")
             publication_tag.text = titleTxt
 
@@ -63,7 +68,15 @@ class PublicationsAdapter(
 
             if (item.date != null) {
                 start_date.isVisible = true
-                publication_item_event_date.text = item.date.toString()
+                val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val date = df.parse(item.date)
+
+
+                val viewF = SimpleDateFormat("MM-dd-HH::mm:ss")
+                Log.i("DateIs", "$date")
+                Log.i("DateIs", "${viewF.format(date)}")
+
+                publication_item_event_date.text = date.toString()
             } else {
                 start_date.isGone = true
                 publication_item_event_date.text = ""

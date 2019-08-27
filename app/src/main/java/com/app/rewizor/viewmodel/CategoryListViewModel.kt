@@ -62,6 +62,12 @@ class CategoryListViewModel(
         currentPage = START_PAGE
     }
 
+    fun listScrolled(position: Int) {
+        publicationList.value?.let {
+            if (it.size - position < 3) onNextPage()
+        }
+    }
+
     private fun onPageLoaded(list: List<CommonPublication>) {
         currentPage += 1
         publicationList.value = list

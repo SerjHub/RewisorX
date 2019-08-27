@@ -5,14 +5,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/white"
-        tools:context=".StartActivity">
+        tools:context=".AuthorizationActivity">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/start_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:titleTextColor="@color/white"
-
             style="@style/ToolbarTheme">
 
     </androidx.appcompat.widget.Toolbar>

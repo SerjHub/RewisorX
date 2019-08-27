@@ -16,10 +16,10 @@ import com.app.rewizor.ui.RegistrationFragment
 import com.app.rewizor.ui.utils.AUTHORIZATION
 import com.app.rewizor.ui.utils.AUTHORIZATION_INTENT_KEY
 import com.app.rewizor.viewmodel.StartViewModel
-import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.android.synthetic.main.activity_authorization.*
 import org.koin.android.ext.android.inject
 
-class StartActivity : AppCompatActivity() {
+class AuthorizationActivity : AppCompatActivity() {
     private val viewModel: StartViewModel by inject()
     var toolbarTitle: String?
         get() = supportActionBar?.title.toString()
@@ -29,7 +29,7 @@ class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
+        setContentView(R.layout.activity_authorization)
         setToolbar()
         viewModel.onViewCreated()
         setViewModel()
@@ -80,7 +80,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun openMainApp() {
-        startActivity(Intent(this@StartActivity, MainActivity::class.java))
+        startActivity(Intent(this@AuthorizationActivity, MainActivity::class.java))
         finish()
     }
 

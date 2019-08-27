@@ -3,7 +3,7 @@ package com.app.rewizor.ui
 import android.os.Bundle
 import android.view.View
 import com.app.rewizor.R
-import com.app.rewizor.StartActivity
+import com.app.rewizor.AuthorizationActivity
 import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
@@ -32,7 +32,7 @@ class RecoverPasswordFragment : BaseFragment() {
             })
 
             passwordRecoveredLiveData.observeViewModel(viewLifecycleOwner) {
-                (activity as StartActivity).onPasswordRecovered(it)
+                (activity as AuthorizationActivity).onPasswordRecovered(it)
             }
         }
 

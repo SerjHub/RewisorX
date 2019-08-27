@@ -3,11 +3,13 @@ package com.app.rewizor.ui.custom
 import android.content.Context
 import android.content.res.TypedArray
 import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.app.rewizor.R
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_input_field.view.*
 
@@ -22,7 +24,7 @@ class InputField @JvmOverloads constructor(
     init {
         context.obtainStyledAttributes(attrRes, R.styleable.InputField).apply {
             if(getBoolean(R.styleable.InputField_inputPassword, false))
-            inputField.inputType = setInputType(this)
+            setInputType(this)
             inputFieldLayout.hint = getString(R.styleable.InputField_inputFieldHint)
             inputField.setText(getString(R.styleable.InputField_inputFieldText))
             recycle()
@@ -32,10 +34,17 @@ class InputField @JvmOverloads constructor(
     private fun setInputType(typedArray: TypedArray) =
         typedArray.run {
             when {
-                getBoolean(R.styleable.InputField_inputPassword, false) ->
+                getBoolean(R.styleable.InputField_inputPassword, false) -> {
+                    inputField.transformationMethod = PasswordTransformationMethod()
+                    inputFieldLayout.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                getBoolean(R.styleable.InputField_inputEmail, false) ->
-                    InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS or InputType.TYPE_CLASS_TEXT
+                }
+
+//                getBoolean(R.styleable.InputField_inputEmail, false) -> {
+//                    inputField.transformationMethod = TransformationMethod
+//                    InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS or InputType.TYPE_CLASS_TEXT
+//                }
+
                 else -> InputType.TYPE_CLASS_TEXT
             }
         }

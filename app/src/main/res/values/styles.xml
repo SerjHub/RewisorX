@@ -23,8 +23,8 @@
     </style>
 
     <style name="confirm_button_standard" parent="confirm_button">
-        <item name="android:width">@dimen/standard_width</item>
-        <item name="android:height">@dimen/standard_height</item>
+        <item name="android:width">@dimen/standard_btn_width_visible</item>
+        <item name="android:height">@dimen/standard_btn_height_visible</item>
     </style>
 
     <style name="confirm_button_standard_bordered" parent="Widget.MaterialComponents.Button.TextButton">

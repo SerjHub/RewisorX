@@ -74,6 +74,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         supportActionBar?.setHomeButtonEnabled(false)
 
         nav_view.setNavigationItemSelectedListener(this)
+
+
 /*
         var drawer: DrawerLayout = drawer_layout
         var toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(
@@ -103,14 +105,15 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     private fun initClickListeners() {
         login.setOnClickListener {
             startActivity(Intent(
-                this, StartActivity::class.java
+                this, AuthorizationActivity::class.java
             ).apply { putExtra(AUTHORIZATION_INTENT_KEY, AUTHORIZATION.LOGIN.name) })
         }
         registration.setOnClickListener {
             startActivity(Intent(
-                this, StartActivity::class.java
+                this, AuthorizationActivity::class.java
             ).apply { putExtra(AUTHORIZATION_INTENT_KEY, AUTHORIZATION.REGISTRATION.name) })
         }
+        cancel.setOnClickListener { drawer.closeDrawer(GravityCompat.START) }
     }
 
     private fun setRegion(regionName: String) {
@@ -187,7 +190,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         when (item.itemId) {
             R.id.main -> { viewModel.menuClicked(TOPIC.MAIN) }
             R.id.afisha -> { viewModel.menuClicked(TOPIC.AFISHA) }
-            R.id.city -> { viewModel.cityClicked() }
+            R.id.city -> { viewModel.cityClicked(); item.isCheckable = false }
         }
         //        var categoryId = item.itemId
    //     toolbarTitle = item.title
