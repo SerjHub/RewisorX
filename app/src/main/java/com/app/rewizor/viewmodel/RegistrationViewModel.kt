@@ -1,5 +1,7 @@
 package com.app.rewizor.viewmodel
 
+import android.text.TextUtils
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.RewizorError
@@ -74,7 +76,13 @@ class RegistrationViewModel(
         val validationResults: MutableList<VALIDATION> = mutableListOf()
         lastName.value.isNullOrNorChars { validationResults.add(VALIDATION.LASTNAME) }
         firstName.value.isNullOrNorChars { validationResults.add(VALIDATION.FIRSTNAME) }
-        email.value.isNullOrNorChars { validationResults.add(VALIDATION.EMAIL) }
+        email.value.also {
+            if (TextUtils.isEmpty(it) || !Patterns.EMAIL_ADDRESS.matcher(it).matches()) {
+                validationResults.add(VALIDATION.EMAIL)
+            }
+        }
+
+
         phone.value.isNullOrNorChars { validationResults.add(VALIDATION.PHONE) }
         if (agreementAccepted.value != true) validationResults.add(VALIDATION.AGREEMENT)
         if (validationResults.isNotEmpty())  validationInfo.value = validationResults.toImmutableList()
@@ -85,7 +93,7 @@ class RegistrationViewModel(
     enum class VALIDATION(val info: String) {
         LASTNAME("Введите фамилию"),
         FIRSTNAME("Введите имя"),
-        EMAIL("Введите почту"),
+        EMAIL("Введите корректную почту"),
         PHONE("Введите телефон"),
         AGREEMENT("Требуется пользовательское оглашение")
     }

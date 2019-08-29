@@ -1,6 +1,5 @@
 package com.app.rewizor.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,8 @@ import kotlinx.android.synthetic.main.item_publication.view.*
 import kotlinx.android.synthetic.main.view_date.view.*
 import kotlinx.android.synthetic.main.view_publication_actions.view.*
 import kotlinx.android.synthetic.main.view_publication_tag.view.*
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,12 +72,21 @@ class PublicationsAdapter(
                 val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
                 val date = df.parse(item.date)
 
+                //found at: https://stackoverflow.com/questions/21505858/convert-joda-time-datetime-iso-8601-format-date-to-another-date-format
+                val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
 
-                val viewF = SimpleDateFormat("MM-dd-HH::mm:ss")
-                Log.i("DateIs", "$date")
-                Log.i("DateIs", "${viewF.format(date)}")
-
-                publication_item_event_date.text = date.toString()
+                val input: String = item.date
+                val dateTime: DateTime = formatter.parseDateTime(input)
+                publication_item_event_date.text = (if (dateTime.millisOfDay().get() == 0) NO_TIME
+                else WITH_TIME)
+                    .let {
+                        DateTimeFormat
+                            .forStyle(it)
+                            .withLocale(Locale("ru")) }
+                    .let {
+                        val dateTxt = it.print(dateTime)
+                        dateTxt.replace(" г.", "")
+                    }
             } else {
                 start_date.isGone = true
                 publication_item_event_date.text = ""
@@ -99,5 +109,10 @@ class PublicationsAdapter(
                 .load(url)
                 .into(containerView.image_banner)
         }
+    }
+
+    companion object {
+        const val NO_TIME = "L-"
+        const val WITH_TIME = "LS"
     }
 }

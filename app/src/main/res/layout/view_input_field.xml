@@ -7,9 +7,12 @@
                                                        android:layout_width="match_parent"
                                                        android:layout_height="wrap_content">
 
+
+
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputFieldLayout"
             android:layout_width="match_parent"
+            android:layout_marginBottom="4dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusBottomEnd="2dp"
             app:boxCornerRadiusTopStart="2dp"
@@ -20,7 +23,6 @@
             android:paddingTop="4dp"
             android:gravity="center"
             android:layout_centerVertical="true"
-            app:boxBackgroundColor="@color/green"
 
             android:layout_height="wrap_content">
 
@@ -46,13 +48,13 @@
             android:visibility="gone"
     android:src="@drawable/ic_check"/>
 
+
     <View
             android:id="@+id/underlineView"
             android:background="@color/green"
             android:layout_width="match_parent"
             android:layout_height="2.5dp"
+            android:visibility="invisible"
             android:layout_below="@id/inputFieldLayout"/>
-
-
 
 </RelativeLayout>

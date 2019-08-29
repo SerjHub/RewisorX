@@ -2,12 +2,14 @@ package com.app.rewizor.ui.custom
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.os.Build
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import com.app.rewizor.R
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.extensions.LayoutContainer
@@ -51,11 +53,18 @@ class InputField @JvmOverloads constructor(
 
     fun setChecked() {
         imageCheck.setImageResource(R.drawable.ic_check)
+        imageCheck.isVisible = true
+        underlineView.isVisible = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            underlineView.setBackgroundColor(resources.getColor(R.color.edit_text_line, null))
+        }
     }
 
     fun setUnchecked() {
         imageCheck.setImageResource(R.drawable.ic_unchecked)
-        inputFieldLayout.boxBackgroundColor = resources.getColor(R.color.brightRed)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            underlineView.setBackgroundColor(resources.getColor(R.color.brightRed, null))
+        }
     }
 
 }

@@ -78,5 +78,8 @@ dependencies {
     apply plugin: 'kotlin-android-extensions'
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 
+    //Joda time
+    implementation 'joda-time:joda-time:2.10.3'
+
 
 }

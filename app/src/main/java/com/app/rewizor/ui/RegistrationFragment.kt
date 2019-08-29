@@ -3,8 +3,8 @@ package com.app.rewizor.ui
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.app.rewizor.R
 import com.app.rewizor.AuthorizationActivity
+import com.app.rewizor.R
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
 import com.app.rewizor.viewmodel.RegistrationViewModel
@@ -54,17 +54,19 @@ class RegistrationFragment : BaseFragment() {
             StringBuilder().also { builder ->
                 list.forEach { builder.append("${it.info}\n") }
             }.toString()
-        ) {
-            list.forEach {
-                when (it) {
-                    RegistrationViewModel.VALIDATION.LASTNAME -> lastName.setUnchecked()
-                    RegistrationViewModel.VALIDATION.FIRSTNAME -> firstName.setUnchecked()
-                    RegistrationViewModel.VALIDATION.EMAIL -> email.setUnchecked()
-                    RegistrationViewModel.VALIDATION.PHONE -> phone.setUnchecked()
-                    RegistrationViewModel.VALIDATION.AGREEMENT -> {}
+        )
+
+        list.forEach {
+            when (it) {
+                RegistrationViewModel.VALIDATION.LASTNAME -> lastName.setUnchecked()
+                RegistrationViewModel.VALIDATION.FIRSTNAME -> firstName.setUnchecked()
+                RegistrationViewModel.VALIDATION.EMAIL -> email.setUnchecked()
+                RegistrationViewModel.VALIDATION.PHONE -> phone.setUnchecked()
+                RegistrationViewModel.VALIDATION.AGREEMENT -> {
                 }
             }
         }
+
     }
 
     override val TAG: String

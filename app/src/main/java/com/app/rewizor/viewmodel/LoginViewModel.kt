@@ -18,6 +18,9 @@ class LoginViewModel(
     private val enteredPassword: MutableLiveData<String> = MutableLiveData()
     val currentEnteredPassword: LiveData<String> get() = enteredPassword
 
+    private val validationInfo: MutableLiveData<List<VALIDATION>> = SingleLiveEvent()
+    val validationInfoLiveData: LiveData<List<VALIDATION>> get() = validationInfo
+
     private val validationErrorModel: MutableLiveData<VALIDATION> = MutableLiveData()
     val onValidationErrorLiveData: LiveData<VALIDATION> get() = validationErrorModel
 

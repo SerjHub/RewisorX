@@ -3,8 +3,8 @@ package com.app.rewizor.ui
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.app.rewizor.R
 import com.app.rewizor.AuthorizationActivity
+import com.app.rewizor.R
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
 import com.app.rewizor.viewmodel.LoginViewModel
@@ -41,6 +41,7 @@ class LoginFragment : BaseFragment() {
         with(viewModel) {
             onLoginFailedLiveData.observe(viewLifecycleOwner, Observer { showLoginFailAlert(it) })
             onValidationErrorLiveData.observe(viewLifecycleOwner, Observer { showLoginFailAlert(it.info)})
+            validationInfoLiveData.observe(viewLifecycleOwner, Observer { showError(it) })
         }
     }
 
@@ -58,6 +59,13 @@ class LoginFragment : BaseFragment() {
         showMessageAlert(text)
     }
 
+    private fun showError(list: List<LoginViewModel.VALIDATION>) {
+        showMessageAlert(
+            StringBuilder().also { builder ->
+                list.forEach { builder.append("${it.info}\n") }
+            }.toString()
+        )
+    }
 
     override val TAG: String
         get() = LoginFragment::class.java.name
