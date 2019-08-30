@@ -25,6 +25,7 @@ class TopicTabFragment: TabFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         category_tabs.setupWithViewPager(category_pager)
         setupViewModel(viewModel)
     }
@@ -46,7 +47,6 @@ class TopicTabFragment: TabFragment() {
             override fun getItem(position: Int) = topicFragments[position]
             override fun getCount() = topicFragments.size
             override fun getPageTitle(position: Int) = topicFragments[position].arguments!!.getString(CATEGORY_NAME_ARG)
-
         }
         category_pager.adapter = adapter
     }

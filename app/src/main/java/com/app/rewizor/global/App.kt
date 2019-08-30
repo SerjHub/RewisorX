@@ -1,6 +1,7 @@
-package com.app.rewizor
+package com.app.rewizor.global
 
 import android.app.Application
+import com.app.rewizor.global.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

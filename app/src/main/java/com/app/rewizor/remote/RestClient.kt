@@ -1,10 +1,12 @@
 package com.app.rewizor.remote
 
+import android.util.Log
 import com.app.rewizor.data.repositoryImpl.AccountRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
+import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.KoinComponent
@@ -25,6 +27,7 @@ class RestClient(
     private val gson = GsonConverterFactory.create(GsonBuilder().create())
 
     private val okHttpClient = OkHttpClient.Builder().apply {
+        connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
         addInterceptor(createLogger())
         addInterceptor {  chain ->
             val request = chain.request()
@@ -43,6 +46,7 @@ class RestClient(
 
     fun setEndpoint() {
         accessToken = prefs.sessionToken ?: AccountRepositoryImpl.ANON_TOKEN
+        Log.i("FindToken", "${prefs.sessionToken ?: 0}")
         with (prefs.tokenClients) {
             if (none { it == this@RestClient }) add(this@RestClient)
         }

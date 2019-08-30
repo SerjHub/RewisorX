@@ -55,15 +55,6 @@ interface Api {
         @Body account: Account
     ): Deferred<RewizorResponse<Account>>
 
-//    @POST(API_PROFILE)
-//    fun updateProfile(
-//        @Field("LastName") lastName: String,
-//        @Field("FirstName") firstName: String,
-//        @Field("FirstName") firstName: String,
-//        @Field("Email") email: String,
-//        @Field("Phone") phone: String
-//    )
-
     @POST(API_RECOVER_PASSWORD)
     @FormUrlEncoded
     fun recoverPassword(
@@ -78,8 +69,5 @@ interface Api {
         @Field("parent") category: String? = null,
         @Field("pageType") pageType: String? = null
     ): Deferred<RewizorResponse<PageInfo>>
-
-//    @GET(API_NODES)
-//    fun getCategoryNodes():
 
 }

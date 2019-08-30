@@ -18,6 +18,7 @@ class RegionsListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         with(viewModel) {
             citiesListLiveData.observeViewModel(viewLifecycleOwner) {
                 setAdapter(it)

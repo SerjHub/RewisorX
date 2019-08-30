@@ -12,7 +12,7 @@ import okhttp3.internal.toImmutableList
 
 class RegistrationViewModel(
     private val registrationRepository: RegistrationRepository,
-    private val startViewModel: StartViewModel?
+    private val authorizationViewModel: AuthorizationViewModel?
 ) : BaseViewModel() {
     private val lastName: MutableLiveData<String> = MutableLiveData()
     private val firstName: MutableLiveData<String> = MutableLiveData()
@@ -65,7 +65,7 @@ class RegistrationViewModel(
     }
 
     private fun onRegistrationSuccess() {
-        startViewModel?.openMain?.value = true
+        authorizationViewModel?.openMain?.value = true
     }
 
     private fun onRegistrationFail(error: RewizorError) {

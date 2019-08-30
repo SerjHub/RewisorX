@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.app.rewizor.AuthorizationActivity
 import com.app.rewizor.R
+import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
 import com.app.rewizor.viewmodel.RegistrationViewModel
@@ -30,6 +31,9 @@ class RegistrationFragment : BaseFragment() {
     private fun setObservers() {
         with(viewModel) {
             validationInfoLiveData.observe(viewLifecycleOwner, Observer { updateValidationUi(it) })
+            registrationRequestFailedLiveData.observeViewModel(viewLifecycleOwner) {
+                showMessageAlert(it)
+            }
 
         }
     }

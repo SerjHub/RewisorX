@@ -2,6 +2,7 @@ package com.app.rewizor.data.repositoryImpl
 
 import com.app.rewizor.data.RewizorResult
 import com.app.rewizor.data.model.Account
+import com.app.rewizor.data.model.Region
 import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.preferences.PreferencesCache
 import com.app.rewizor.remote.RestClient
@@ -21,6 +22,8 @@ class AccountRepositoryImpl(
             updateAccountSettings(value)
             field = value
         }
+
+    override var systemRegions: List<Region> = listOf()
 
     private fun updateAccountSettings(account: Account) {
         account.region?.id?.let { prefs.savedRegionId = it }
@@ -46,8 +49,8 @@ class AccountRepositoryImpl(
 
     override suspend fun updateCity(account: Account): RewizorResult<Account> {
         val accountResult: RewizorResult<Account>
-        if (prefs.sessionToken == null || prefs.sessionToken == ANON_TOKEN) {
-            prefs.savedRegionId = account.region?.id ?: 0
+        if (isAuthorized) {
+            prefs.savedRegionId = account.region!!.id
             accountResult = RewizorResult(account)
         }
         else {
@@ -57,6 +60,14 @@ class AccountRepositoryImpl(
         }
         return accountResult
     }
+
+    override val region: Region
+        get() =
+            if (isAuthorized) {
+                systemRegions.first { it.id == prefs.savedRegionId }
+            } else {
+                account.region ?: Region.DEFAULT
+            }
 
     override fun logout() {
         account = Account.DEFAULT

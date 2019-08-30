@@ -6,21 +6,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.rewizor.exstension.replaceFragment
+import com.app.rewizor.global.NEW_ACCOUNT
+import com.app.rewizor.global.UPDATE_All_DATA_FOR_NEW_PROFILE
 import com.app.rewizor.ui.LoginFragment
 import com.app.rewizor.ui.LoginFragment.Companion.LOGIN_RECOVERED_PASSWORD_KEY
 import com.app.rewizor.ui.RecoverPasswordFragment
 import com.app.rewizor.ui.RegistrationFragment
 import com.app.rewizor.ui.utils.AUTHORIZATION
 import com.app.rewizor.ui.utils.AUTHORIZATION_INTENT_KEY
-import com.app.rewizor.viewmodel.StartViewModel
+import com.app.rewizor.viewmodel.AuthorizationViewModel
 import kotlinx.android.synthetic.main.activity_authorization.*
 import org.koin.android.ext.android.inject
 
 class AuthorizationActivity : AppCompatActivity() {
-    private val viewModel: StartViewModel by inject()
+    private val viewModel: AuthorizationViewModel by inject()
     var toolbarTitle: String?
         get() = supportActionBar?.title.toString()
         set(value) {
@@ -65,22 +67,11 @@ class AuthorizationActivity : AppCompatActivity() {
     }
 
 
-
-    fun openLogin() {
-        with(supportFragmentManager) {
-            fragments.firstOrNull { it is LoginFragment }
-                .also { f ->
-                    f?.let {
-                        beginTransaction().show(it)
-                        return@also }
-                    replaceFragment(fragment = LoginFragment())
-                }
-        }
-
-    }
-
     private fun openMainApp() {
-        startActivity(Intent(this@AuthorizationActivity, MainActivity::class.java))
+        LocalBroadcastManager.getInstance(this).sendBroadcast(Intent().apply {
+            action = NEW_ACCOUNT
+            putExtra(UPDATE_All_DATA_FOR_NEW_PROFILE, true)
+        })
         finish()
     }
 
@@ -89,10 +80,6 @@ class AuthorizationActivity : AppCompatActivity() {
             .apply {
                 arguments = Bundle().apply { putString(LOGIN_RECOVERED_PASSWORD_KEY, withEmail) }
             })
-    }
-
-    private fun onBackClicked() {
-
     }
 
     override fun onBackPressed() {
@@ -112,17 +99,6 @@ class AuthorizationActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun checkBackward(fragment: Fragment) {
-        if (fragment.arguments?.getBoolean("") == true) {
-            replaceFragment(fragment = LoginFragment())
-        } else {
-
-        }
-    }
-
-    private fun isNavigatedFromMain() =
-        intent.getStringArrayExtra(AUTHORIZATION_INTENT_KEY) != null
     
     companion object {
         const val FRAGMENT_CONTAINER = R.id.fragment_container

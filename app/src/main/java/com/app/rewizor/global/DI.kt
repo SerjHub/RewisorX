@@ -1,13 +1,14 @@
-package com.app.rewizor
+package com.app.rewizor.global
 
 
+import com.app.rewizor.R
 import com.app.rewizor.data.repository.*
 import com.app.rewizor.data.repositoryImpl.*
 import com.app.rewizor.preferences.PreferencesCache
 import com.app.rewizor.remote.RestClient
 import com.app.rewizor.viewmodel.*
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
@@ -36,8 +37,8 @@ val dataModule = module {
 }
 
 val viewModelModule = module {
-    single { StartViewModel(get(), get()) }
-    viewModel { LoginViewModel(get(), get()) }
+    single { AuthorizationViewModel(get(), get()) }
+    viewModel { LoginViewModel(get()) }
     viewModel { RegistrationViewModel(get(), get()) }
     viewModel { RecoverPasswordViewModel(get()) }
     viewModel { CategoryListViewModel(get()) }

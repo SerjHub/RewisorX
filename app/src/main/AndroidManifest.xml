@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.app.rewizor">
+
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-            android:name=".App"
+            android:name=".global.App"
             android:allowBackup="false"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_frame2x"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
+            android:roundIcon="@drawable/ic_frame"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".AuthorizationActivity"
-
-        android:windowSoftInputMode="adjustResize">
-
-        </activity>
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
+        </activity>
+        <activity
+                android:name=".AuthorizationActivity"
+                android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter></activity>
-
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

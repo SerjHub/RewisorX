@@ -7,19 +7,22 @@ import com.app.rewizor.AuthorizationActivity
 import com.app.rewizor.R
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
+import com.app.rewizor.viewmodel.AuthorizationViewModel
 import com.app.rewizor.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.view_input_field.view.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LoginFragment : BaseFragment() {
     override val layout = R.layout.fragment_login
     private val viewModel: LoginViewModel by inject()
 
+    private val parentViewModel: AuthorizationViewModel by sharedViewModel()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
-        viewModel.onViewCreated()
         initListeners()
         getExtras()
     }
@@ -43,6 +46,8 @@ class LoginFragment : BaseFragment() {
             onValidationErrorLiveData.observe(viewLifecycleOwner, Observer { showLoginFailAlert(it.info)})
             validationInfoLiveData.observe(viewLifecycleOwner, Observer { showError(it) })
         }
+        viewModel.setSharedViewModel(parentViewModel)
+        viewModel.onViewCreated()
     }
 
     private fun initListeners() {

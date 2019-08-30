@@ -15,6 +15,11 @@ class SystemRepositoryImpl(
     private val apiClient: RestClient
 ) :
     SystemRepository {
+
+    init {
+
+    }
+
     override lateinit var rewizorCategories: List<RewizorCategory>
     override lateinit var regions: MutableList<Region>
 
@@ -46,6 +51,7 @@ class SystemRepositoryImpl(
                 )
             )
         }
+        accountRepository.systemRegions = regions
 
         //если аккаунт не анонимный - запрашиваем на старте, если анонимный - подставляем сохраненный регион
         if (AccountRepositoryImpl.ANON_TOKEN != prefs.sessionToken && prefs.sessionToken != null) {

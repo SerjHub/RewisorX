@@ -11,7 +11,12 @@ class RecoverPasswordViewModel(
     private val loginRepository: LoginRepository
 ) : BaseViewModel() {
 
+    private lateinit var authorizationViewModel: AuthorizationViewModel
+
     private val insertedEmail: MutableLiveData<String> = MutableLiveData()
+
+    private val currentLogin: MutableLiveData<String> = MutableLiveData()
+    val insertedEmailLiveData: LiveData<String> get() = insertedEmail
 
     private val invalidInput: MutableLiveData<String> = SingleLiveEvent()
     val invalidInputLiveData: LiveData<String> get() = invalidInput
@@ -24,6 +29,11 @@ class RecoverPasswordViewModel(
 
     fun onEmailInserted(email: String) {
         insertedEmail.value = email
+    }
+
+    fun setSharedVM(vm: AuthorizationViewModel) {
+        authorizationViewModel = vm
+        currentLogin.value = authorizationViewModel.currentLogin
     }
 
     fun onRecoverClicked() {

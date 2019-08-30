@@ -1,7 +1,11 @@
 package com.app.rewizor
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,10 +18,14 @@ import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+
 import com.app.rewizor.data.model.Account
 import com.app.rewizor.data.model.Region
 import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.replaceFragment
+import com.app.rewizor.global.NEW_ACCOUNT
+import com.app.rewizor.global.UPDATE_All_DATA_FOR_NEW_PROFILE
 import com.app.rewizor.ui.RegionsListFragment
 import com.app.rewizor.ui.TopicTabFragment
 import com.app.rewizor.ui.utils.*
@@ -39,11 +47,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             supportActionBar?.title = value
         }
 
-    var navigationBackClick
-        get() =  { }
-        set(value) {
-            toolbar.setNavigationOnClickListener { value.invoke() }
-        }
+    var mToolBarNavigationListenerIsRegistered = false
+
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -55,9 +60,29 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         toolbarTitle = TOPIC.MAIN.title
     }
 
+    private val updaterReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.let {
+                when  {
+                    it.getBooleanExtra(UPDATE_All_DATA_FOR_NEW_PROFILE, true) -> recreate()
+                }
+            }
+
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this).registerReceiver(updaterReceiver, IntentFilter(NEW_ACCOUNT))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(updaterReceiver)
+    }
+
     private fun setNavigation() {
         setSupportActionBar(toolbar)
-        toolbar.setNavigationIcon(R.drawable.ic_menu)
 
         drawer = drawer_layout
 
@@ -72,6 +97,16 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setHomeButtonEnabled(false)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            toggle.drawerArrowDrawable.color = getColor(R.color.superWhite);
+        } else {
+            toggle.drawerArrowDrawable.color = resources.getColor(R.color.superWhite);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            toolbar.navigationIcon?.setColorFilter(resources.getColor(R.color.superWhite, null), PorterDuff.Mode.SRC_ATOP)
+        }
+
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -116,8 +151,17 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         cancel.setOnClickListener { drawer.closeDrawer(GravityCompat.START) }
     }
 
+
+    private fun start(){
+
+    }
+
     private fun setRegion(regionName: String) {
-        nav_view.menu.findItem(R.id.city).title = "Ваш город: $regionName"
+        nav_view.menu.findItem(R.id.main).isChecked = true
+        nav_view.menu.findItem(R.id.city).apply {
+            title = "Ваш город: $regionName"
+            isCheckable = false
+        }
     }
 
     private fun closeCities() {
@@ -125,14 +169,14 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     }
 
     private fun openCities(currentCity: Region) {
-        setDrawerEnabled(false)
+        setDrawerDisabled(true)
         toolbarTitle = "Ваш город ${currentCity.name}"
         replaceFragment(fragment = RegionsListFragment())
     }
 
     private fun openTopic(topic: TOPIC = TOPIC.MAIN) {
         toolbarTitle = topic.title
-        setDrawerEnabled(true)
+        setDrawerDisabled(false)
         replaceFragment(fragment = TopicTabFragment.getInstance(
             Bundle().apply { putString(TOPIC_KEY, topic.name) }
         ))
@@ -160,29 +204,27 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
                 }
             }
             .into(avatar)
-
-
-
-        getSharedPreferences("", Context.MODE_PRIVATE)
     }
 
-    private val backClickListener = View.OnClickListener { closeCities() }
 
-    private fun setDrawerEnabled(enabled: Boolean) {
+
+    private fun setDrawerDisabled(enabled: Boolean) {
         if (enabled) {
-            drawer.setDrawerLockMode(LOCK_MODE_UNLOCKED)
-            toggle.isDrawerIndicatorEnabled = true
-            toolbar.setNavigationIcon(R.drawable.ic_menu)
-            supportActionBar?.setDisplayShowHomeEnabled(false)
-            supportActionBar?.setHomeButtonEnabled(false)
-            toggle.toolbarNavigationClickListener = null
-        } else {
             drawer.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            supportActionBar?.setHomeButtonEnabled(true)
-            toolbar.setNavigationIcon(R.drawable.ic_back)
             toggle.isDrawerIndicatorEnabled = false
-            toggle.toolbarNavigationClickListener = backClickListener
+
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            if (!mToolBarNavigationListenerIsRegistered) {
+                toggle.toolbarNavigationClickListener = View.OnClickListener { closeCities() }
+                mToolBarNavigationListenerIsRegistered = true
+            }
+
+        } else {
+
+            drawer.setDrawerLockMode(LOCK_MODE_UNLOCKED)
+            supportActionBar?.setDisplayShowHomeEnabled(false)
+            toggle.isDrawerIndicatorEnabled = true
+            toggle.toolbarNavigationClickListener = null
         }
     }
 
@@ -190,7 +232,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         when (item.itemId) {
             R.id.main -> { viewModel.menuClicked(TOPIC.MAIN) }
             R.id.afisha -> { viewModel.menuClicked(TOPIC.AFISHA) }
-            R.id.city -> { viewModel.cityClicked(); item.isCheckable = false }
+            R.id.city -> { viewModel.cityClicked();  }
         }
         //        var categoryId = item.itemId
    //     toolbarTitle = item.title

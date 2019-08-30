@@ -6,11 +6,14 @@ import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.repository.LoginRepository
 import com.app.rewizor.exstension.isNullOrNorChars
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
+import org.koin.core.KoinComponent
+
 
 class LoginViewModel(
-    private val parentViewModel: StartViewModel?,
     private val repository: LoginRepository
-) : BaseViewModel() {
+) : BaseViewModel(), KoinComponent {
+
+    private lateinit var authorizationViewModel: AuthorizationViewModel
 
     private val enteredLogin: MutableLiveData<String> = MutableLiveData()
     val currentEnteredLogin: LiveData<String> get() = enteredLogin
@@ -32,9 +35,14 @@ class LoginViewModel(
 
     }
 
+    fun setSharedViewModel(vm: AuthorizationViewModel) {
+        authorizationViewModel = vm
+    }
+
 
     fun onLoginInput(str: String) {
         enteredLogin.value = str
+        authorizationViewModel.currentLogin = str
     }
 
     fun onPasswordInput(str: String) {
@@ -42,11 +50,11 @@ class LoginViewModel(
     }
 
     fun onRecoverPasswordClicked() {
-        parentViewModel?.onRecover()
+        authorizationViewModel.onRecover()
     }
 
     fun onRegistrationClicked() {
-        parentViewModel?.onRegistration()
+        authorizationViewModel.onRegistration()
     }
 
     fun loginRequest() {
@@ -66,7 +74,7 @@ class LoginViewModel(
     }
 
     private fun onLoginSuccess() {
-        parentViewModel?.openMain?.value = true
+        authorizationViewModel.openMain.value = true
     }
 
     private fun isValid(): Boolean {

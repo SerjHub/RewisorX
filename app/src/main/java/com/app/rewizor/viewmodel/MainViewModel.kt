@@ -1,6 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.Account
@@ -14,10 +13,6 @@ class MainViewModel(
     private val accountRepository: AccountRepository,
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
-
-    init {
-        Log.i("ViewModel", "created")
-    }
 
     private val anonModel: MutableLiveData<Boolean> = MutableLiveData()
     val anonModelLiveData: LiveData<Boolean> get() = anonModel
@@ -68,17 +63,22 @@ class MainViewModel(
         onTopicChosen.value = onTopicChosen.value
     }
 
+
+
     fun cityChosen() {
         contentShowing.value = true
+        if (regionModel.value != accountRepository.region.name) {
+            regionModel.value = accountRepository.region.name
+        }
     }
 
     fun cityClicked() {
-        cityFilterOpened.value = accountRepository.account.region
+        cityFilterOpened.value = accountRepository.region
     }
 
     private fun setProfile() {
         if (cityFilterOpened.value == null) {
-            regionModel.value = accountRepository.account.region?.name ?: Region.DEFAULT.name
+            regionModel.value = accountRepository.region.name
             anonModel.value = !accountRepository.isAuthorized
             if (anonModel.value != true) {
                 profile.value = accountRepository.account
