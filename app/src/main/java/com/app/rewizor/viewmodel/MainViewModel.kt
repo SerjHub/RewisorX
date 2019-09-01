@@ -51,7 +51,11 @@ class MainViewModel(
                 }
             }
         }
+    }
 
+    fun refreshData() {
+        onTopicChosen.value = TOPIC.MAIN
+        setProfile()
     }
 
     fun menuClicked(topic: TOPIC) {

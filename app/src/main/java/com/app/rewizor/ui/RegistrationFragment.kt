@@ -8,14 +8,17 @@ import com.app.rewizor.R
 import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.showMessageAlert
+import com.app.rewizor.viewmodel.AuthorizationViewModel
 import com.app.rewizor.viewmodel.RegistrationViewModel
 import kotlinx.android.synthetic.main.fragment_registration.*
 import kotlinx.android.synthetic.main.view_input_field.view.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RegistrationFragment : BaseFragment() {
     override val layout = R.layout.fragment_registration
     private val viewModel: RegistrationViewModel by inject()
+    private val authorizationViewModel: AuthorizationViewModel by sharedViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,6 +37,8 @@ class RegistrationFragment : BaseFragment() {
             registrationRequestFailedLiveData.observeViewModel(viewLifecycleOwner) {
                 showMessageAlert(it)
             }
+
+            setSharedVM(authorizationViewModel)
 
         }
     }

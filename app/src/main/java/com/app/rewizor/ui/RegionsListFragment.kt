@@ -12,6 +12,7 @@ import com.app.rewizor.viewmodel.RegionViewModel
 import kotlinx.android.synthetic.main.fragment_cities.*
 import org.koin.android.ext.android.inject
 
+
 class RegionsListFragment : BaseFragment() {
     override val layout = R.layout.fragment_cities
     private val viewModel: RegionViewModel by inject()
@@ -37,11 +38,6 @@ class RegionsListFragment : BaseFragment() {
             viewModel.onCityClicked(it)
         }
     }
-
-    private fun setupToolBar() {
-
-    }
-
 
     override val TAG: String
         get() = this::class.java.name

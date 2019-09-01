@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.repository.LoginRepository
-import com.app.rewizor.exstension.isNullOrNorChars
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class RecoverPasswordViewModel(
@@ -16,7 +15,7 @@ class RecoverPasswordViewModel(
     private val insertedEmail: MutableLiveData<String> = MutableLiveData()
 
     private val currentLogin: MutableLiveData<String> = MutableLiveData()
-    val insertedEmailLiveData: LiveData<String> get() = insertedEmail
+    val insertedEmailLiveData: LiveData<String> get() = currentLogin
 
     private val invalidInput: MutableLiveData<String> = SingleLiveEvent()
     val invalidInputLiveData: LiveData<String> get() = invalidInput
@@ -37,7 +36,8 @@ class RecoverPasswordViewModel(
     }
 
     fun onRecoverClicked() {
-        if (!isValid()) return
+
+        if (authorizationViewModel.isEmailValid(insertedEmail.value)) return
         with(asyncProvider) {
             startSuspend {
                 val result = executeBackGroundTask { loginRepository.recoverPassword(insertedEmail.value!!) }
@@ -55,12 +55,6 @@ class RecoverPasswordViewModel(
     private fun recoverSuccess() {
         passwordRecovered.value = insertedEmail.value
     }
-
-    private fun isValid(): Boolean =
-        insertedEmail.value.isNullOrNorChars {
-            invalidInput.value = INCORRECT_EMAIL
-        }
-
 
     override fun onViewCreated() {
 

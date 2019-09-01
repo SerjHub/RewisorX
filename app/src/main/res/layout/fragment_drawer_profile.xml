@@ -46,6 +46,7 @@
             android:layout_marginStart="12dp"
             tools:visibility="visible"
             android:textStyle="bold"
+            android:visibility="gone"
             android:text="Профиль"/>
     <LinearLayout
             android:id="@+id/authButtons"

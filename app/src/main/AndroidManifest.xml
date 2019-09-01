@@ -13,13 +13,15 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity">
+        <activity android:name=".PublicationActivity">
+        </activity>
+        <activity android:name=".StartActivity">
         </activity>
         <activity
                 android:name=".AuthorizationActivity"
                 android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name=".StartActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

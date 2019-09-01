@@ -52,7 +52,7 @@ class RecoverPasswordFragment : BaseFragment() {
         }
 
 
-        emailForRecover.inputField.setOnFocusChangeListener { v, hasFocus ->
+        emailForRecover.inputField.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 Handler().postDelayed(
                     { recover_fragment_scroll.fullScroll(FOCUS_DOWN) },

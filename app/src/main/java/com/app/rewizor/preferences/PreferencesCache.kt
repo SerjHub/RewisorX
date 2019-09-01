@@ -44,7 +44,7 @@ class PreferencesCache(private val context: Application) {
                 .edit()
                 .putInt(SAVED_REGION, value)
                 .apply()
-            regionClients.forEach { it.onRegionChanged(value.toString()) }
+            regionClients.forEach { it.onRegionChanged(value) }
         }
 
 
@@ -61,7 +61,7 @@ class PreferencesCache(private val context: Application) {
         fun onTokenChanged(newToken: String)
     }
     interface RegionChangeListener {
-        fun onRegionChanged(newRegionId: String)
+        fun onRegionChanged(newRegionId: Int)
     }
 
 }

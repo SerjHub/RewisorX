@@ -70,7 +70,6 @@ class PublicationsAdapter(
             if (item.date != null) {
                 start_date.isVisible = true
                 val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                val date = df.parse(item.date)
 
                 //found at: https://stackoverflow.com/questions/21505858/convert-joda-time-datetime-iso-8601-format-date-to-another-date-format
                 val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")

@@ -1,6 +1,5 @@
 package com.app.rewizor.remote
 
-import android.util.Log
 import com.app.rewizor.data.repositoryImpl.AccountRepositoryImpl
 import com.app.rewizor.preferences.PreferencesCache
 import com.google.gson.GsonBuilder
@@ -32,7 +31,7 @@ class RestClient(
         addInterceptor {  chain ->
             val request = chain.request()
             val urlBuilder = request.url.newBuilder()
-            urlBuilder.addQueryParameter(REGION_QUERY, region)
+            urlBuilder.addQueryParameter(REGION_QUERY, region ?: "4001")
             urlBuilder.addQueryParameter(TOKEN_QUERY, accessToken)
             val url = urlBuilder.build()
             val builder = request.newBuilder().url(url)
@@ -45,20 +44,29 @@ class RestClient(
     }.build()
 
     fun setEndpoint() {
-        accessToken = prefs.sessionToken ?: AccountRepositoryImpl.ANON_TOKEN
-        Log.i("FindToken", "${prefs.sessionToken ?: 0}")
-        with (prefs.tokenClients) {
-            if (none { it == this@RestClient }) add(this@RestClient)
-        }
-        with (prefs.regionClients) {
-            if (none { it == this@RestClient }) add(this@RestClient)
-        }
+        setSettings()
         api = Retrofit.Builder().apply {
             baseUrl(baseUrl)
             client(okHttpClient)
             addConverterFactory(gson)
             addCallAdapterFactory(CoroutineCallAdapterFactory())
         }.build().create(Api::class.java)
+    }
+
+    private fun setSettings() {
+        with(prefs) {
+            accessToken = sessionToken ?: AccountRepositoryImpl.ANON_TOKEN
+            region = if (savedRegionId == 0) region else "$savedRegionId"
+
+            // listen for changing regions and tokens
+            with (tokenClients) {
+                if (none { it == this@RestClient }) add(this@RestClient)
+            }
+            with (regionClients) {
+                if (none { it == this@RestClient }) add(this@RestClient)
+            }
+        }
+
     }
 
     suspend fun <R> callApi(call: () -> Deferred<R>): R {
@@ -72,8 +80,8 @@ class RestClient(
         accessToken = newToken
     }
 
-    override fun onRegionChanged(newRegionId: String) {
-        region = newRegionId
+    override fun onRegionChanged(newRegionId: Int) {
+        region = if(newRegionId == 0) region else "$newRegionId"
     }
 
     companion object {

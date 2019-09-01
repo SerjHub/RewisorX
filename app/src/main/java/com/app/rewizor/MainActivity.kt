@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,7 +20,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-
 import com.app.rewizor.data.model.Account
 import com.app.rewizor.data.model.Region
 import com.app.rewizor.exstension.observeViewModel
@@ -58,26 +58,24 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         setNavigation()
         setViewModel(viewModel)
         toolbarTitle = TOPIC.MAIN.title
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(updaterReceiver, IntentFilter(NEW_ACCOUNT))
     }
 
     private val updaterReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.let {
                 when  {
-                    it.getBooleanExtra(UPDATE_All_DATA_FOR_NEW_PROFILE, true) -> recreate()
+                    it.getBooleanExtra(UPDATE_All_DATA_FOR_NEW_PROFILE, true) -> {
+                        viewModel.refreshData()
+                    }
                 }
             }
-
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        LocalBroadcastManager.getInstance(this).registerReceiver(updaterReceiver, IntentFilter(NEW_ACCOUNT))
-    }
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(updaterReceiver)
     }
 
@@ -151,11 +149,6 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         cancel.setOnClickListener { drawer.closeDrawer(GravityCompat.START) }
     }
 
-
-    private fun start(){
-
-    }
-
     private fun setRegion(regionName: String) {
         nav_view.menu.findItem(R.id.main).isChecked = true
         nav_view.menu.findItem(R.id.city).apply {
@@ -165,6 +158,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     }
 
     private fun closeCities() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         viewModel.openLastTopic()
     }
 
@@ -193,7 +188,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         authButtons.isVisible = false
         val name = "${account.lastName ?: ""} ${account.firstName ?: ""} ${account.middleName ?: ""}"
         fio.text = name
-        profileMenuItem.isVisible = true
+       // profileMenuItem.isVisible = true
         Glide
             .with(this)
             .run {

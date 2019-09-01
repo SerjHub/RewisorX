@@ -3,7 +3,6 @@ package com.app.rewizor.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.app.rewizor.R
 import com.app.rewizor.data.model.Region
@@ -37,7 +36,7 @@ class CitiesAdapter(
     {
         fun bind(item: Region, clickListener: (id: Int) -> Unit) {
             with(containerView) {
-                firstSign.isInvisible = !item.isFirst
+               // firstSign.isInvisible = !item.isFirst
                 firstSign.text = "${item.name.first().toUpperCase()}"
                 fullCityName.text = item.name
                 setOnClickListener { clickListener(item.id) }

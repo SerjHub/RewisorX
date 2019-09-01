@@ -46,8 +46,8 @@ class SystemRepositoryImpl(
             regions.add(
                 Region(
                     it.id,
-                    it.name,
-                    regions.none { reg -> reg.name.first() == it.name.first() }
+                    it.name
+                  //  regions.none { reg -> reg.name.first() == it.name.first() }
                 )
             )
         }

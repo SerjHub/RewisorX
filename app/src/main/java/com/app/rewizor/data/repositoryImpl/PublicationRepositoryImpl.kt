@@ -12,8 +12,7 @@ class PublicationRepositoryImpl(
     private val systemRepository: SystemRepository
 ) : PublicationRepository {
 
-
-    override suspend fun getMainPublicationsList(
+    override suspend fun fetchPublicationsList(
         page: Int,
         pageCount: Int,
         category: String?,
@@ -37,13 +36,7 @@ class PublicationRepositoryImpl(
         return RewizorResult(pageResult.model.records)
     }
 
-    override suspend fun getPublicationsList(
-        page: Int,
-        pageCount: Int,
-        topic: String,
-        category: String?
-    ): RewizorResult<Unit> {
+    override suspend fun fetchPublication(id: Long): RewizorResult<CommonPublication> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 }

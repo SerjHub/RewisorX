@@ -40,7 +40,7 @@ class CategoryListViewModel(
                 startSuspend {
                     loadingSate.value = true
                     val listResult = requestParams(currentCategoryId.value!!)!!.run {
-                        executeBackGroundTask { publicationsRepository.getMainPublicationsList(
+                        executeBackGroundTask { publicationsRepository.fetchPublicationsList(
                             currentPage,
                             PAGE_SIZE,
                             currentCategoryId.value!!,

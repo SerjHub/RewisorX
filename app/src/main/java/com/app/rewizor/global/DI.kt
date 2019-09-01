@@ -39,7 +39,7 @@ val dataModule = module {
 val viewModelModule = module {
     single { AuthorizationViewModel(get(), get()) }
     viewModel { LoginViewModel(get()) }
-    viewModel { RegistrationViewModel(get(), get()) }
+    viewModel { RegistrationViewModel(get()) }
     viewModel { RecoverPasswordViewModel(get()) }
     viewModel { CategoryListViewModel(get()) }
     viewModel { TopicViewModel(get()) }

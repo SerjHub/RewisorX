@@ -1,6 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.Region
@@ -42,8 +41,7 @@ class RegionViewModel(
         with(asyncProvider) {
             startSuspend {
                 val accountRes = accountRepo.run {
-                    Log.i("FindAcc", "${account.region}")
-                    updateCity(account.copy(region = citiesList.value!!.find { it.id == id }))
+                    updateCity(citiesList.value!!.find { it.id == id }!!)
                 }
                 if (accountRes.isError) {
                     onFail()

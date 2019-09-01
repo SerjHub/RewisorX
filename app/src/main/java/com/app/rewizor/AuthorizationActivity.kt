@@ -12,11 +12,11 @@ import com.app.rewizor.exstension.replaceFragment
 import com.app.rewizor.global.NEW_ACCOUNT
 import com.app.rewizor.global.UPDATE_All_DATA_FOR_NEW_PROFILE
 import com.app.rewizor.ui.LoginFragment
-import com.app.rewizor.ui.LoginFragment.Companion.LOGIN_RECOVERED_PASSWORD_KEY
 import com.app.rewizor.ui.RecoverPasswordFragment
 import com.app.rewizor.ui.RegistrationFragment
 import com.app.rewizor.ui.utils.AUTHORIZATION
 import com.app.rewizor.ui.utils.AUTHORIZATION_INTENT_KEY
+import com.app.rewizor.ui.utils.Alerts
 import com.app.rewizor.viewmodel.AuthorizationViewModel
 import kotlinx.android.synthetic.main.activity_authorization.*
 import org.koin.android.ext.android.inject
@@ -68,18 +68,23 @@ class AuthorizationActivity : AppCompatActivity() {
 
 
     private fun openMainApp() {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(Intent().apply {
-            action = NEW_ACCOUNT
+        LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(NEW_ACCOUNT).apply {
             putExtra(UPDATE_All_DATA_FOR_NEW_PROFILE, true)
         })
         finish()
     }
 
     fun onPasswordRecovered(withEmail: String) {
-        replaceFragment(fragment = LoginFragment()
-            .apply {
-                arguments = Bundle().apply { putString(LOGIN_RECOVERED_PASSWORD_KEY, withEmail) }
-            })
+
+        Alerts.showAlertToUser(
+            this,
+            "Пароль выслан на указанную почту")
+        {
+            replaceFragment(fragment = LoginFragment()
+                .apply {
+                    arguments = Bundle().apply { putString(LoginFragment.LOGIN_RECOVERED_PASSWORD_KEY, withEmail) }
+                })
+        }
     }
 
     override fun onBackPressed() {

@@ -1,7 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.text.TextUtils
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.RewizorError
@@ -11,9 +9,11 @@ import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 import okhttp3.internal.toImmutableList
 
 class RegistrationViewModel(
-    private val registrationRepository: RegistrationRepository,
-    private val authorizationViewModel: AuthorizationViewModel?
+    private val registrationRepository: RegistrationRepository
 ) : BaseViewModel() {
+
+    private lateinit var authorizationViewModel: AuthorizationViewModel
+
     private val lastName: MutableLiveData<String> = MutableLiveData()
     private val firstName: MutableLiveData<String> = MutableLiveData()
     private val email: MutableLiveData<String> = MutableLiveData()
@@ -49,6 +49,10 @@ class RegistrationViewModel(
 
     }
 
+    fun setSharedVM(vm: AuthorizationViewModel) {
+        authorizationViewModel = vm
+    }
+
     fun onRegistrationClicked() {
         if (isValid()) {
             asyncProvider.startSuspend {
@@ -65,7 +69,7 @@ class RegistrationViewModel(
     }
 
     private fun onRegistrationSuccess() {
-        authorizationViewModel?.openMain?.value = true
+        authorizationViewModel.openMain.value = true
     }
 
     private fun onRegistrationFail(error: RewizorError) {
@@ -77,7 +81,7 @@ class RegistrationViewModel(
         lastName.value.isNullOrNorChars { validationResults.add(VALIDATION.LASTNAME) }
         firstName.value.isNullOrNorChars { validationResults.add(VALIDATION.FIRSTNAME) }
         email.value.also {
-            if (TextUtils.isEmpty(it) || !Patterns.EMAIL_ADDRESS.matcher(it).matches()) {
+            if (!authorizationViewModel.isEmailValid(it)) {
                 validationResults.add(VALIDATION.EMAIL)
             }
         }

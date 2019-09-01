@@ -10,7 +10,7 @@ interface AccountRepository {
     val region: Region
     suspend fun getAccount(): RewizorResult<Account>
     suspend fun updateAccount(account: Account): RewizorResult<Account>
-    suspend fun updateCity(account: Account): RewizorResult<Account>
+    suspend fun updateCity(region: Region): RewizorResult<Account>
     fun logout()
 
     var systemRegions: List<Region>

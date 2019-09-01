@@ -27,10 +27,8 @@ class AccountRepositoryImpl(
 
     private fun updateAccountSettings(account: Account) {
         account.region?.id?.let { prefs.savedRegionId = it }
-        if (account === Account.DEFAULT) return
         prefs.sessionToken = account.accessToken
     }
-
 
 
     override suspend fun getAccount(): RewizorResult<Account> {
@@ -41,20 +39,41 @@ class AccountRepositoryImpl(
     }
 
     override suspend fun updateAccount(account: Account): RewizorResult<Account> {
-        val updateResult = apiClient.run { callApi { api.updateProfile(account) } }
+        val updateResult = apiClient.run {
+            callApi {
+                api.updateProfile(
+                    account.lastName,
+                    account.firstName,
+                    account.middleName,
+                    account.email,
+                    account.phone,
+                    account.region
+                )
+            }
+        }
         return updateResult.map(Account.DEFAULT)
             .also { if (!it.isError) this.account = it.model }
 
     }
 
-    override suspend fun updateCity(account: Account): RewizorResult<Account> {
+    override suspend fun updateCity(region: Region): RewizorResult<Account> {
         val accountResult: RewizorResult<Account>
-        if (isAuthorized) {
-            prefs.savedRegionId = account.region!!.id
+        if (!isAuthorized) {
+            prefs.savedRegionId = region.id
             accountResult = RewizorResult(account)
-        }
-        else {
-            val updateResult = apiClient.run { callApi { api.updateProfile(account) } }
+        } else {
+            val updateResult = apiClient.run {
+                callApi {
+                    api.updateProfile(
+                        account.lastName,
+                        account.firstName,
+                        account.middleName,
+                        account.email,
+                        account.phone,
+                        region
+                    )
+                }
+            }
             accountResult = updateResult.map(Account.DEFAULT)
             if (!updateResult.isError) this.account = accountResult.model
         }
@@ -63,7 +82,7 @@ class AccountRepositoryImpl(
 
     override val region: Region
         get() =
-            if (isAuthorized) {
+            if (!isAuthorized) {
                 systemRegions.first { it.id == prefs.savedRegionId }
             } else {
                 account.region ?: Region.DEFAULT
