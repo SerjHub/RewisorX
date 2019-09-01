@@ -5,7 +5,6 @@ import com.app.rewizor.preferences.PreferencesCache
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
-import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.KoinComponent
@@ -26,12 +25,13 @@ class RestClient(
     private val gson = GsonConverterFactory.create(GsonBuilder().create())
 
     private val okHttpClient = OkHttpClient.Builder().apply {
-        connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
+        //connectionSpecs(listOf(ConnectionSpec.MODERN_TLS, ConnectionSpec.CLEARTEXT))
         addInterceptor(createLogger())
         addInterceptor {  chain ->
             val request = chain.request()
             val urlBuilder = request.url.newBuilder()
-            urlBuilder.addQueryParameter(REGION_QUERY, region ?: "4001")
+            if (request.url.encodedPath != Api.API_UPDATE_PROFILE)
+                urlBuilder.addQueryParameter(REGION_QUERY, region)
             urlBuilder.addQueryParameter(TOKEN_QUERY, accessToken)
             val url = urlBuilder.build()
             val builder = request.newBuilder().url(url)
@@ -86,7 +86,6 @@ class RestClient(
 
     companion object {
         val TAG = RestClient::class.java.name
-        const val API_REQUEST_LOGGER = "API_REQUEST_LOGGER"
         const val TOKEN_QUERY = "access_token"
         const val REGION_QUERY = "region"
     }

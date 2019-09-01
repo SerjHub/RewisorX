@@ -33,8 +33,8 @@ class AccountRepositoryImpl(
 
     override suspend fun getAccount(): RewizorResult<Account> {
         val accountResult = apiClient.run { callApi { api.getProfile() } }
-        return accountResult.map(Account.DEFAULT).also {
-            if (!it.isError) account = it.model
+        return accountResult.map().also {
+            if (!it.isError) account = it.model!!
         }
     }
 
@@ -42,17 +42,17 @@ class AccountRepositoryImpl(
         val updateResult = apiClient.run {
             callApi {
                 api.updateProfile(
-                    account.lastName,
-                    account.firstName,
-                    account.middleName,
+                    account.lastName ?: "",
+                    account.firstName ?: "",
+                    account.middleName ?: "",
                     account.email,
                     account.phone,
-                    account.region
+                    account.region?.id
                 )
             }
         }
-        return updateResult.map(Account.DEFAULT)
-            .also { if (!it.isError) this.account = it.model }
+        return updateResult.map()
+            .also { if (!it.isError) this.account = it.model ?: Account.DEFAULT }
 
     }
 
@@ -65,17 +65,17 @@ class AccountRepositoryImpl(
             val updateResult = apiClient.run {
                 callApi {
                     api.updateProfile(
-                        account.lastName,
-                        account.firstName,
-                        account.middleName,
+                        account.lastName ?: "",
+                        account.firstName ?: "",
+                        account.middleName ?: "",
                         account.email,
                         account.phone,
-                        region
+                        region.id
                     )
                 }
             }
             accountResult = updateResult.map(Account.DEFAULT)
-            if (!updateResult.isError) this.account = accountResult.model
+            if (!updateResult.isError) this.account = accountResult.model ?: Account.DEFAULT
         }
         return accountResult
     }

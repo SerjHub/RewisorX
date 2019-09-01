@@ -1,10 +1,15 @@
 package com.app.rewizor.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.app.rewizor.MainActivity
+import com.app.rewizor.PublicationActivity
+import com.app.rewizor.PublicationActivity.Companion.ID_INTENT_KEY
+import com.app.rewizor.PublicationActivity.Companion.PARENT_INTENT_KEY
 import com.app.rewizor.R
-import com.app.rewizor.data.model.CommonPublication
+import com.app.rewizor.data.model.PublicationCommon
 import com.app.rewizor.ui.adapter.PublicationsAdapter
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.ui.utils.TOPIC_KEY
@@ -29,9 +34,25 @@ class CategoryListFragment : BaseFragment() {
     }
 
     private fun setAdapter() {
-        publicationsRecyclerView.adapter = PublicationsAdapter(TOPIC.valueOf(topicParam).title) {
-            viewModel.listScrolled(it)
-        }
+        publicationsRecyclerView.adapter =
+            PublicationsAdapter(TOPIC.valueOf(topicParam).title,
+                { viewModel.listScrolled(it) },
+                {
+                    openPublication(it)
+                }
+            )
+    }
+
+    private fun openPublication(id: String) {
+        (activity as MainActivity)
+            .also {
+                startActivity(
+                    Intent(it, PublicationActivity::class.java).apply {
+                        putExtra(ID_INTENT_KEY, id)
+                        putExtra(PARENT_INTENT_KEY, topicParam)
+                    }
+                )
+            }
     }
 
     private fun setViewModel(viewModel: CategoryListViewModel) {
@@ -53,7 +74,7 @@ class CategoryListFragment : BaseFragment() {
             }
     }
 
-    private fun updateAdapterDate(list: List<CommonPublication>) {
+    private fun updateAdapterDate(list: List<PublicationCommon>) {
         (publicationsRecyclerView.adapter as PublicationsAdapter)
             .also {
                 it.updateItems(list)

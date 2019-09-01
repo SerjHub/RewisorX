@@ -42,7 +42,7 @@ class SystemRepositoryImpl(
         val regionsResult = apiClient.run { callApi { api.getRegions() } }
         if (regionsResult.isError) return RewizorResult(false, RewizorError(message = "Ошибка получения городов"))
         regions = mutableListOf()
-        regionsResult.map(listOf()).model.forEach {
+        regionsResult.map(listOf()).model?.forEach {
             regions.add(
                 Region(
                     it.id,

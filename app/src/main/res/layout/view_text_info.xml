@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/infoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/RewizorText"
+            android:textSize="12sp"
+            tools:text="Категория:"/>
+
+    <TextView
+            android:id="@+id/infoBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/RewizorText"
+            android:textSize="16sp"
+            android:textColor="@color/fullBlack"
+            tools:text="Художественные музеи"
+    android:paddingBottom="21dp"/>
+
+</LinearLayout>

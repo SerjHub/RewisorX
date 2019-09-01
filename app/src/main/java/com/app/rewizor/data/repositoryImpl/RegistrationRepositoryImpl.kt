@@ -1,6 +1,5 @@
 package com.app.rewizor.data.repositoryImpl
 
-import android.util.Log
 import com.app.rewizor.data.RewizorResult
 import com.app.rewizor.data.model.Account
 import com.app.rewizor.data.repository.AccountRepository
@@ -13,11 +12,10 @@ class RegistrationRepositoryImpl(
 
     override suspend fun register(lastName: String, firstName: String, email: String, phone: String): RewizorResult<Account> {
         val remoteResult = apiClient.run { callApi { api.register(lastName, firstName, email, phone) } }
-        Log.i("FindResp", "${remoteResult}")
         return remoteResult.run {
             map(Account.DEFAULT)
                 .also {
-                    if (!isError) accountRepository.account = it.model
+                    if (!isError) accountRepository.account = it.model ?: Account.DEFAULT
                 }
         }
     }

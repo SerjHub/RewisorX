@@ -1,7 +1,8 @@
 package com.app.rewizor.data.repository
 
 import com.app.rewizor.data.RewizorResult
-import com.app.rewizor.data.model.CommonPublication
+import com.app.rewizor.data.model.PublicationCommon
+import com.app.rewizor.data.model.PublicationDetailed
 
 interface PublicationRepository {
 
@@ -10,7 +11,7 @@ interface PublicationRepository {
         pageCount: Int,
         category: String? = null,
         pageType: String? = null
-    ): RewizorResult<List<CommonPublication>>
+    ): RewizorResult<List<PublicationCommon>>
 
-    suspend fun fetchPublication(id: Long): RewizorResult<CommonPublication>
+    suspend fun fetchPublication(id: String): RewizorResult<PublicationDetailed>
 }

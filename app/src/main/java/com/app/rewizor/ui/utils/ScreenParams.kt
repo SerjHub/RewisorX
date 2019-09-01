@@ -9,7 +9,7 @@ enum class TOPIC(val title: String,val requestKey: String?){
     MAIN("Главная", null),
     NEWS("Новости", "news"),
     AFISHA("Афиша", "afisha"),
-    MATERIALS("Материалы", "mail"),
+    MATERIALS("Материалы", "articles"),
     PLACES("МЕСТА", "mail"),
     KIDS("ДЛЯ ДЕТЕЙ", "mail")
 }

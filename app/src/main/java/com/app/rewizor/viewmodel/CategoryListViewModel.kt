@@ -2,7 +2,7 @@ package com.app.rewizor.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.app.rewizor.data.model.CommonPublication
+import com.app.rewizor.data.model.PublicationCommon
 import com.app.rewizor.data.repository.PublicationRepository
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
@@ -15,8 +15,8 @@ class CategoryListViewModel(
 
     private val currentCategoryId: MutableLiveData<String> = MutableLiveData()
 
-    private val publicationList: MutableLiveData<List<CommonPublication>> = MutableLiveData()
-    val publicationListLiveData: LiveData<List<CommonPublication>> get() = publicationList
+    private val publicationList: MutableLiveData<List<PublicationCommon>> = MutableLiveData()
+    val publicationListLiveData: LiveData<List<PublicationCommon>> get() = publicationList
 
     private val refreshList: MutableLiveData<Boolean> = SingleLiveEvent()
     val refreshListLiveData: MutableLiveData<Boolean> get() = refreshList
@@ -48,7 +48,7 @@ class CategoryListViewModel(
                         ) }
                     }
                     if (!listResult.isError) {
-                        onPageLoaded(listResult.model)
+                        onPageLoaded(listResult.model!!)
                     }
 
                     loadingSate.value = false
@@ -68,7 +68,7 @@ class CategoryListViewModel(
         }
     }
 
-    private fun onPageLoaded(list: List<CommonPublication>) {
+    private fun onPageLoaded(list: List<PublicationCommon>) {
         currentPage += 1
         publicationList.value = list
     }

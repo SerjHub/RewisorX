@@ -19,7 +19,7 @@ class LoginRepositoryImpl(
         val remoteResult = apiClient.run { callApi { api.login(login, password) } }
         return remoteResult.run {
             map(Account.DEFAULT)
-                .also { if (!isError) accountRepository.account = it.model }
+                .also { if (!isError) accountRepository.account = it.model ?: Account.DEFAULT }
         }
     }
 

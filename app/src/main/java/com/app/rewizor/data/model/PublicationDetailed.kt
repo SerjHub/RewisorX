@@ -1,29 +1,35 @@
 package com.app.rewizor.data.model
 
-import java.util.*
-
 data class PublicationDetailed(
-    val id: String,
+    val guid: String,
     val category: String?,
     val name: String?,
     val subtitle: String?,
     val description: String?,
-    val fullDescription: String?,
-    val date: Date,  //?
-    val end: Date,
+    val date: String,  //?
+    val end: String,
     val age: Int,
     val website: String,
     val phone: String,
     val workingDaysHours: String,
     val source: String,
-    val address: String,
+    val address: String?,
     val lat: Long,
     val lon: Long,
     val parent: String,
     val image: ImageInfo,
     val photos: List<ImageInfo>,
-    val votes: Int
-)
+    val votes: Int,
+    val ratings: Int?,
+    val views: Int,
+    val likes: Int,
+    val hasLike: Boolean,
+    val undergrounds: Map<Int, String>
+) {
+    var parentView: String = ""
+    var categoryView: String = ""
+}
+
 
 
 

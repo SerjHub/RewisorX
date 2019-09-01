@@ -1,14 +1,8 @@
 package com.app.rewizor.remote
 
-import com.app.rewizor.data.model.Account
-import com.app.rewizor.data.model.PageInfo
-import com.app.rewizor.data.model.Region
-import com.app.rewizor.data.model.RewizorCategory
+import com.app.rewizor.data.model.*
 import kotlinx.coroutines.Deferred
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface Api {
 
@@ -57,12 +51,12 @@ interface Api {
     @POST(API_UPDATE_PROFILE)
     @FormUrlEncoded
     fun updateProfile(
-        @Field("LastName") lastName: String?,
-        @Field("FirstName") firstName: String?,
-        @Field("MiddleName")middleName: String?,
+        @Field("LastName") lastName: String,
+        @Field("FirstName") firstName: String,
+        @Field("MiddleName")middleName: String,
         @Field("Email")email: String,
         @Field("Phone")phone: String,
-        @Field("Region")region: Region?
+        @Field("Region")region: Int?
     ): Deferred<RewizorResponse<Account>>
 
     @POST(API_RECOVER_PASSWORD)
@@ -80,4 +74,8 @@ interface Api {
         @Field("pageType") pageType: String? = null
     ): Deferred<RewizorResponse<PageInfo>>
 
+    @POST("$API_NODES/{guid}")
+    fun getSpecificNode(
+        @Path("guid") guid: String
+    ): Deferred<RewizorResponse<PublicationDetailed>>
 }

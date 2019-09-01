@@ -21,15 +21,23 @@ class RewizorResponse<T> {
     val isError
         get() = status != 0
 
-    fun map(default: T) =
+    fun map(default: T? = null) =
         RewizorResult(
-            data ?: default,
-            if (isError) RewizorError(status ?: -10, message ?: "Empty message")
-            else null
+            data,
+            when {
+                isError -> RewizorError(status ?: BAD_RESPONSE_STATUS, message ?: "Empty message")
+                else -> null
+            }
+
         )
 
     override fun toString() =
         "status = $status :: message = $message :: data = $data"
+
+
+    companion object {
+        const val BAD_RESPONSE_STATUS = 1123 //if no status
+    }
 
 }
 

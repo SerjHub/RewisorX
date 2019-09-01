@@ -12,7 +12,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     /** for navigation between fragments */
     protected val router: Router = get()
     /** for background work */
-    protected val asyncProvider = AsyncProvider(closeableAsyncTask)
+    val asyncProvider = AsyncProvider(closeableAsyncTask)
 
 
     abstract fun onViewCreated()

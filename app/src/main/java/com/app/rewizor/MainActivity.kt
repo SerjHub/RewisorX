@@ -227,6 +227,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         when (item.itemId) {
             R.id.main -> { viewModel.menuClicked(TOPIC.MAIN) }
             R.id.afisha -> { viewModel.menuClicked(TOPIC.AFISHA) }
+            R.id.materials -> {viewModel.menuClicked(TOPIC.MATERIALS)}
             R.id.city -> { viewModel.cityClicked();  }
         }
         //        var categoryId = item.itemId
