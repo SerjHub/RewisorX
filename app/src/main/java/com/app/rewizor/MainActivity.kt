@@ -188,7 +188,6 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         authButtons.isVisible = false
         val name = "${account.lastName ?: ""} ${account.firstName ?: ""} ${account.middleName ?: ""}"
         fio.text = name
-       // profileMenuItem.isVisible = true
         Glide
             .with(this)
             .run {
@@ -239,9 +238,9 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
+    //    menuInflater.inflate(R.menu.toolbar_menu, menu)
         initClickListeners()
-        menu?.findItem(R.id.filter)?.setOnMenuItemClickListener { viewModel.logout(); return@setOnMenuItemClickListener true }
+    //    menu?.findItem(R.id.filter)?.setOnMenuItemClickListener { viewModel.logout(); return@setOnMenuItemClickListener true }
         return super.onCreateOptionsMenu(menu)
     }
 

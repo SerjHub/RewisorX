@@ -22,7 +22,7 @@ class PublicationActivity : AppCompatActivity() {
         getExtras()
         onViewPrepared(publicationViewModel)
 
-        //window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+   //     window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         setToolbar()
 
 
@@ -42,10 +42,6 @@ class PublicationActivity : AppCompatActivity() {
         intent.getStringExtra(ID_INTENT_KEY)
             .also {
                 publicationViewModel.setPublicationId(it)
-            }
-        intent.getStringExtra(PARENT_INTENT_KEY)
-            .also {
-                publication_tag.text = it
             }
     }
 
@@ -72,7 +68,7 @@ class PublicationActivity : AppCompatActivity() {
 
 
          //   category?.let { this@PublicationActivity.category.setContent(categoryView) }
-            name?.let { this@PublicationActivity.name.setContent(it) }
+            name?.let { this@PublicationActivity.name.text = it }
             address?.let { this@PublicationActivity.address.setContent(it) }
             description?.let { this@PublicationActivity.description.setContent(it) }
            // city?.let { this@PublicationActivity.city.setContent(it) }

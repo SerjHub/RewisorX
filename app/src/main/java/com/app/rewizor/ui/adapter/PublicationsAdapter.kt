@@ -1,6 +1,5 @@
 package com.app.rewizor.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.app.rewizor.R
 import com.app.rewizor.data.model.PublicationCommon
+import com.app.rewizor.ui.utils.TOPIC
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.extensions.LayoutContainer
@@ -21,17 +21,17 @@ import org.joda.time.format.DateTimeFormat
 import java.util.*
 
 class PublicationsAdapter(
-    private val topic: String,
+    private val topic: TOPIC,
     private val scrollListener: (Int) -> Unit,
     private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<PublicationsAdapter.PublicationViewHolder>() {
 
-    val itemsList: MutableList <PublicationCommon> = mutableListOf()
+    val itemsList: MutableList<PublicationCommon> = mutableListOf()
 
     fun updateItems(list: List<PublicationCommon>) {
         val startSize = itemsList.size
         itemsList.addAll(itemsList.size, list)
-        notifyItemRangeInserted(startSize, itemsList.size )
+        notifyItemRangeInserted(startSize, itemsList.size)
     }
 
     fun refreshList() {
@@ -47,17 +47,15 @@ class PublicationsAdapter(
     override fun getItemCount(): Int = itemsList.size
 
     override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
-        holder.bind(itemsList[position], topic) {
-            Log.i("FindNully", "bind: $it and item ${itemsList[it]}")
+        holder.bind(itemsList[position], topic.title) {
             clickListener(itemsList[it].guid)
         }
         scrollListener.invoke(holder.adapterPosition)
     }
 
 
-    class PublicationViewHolder(override val containerView: View)
-        : RecyclerView.ViewHolder(containerView), LayoutContainer
-    {
+    inner class PublicationViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
+        LayoutContainer {
         fun bind(item: PublicationCommon, topic: String, clickListener: (Int) -> Unit) = with(containerView) {
             setOnClickListener { clickListener.invoke(adapterPosition) }
             title.text = item.name
@@ -65,9 +63,7 @@ class PublicationsAdapter(
             val titleTxt = topic.toUpperCase().plus(category ?: "")
             publication_tag.text = titleTxt
 
-
-            description.isVisible = item.description?.isNotEmpty() ?: false
-            description.text = item.description
+            checkType(item)
 
             item.image.url?.let { setBanner(it) }
 
@@ -84,7 +80,8 @@ class PublicationsAdapter(
                     .let {
                         DateTimeFormat
                             .forStyle(it)
-                            .withLocale(Locale("ru")) }
+                            .withLocale(Locale("ru"))
+                    }
                     .let {
                         val dateTxt = it.print(dateTime)
                         dateTxt.replace(" г.", "")
@@ -111,6 +108,34 @@ class PublicationsAdapter(
                 .load(url)
                 .into(containerView.image_banner)
         }
+
+
+        private fun checkType(p: PublicationCommon) {
+            with(p) {
+                when (topic.title) {
+                    TOPIC.MAIN.title -> {
+                        containerView.description.isVisible = description != null
+                        containerView.description.text = description
+                        containerView.addressLayout.isVisible = false
+                        containerView.placeLayout.isVisible = false
+                    }
+                    TOPIC.AFISHA.title -> {
+                        containerView.description.isVisible = false
+                        containerView.addressLayout.isVisible = true
+                        containerView.addressLayout.address.text = p.parentAddress
+                        containerView.placeLayout.isVisible = true
+                        containerView.placeLayout.place.text = p.parentName
+                    }
+                    else -> {
+                        containerView.description.isVisible = false
+                        containerView.placeLayout.isVisible = false
+                        containerView.addressLayout.isVisible = false
+                    }
+                }
+            }
+
+        }
+
     }
 
     companion object {
