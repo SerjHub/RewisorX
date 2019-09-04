@@ -32,7 +32,7 @@ class RecoverPasswordViewModel(
 
     fun setSharedVM(vm: AuthorizationViewModel) {
         authorizationViewModel = vm
-        currentLogin.value = authorizationViewModel.currentLogin
+     //   currentLogin.value = authorizationViewModel.currentLogin
     }
 
     fun onRecoverClicked() {

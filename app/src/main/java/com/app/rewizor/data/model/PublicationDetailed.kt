@@ -6,13 +6,14 @@ data class PublicationDetailed(
     val name: String?,
     val subtitle: String?,
     val description: String?,
-    val date: String,  //?
-    val end: String,
+    val fullDescription: String?,
+    val date: String?,
+    val end: String?,
     val age: Int,
-    val website: String,
-    val phone: String,
-    val workingDaysHours: String,
-    val source: String,
+    val website: String?,
+    val phone: String?,
+    val workingDaysHours: String?,
+    val source: String?,
     val address: String?,
     val lat: Long,
     val lon: Long,
@@ -24,7 +25,10 @@ data class PublicationDetailed(
     val views: Int,
     val likes: Int,
     val hasLike: Boolean,
-    val undergrounds: Map<Int, String>
+    val undergrounds: Map<Int, String>,
+
+    val parentAddress: String?,
+    val parentName: String?
 ) {
     var parentView: String = ""
     var categoryView: String = ""

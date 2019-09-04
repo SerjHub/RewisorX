@@ -20,4 +20,12 @@
 
     <color name="confirm_btn">@color/yellow</color>
 
+
+    <!-- categories colors-->
+    <color name="theaters">#39B173</color>
+    <color name="cinema">#7345A6</color>
+    <color name="literature">#E9601E</color>
+    <color name="museums">#40B7D0</color>
+    <color name="music">#304BA3</color>
+
 </resources>

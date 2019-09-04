@@ -11,7 +11,7 @@ data class PublicationCommon(
     val age: Int?,
     val address: String?,
     val parentAddress: String?,
-    val parentName: String?,
+    val parentName: String?,  //place name
     val parentRegion: Region?,
     val image: ImageInfo,
     val votes: Int,

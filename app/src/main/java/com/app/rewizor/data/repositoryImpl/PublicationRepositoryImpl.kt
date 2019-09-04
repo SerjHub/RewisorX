@@ -41,7 +41,7 @@ class PublicationRepositoryImpl(
         val pubResult = apiClient.run { callApi { api.getSpecificNode(id) } }
         return pubResult.map().also {
             if (!pubResult.isError) {
-                it.model?.categoryView = systemRepository.rewizorCategories.firstOrNull { c -> c.guid == it.model?.parent }?.name ?: ""
+                it.model?.categoryView = systemRepository.rewizorCategories.firstOrNull { c -> c.guid == it.model?.category }?.name ?: ""
             }
         }
     }

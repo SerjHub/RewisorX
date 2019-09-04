@@ -27,6 +27,7 @@ class PublicationTextItem @JvmOverloads constructor(
                // infoBody.text =
                // infoBody.doOnTextChanged { text, start, count, after ->  }
             }
+            recycle()
         }
     }
 

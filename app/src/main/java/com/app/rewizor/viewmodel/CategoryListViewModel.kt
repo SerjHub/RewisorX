@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.PublicationCommon
 import com.app.rewizor.data.repository.PublicationRepository
+import com.app.rewizor.exstension.asyncRequest
+import com.app.rewizor.ui.model.PublicationCommonUIModel
+import com.app.rewizor.ui.model.map
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
@@ -15,8 +18,8 @@ class CategoryListViewModel(
 
     private val currentCategoryId: MutableLiveData<String> = MutableLiveData()
 
-    private val publicationList: MutableLiveData<List<PublicationCommon>> = MutableLiveData()
-    val publicationListLiveData: LiveData<List<PublicationCommon>> get() = publicationList
+    private val publicationList: MutableLiveData<List<PublicationCommonUIModel>> = MutableLiveData()
+    val publicationListLiveData: LiveData<List<PublicationCommonUIModel>> get() = publicationList
 
     private val refreshList: MutableLiveData<Boolean> = SingleLiveEvent()
     val refreshListLiveData: MutableLiveData<Boolean> get() = refreshList
@@ -36,24 +39,23 @@ class CategoryListViewModel(
 
     fun onNextPage() {
         if (loadingSate.value != true) {
-            with(asyncProvider) {
-                startSuspend {
-                    loadingSate.value = true
-                    val listResult = requestParams(currentCategoryId.value!!)!!.run {
-                        executeBackGroundTask { publicationsRepository.fetchPublicationsList(
-                            currentPage,
-                            PAGE_SIZE,
-                            currentCategoryId.value!!,
-                            TOPIC.valueOf(topic).requestKey
-                        ) }
-                    }
-                    if (!listResult.isError) {
-                        onPageLoaded(listResult.model!!)
-                    }
-
-                    loadingSate.value = false
-                }
-            }
+            asyncRequest(
+                loadData = {
+                    requestParams(currentCategoryId.value!!)!!
+                        .run {
+                            publicationsRepository.fetchPublicationsList(
+                                currentPage,
+                                PAGE_SIZE,
+                                currentCategoryId.value!!,
+                                TOPIC.valueOf(topic).requestKey
+                            )
+                        }
+                },
+                onFail = {  },
+                onSuccess = { it?.let { onPageLoaded(it) } },
+                postOnStart = { loadingSate.value == true },
+                postOnFinish = { loadingSate.value = false }
+            )
         }
     }
 
@@ -70,12 +72,11 @@ class CategoryListViewModel(
 
     private fun onPageLoaded(list: List<PublicationCommon>) {
         currentPage += 1
-        publicationList.value = list
+        publicationList.value = list.map { it.map(it) }
     }
 
     private fun requestParams(categoryId: String) =
         parentViewModel.getParams(categoryId)
-
 
 
     companion object {

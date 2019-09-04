@@ -6,15 +6,17 @@
              android:background="@color/superWhite">
 
     <View
+            android:id="@+id/tag_color"
             android:layout_width="6dp"
             android:layout_height="18dp"
-    android:background="@color/red"/>
+    android:background="@color/superWhite"/>
 
     <TextView
             android:id="@+id/publication_tag"
             android:textColor="@color/black"
             android:layout_marginStart="12dp"
             android:textSize="12sp"
+            android:textAllCaps="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="НОВОСТИ - МАТЕРИАЛЫ"/>

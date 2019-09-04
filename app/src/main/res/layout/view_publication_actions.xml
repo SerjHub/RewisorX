@@ -19,6 +19,7 @@
             tools:text="256"/>
 
     <ImageView
+            android:id="@+id/messagesActionIcon"
             android:layout_width="@dimen/pub_icon_size"
             android:layout_height="@dimen/pub_icon_size"
             android:layout_marginStart="8dp"

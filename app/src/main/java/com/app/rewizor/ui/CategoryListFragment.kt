@@ -37,9 +37,7 @@ class CategoryListFragment : BaseFragment() {
         publicationsRecyclerView.adapter =
             PublicationsAdapter(TOPIC.valueOf(topicParam),
                 { viewModel.listScrolled(it) },
-                {
-                    openPublication(it)
-                }
+                { openPublication(it) }
             )
     }
 

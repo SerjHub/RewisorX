@@ -13,7 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
         <RelativeLayout
                 android:id="@+id/header_view"
 
@@ -43,13 +42,28 @@
 
             <TextView
                     android:id="@+id/name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/publicationItemTitle"
                     android:layout_alignBottom="@+id/main_image"
                     android:paddingTop="12dp"
+                    android:paddingEnd="24dp"
                     android:background="@drawable/bg_item_title_gradient"
                     tools:text="Под Пермью начались съемки фильма Сердце Пармы по одноименной книге Алексея Иванова"/>
+
+            <TextView
+                    android:id="@+id/age"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="18dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/bg_rounded_stroke"
+                    android:textColor="@color/superWhite"
+                    tools:text="5+"
+
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/name"/>
 
         </RelativeLayout>
 
@@ -66,13 +80,25 @@
                 app:layout_constraintStart_toStartOf="parent">
 
             <include
+                    android:id="@+id/actions"
+
+                layout="@layout/view_publication_actions"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
+
+            <include
                     android:id="@+id/tag"
-                    layout="@layout/view_publication_tag"/>
+                    layout="@layout/view_publication_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/period"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:title="Период работы:"
                     android:visibility="gone"
                     tools:visibility="visible"/>
 
@@ -86,6 +112,7 @@
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/place"
+                    app:title="Место проведения:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -93,6 +120,7 @@
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/city"
+                    app:title="Город:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -100,6 +128,7 @@
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/address"
+                    app:title="Адрес:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -107,6 +136,14 @@
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/nearMetro"
+                    app:title="Ближайшее метро:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+            <com.app.rewizor.ui.custom.PublicationTextItem
+                    android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -122,7 +159,7 @@
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/description"
-                    app:title="Описание:"
+                    app:title=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -134,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     tools:visibility="visible"/>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

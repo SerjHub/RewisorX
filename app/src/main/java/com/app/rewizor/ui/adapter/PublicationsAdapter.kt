@@ -7,8 +7,9 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.app.rewizor.R
-import com.app.rewizor.data.model.PublicationCommon
+import com.app.rewizor.ui.model.PublicationCommonUIModel
 import com.app.rewizor.ui.utils.TOPIC
+import com.app.rewizor.ui.utils.TagColorProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.extensions.LayoutContainer
@@ -26,9 +27,9 @@ class PublicationsAdapter(
     private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<PublicationsAdapter.PublicationViewHolder>() {
 
-    val itemsList: MutableList<PublicationCommon> = mutableListOf()
+    val itemsList: MutableList<PublicationCommonUIModel> = mutableListOf()
 
-    fun updateItems(list: List<PublicationCommon>) {
+    fun updateItems(list: List<PublicationCommonUIModel>) {
         val startSize = itemsList.size
         itemsList.addAll(itemsList.size, list)
         notifyItemRangeInserted(startSize, itemsList.size)
@@ -56,17 +57,21 @@ class PublicationsAdapter(
 
     inner class PublicationViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        fun bind(item: PublicationCommon, topic: String, clickListener: (Int) -> Unit) = with(containerView) {
+        fun bind(item: PublicationCommonUIModel, topic: String, clickListener: (Int) -> Unit) = with(containerView) {
             setOnClickListener { clickListener.invoke(adapterPosition) }
             title.text = item.name
             val category = item.categoryTitle?.let { " • $it" }
             val titleTxt = topic.toUpperCase().plus(category ?: "")
             publication_tag.text = titleTxt
+            item.categoryTitle?.let {
+                TagColorProvider.setColorToView(tag_color, it)
+            }
 
             checkType(item)
 
             item.image.url?.let { setBanner(it) }
 
+            item.date?.let { publication_item_event_date.text = it }
 
             if (item.date != null) {
                 start_date.isVisible = true
@@ -109,8 +114,7 @@ class PublicationsAdapter(
                 .into(containerView.image_banner)
         }
 
-
-        private fun checkType(p: PublicationCommon) {
+        private fun checkType(p: PublicationCommonUIModel) {
             with(p) {
                 when (topic.title) {
                     TOPIC.MAIN.title -> {
