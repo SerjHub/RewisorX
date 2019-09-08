@@ -7,7 +7,7 @@ import com.app.rewizor.ui.utils.DatePrinter
 
 data class PublicationCommonUIModel(
     val guid: String,
-    val category: String,
+    val category: String?,
     val name: String,
     val description: String?,
     val date: String?,
@@ -27,10 +27,10 @@ data class PublicationCommonUIModel(
     var categoryTitle: String? = ""
 )
 
-fun PublicationCommon.map(p: PublicationCommon) =
+fun map(p: PublicationCommon) =
     p.run {
         PublicationCommonUIModel(
-guid,
+            guid,
             category,
             name,
             description,
@@ -47,7 +47,8 @@ guid,
             comments,
             views,
             likes,
-            hasLike
+            hasLike,
+            categoryTitle
 
         )
     }

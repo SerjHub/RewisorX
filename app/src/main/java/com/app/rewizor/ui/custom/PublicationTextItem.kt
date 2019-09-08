@@ -1,6 +1,8 @@
 package com.app.rewizor.ui.custom
 
 import android.content.Context
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -31,9 +33,24 @@ class PublicationTextItem @JvmOverloads constructor(
         }
     }
 
+    var isLink: Boolean = false
+        set(value) {
+            field = value
+            if (value) {
+
+            }
+
+        }
+
     fun setContent(text: String) {
         infoBody.text = text
         isVisible = true
+        infoBody.text = if (isLink) {
+            SpannableString(text)
+                .also {
+                    it.setSpan(UnderlineSpan(), 0, text.length, 0)
+                }
+        } else text
     }
 
 }

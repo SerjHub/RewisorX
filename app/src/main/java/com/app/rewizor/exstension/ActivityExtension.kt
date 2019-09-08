@@ -1,8 +1,8 @@
 package com.app.rewizor.exstension
 
 import androidx.fragment.app.FragmentActivity
-import com.app.rewizor.MainActivity
 import com.app.rewizor.AuthorizationActivity
+import com.app.rewizor.MainActivity
 import com.app.rewizor.ui.BaseFragment
 
 fun FragmentActivity.replaceFragment(
@@ -16,5 +16,12 @@ fun FragmentActivity.replaceFragment(
     supportFragmentManager
         .beginTransaction()
         .replace(container, fragment, fragment.TAG)
+        .commit()
+}
+
+fun FragmentActivity.removeFragment(fragment: BaseFragment) {
+    supportFragmentManager
+        .beginTransaction()
+        .remove(fragment)
         .commit()
 }

@@ -1,5 +1,6 @@
 package com.app.rewizor.data.repositoryImpl
 
+import android.util.Log
 import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.RewizorResult
 import com.app.rewizor.data.model.Region
@@ -17,7 +18,7 @@ class SystemRepositoryImpl(
     SystemRepository {
 
     init {
-
+        Log.i("FindSys", "init")
     }
 
     override lateinit var rewizorCategories: List<RewizorCategory>

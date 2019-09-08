@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                       android:orientation="vertical"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent" android:id="@+id/linearLayout">
+
+
+
+
+
+
+        <LinearLayout
+                android:id="@+id/aboutContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="33dp"
+                android:paddingBottom="33dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
+                    android:textColor="@color/fullBlack"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:text="Ревизор.ру – это приложение одноимённого информационного портал о культуре в России и за рубежом."
+
+            />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/fullBlack"
+                    android:layout_marginTop="29dp"
+                    android:text="На страницах нашего издания мы развенчиваем миф о том, что культура – это скучно и неинтересно. Для нас культура – живой, пульсирующий организм, свежий родник, энергия мысли, лучшее, что создавало и создает человечество. Это настоящее, прошлое и будущее!"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/fullBlack"
+                    android:layout_marginTop="29dp"
+                    android:text="Свидетельство о регистрации ЭЛ № ФС 77 - 65577. Проект реализуется с использованием гранта Президента Российской Федерации на развитие гражданского общества, предоставленного Фондом президентских грантов. При реализации проекта также использовались средства государственной поддержки, выделенные в качестве гранта в соответствии c распоряжением Президента Российской Федерации от 05.04.2016 № 68-рп и на основании конкурса, проведенного Благотворительным фондом «ПОКРОВ»."/>
+
+
+        </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

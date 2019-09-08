@@ -46,6 +46,7 @@ val viewModelModule = module {
     viewModel { MainViewModel(get(), get()) }
     viewModel { RegionViewModel(get(), get()) }
     viewModel { PublicationViewModel(get()) }
+    viewModel { SupportViewModel(get()) }
 }
 
 

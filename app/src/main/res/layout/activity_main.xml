@@ -24,6 +24,14 @@
                 android:layout_height="match_parent"
         android:layout_below="@id/app_bar"/>
 
+        <FrameLayout
+                android:id="@+id/additional_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/app_bar">
+
+        </FrameLayout>
+
     </RelativeLayout>
 
 

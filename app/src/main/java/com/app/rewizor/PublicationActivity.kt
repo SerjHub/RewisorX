@@ -1,5 +1,7 @@
 package com.app.rewizor
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -83,7 +85,21 @@ class PublicationActivity : AppCompatActivity() {
             parentAddress?.let { this@PublicationActivity.address.setContent(it) }
             description?.let { this@PublicationActivity.description.setContent(it) }
 
-            website?.let { this@PublicationActivity.website.setContent(it) }
+            website?.let {
+                this@PublicationActivity.website
+                    .apply {
+                        isLink = true
+                        setOnClickListener {
+                            Intent(Intent.ACTION_VIEW)
+                                .also {
+                                    it.data = Uri.parse("${infoBody.text}")
+                                    startActivity(it)
+                                }
+                        }
+                        setContent(it)
+                    }
+
+            }
             this@PublicationActivity.age.text = "$age+"
             category?.let { }
             phone?.let { this@PublicationActivity.phone.setContent(it) }

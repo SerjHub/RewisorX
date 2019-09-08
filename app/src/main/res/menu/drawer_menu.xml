@@ -18,9 +18,10 @@
         android:title="@string/materials"/>
 
 
-    <!--<item-->
-        <!--android:id="@+id/news"-->
-        <!--android:title="@string/news"/>-->
+    <item
+        android:id="@+id/news"
+        android:title="@string/news"/>
+
     <!--<item-->
         <!--android:id="@+id/locations"-->
         <!--android:title="@string/locations"/>-->
@@ -32,14 +33,19 @@
         <!--android:id="@+id/favorite"-->
         <!--android:title="@string/favorite"/>-->
 </group>
-    <!--<item android:title="@string/support">-->
-    <!--&lt;!&ndash;<menu>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item&ndash;&gt;-->
-            <!--&lt;!&ndash;android:guid="@+guid/support"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:title="@string/support"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item&ndash;&gt;-->
-            <!--&lt;!&ndash;android:guid="@+guid/options"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:title="@string/options"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;</menu>&ndash;&gt;-->
-    <!--</item>-->
+    <item
+            android:id="@+id/support"
+            android:title="@string/support"/>
+    <item
+            android:id="@+id/about"
+            android:title="@string/about"/>
+    <!--<menu>-->
+        <!--<item-->
+            <!--android:guid="@+guid/support"-->
+            <!--android:title="@string/support"/>-->
+        <!--<item-->
+            <!--android:guid="@+guid/options"-->
+            <!--android:title="@string/options"/>-->
+    <!--</menu>-->
+
 </menu>

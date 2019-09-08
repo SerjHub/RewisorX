@@ -7,7 +7,8 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.app.rewizor.R
-import com.app.rewizor.ui.model.PublicationCommonUIModel
+import com.app.rewizor.data.model.PublicationCommon
+import com.app.rewizor.ui.utils.DatePrinter
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.ui.utils.TagColorProvider
 import com.bumptech.glide.Glide
@@ -17,9 +18,6 @@ import kotlinx.android.synthetic.main.item_publication.view.*
 import kotlinx.android.synthetic.main.view_date.view.*
 import kotlinx.android.synthetic.main.view_publication_actions.view.*
 import kotlinx.android.synthetic.main.view_publication_tag.view.*
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
-import java.util.*
 
 class PublicationsAdapter(
     private val topic: TOPIC,
@@ -27,9 +25,9 @@ class PublicationsAdapter(
     private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<PublicationsAdapter.PublicationViewHolder>() {
 
-    val itemsList: MutableList<PublicationCommonUIModel> = mutableListOf()
+    val itemsList: MutableList<PublicationCommon> = mutableListOf()
 
-    fun updateItems(list: List<PublicationCommonUIModel>) {
+    fun updateItems(list: List<PublicationCommon>) {
         val startSize = itemsList.size
         itemsList.addAll(itemsList.size, list)
         notifyItemRangeInserted(startSize, itemsList.size)
@@ -57,7 +55,7 @@ class PublicationsAdapter(
 
     inner class PublicationViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        fun bind(item: PublicationCommonUIModel, topic: String, clickListener: (Int) -> Unit) = with(containerView) {
+        fun bind(item: PublicationCommon, topic: String, clickListener: (Int) -> Unit) = with(containerView) {
             setOnClickListener { clickListener.invoke(adapterPosition) }
             title.text = item.name
             val category = item.categoryTitle?.let { " • $it" }
@@ -71,26 +69,10 @@ class PublicationsAdapter(
 
             item.image.url?.let { setBanner(it) }
 
-            item.date?.let { publication_item_event_date.text = it }
-
             if (item.date != null) {
-                start_date.isVisible = true
-
-                //found at: https://stackoverflow.com/questions/21505858/convert-joda-time-datetime-iso-8601-format-date-to-another-date-format
-                val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
-                val input: String = item.date
-                val dateTime: DateTime = formatter.parseDateTime(input)
-                publication_item_event_date.text = (if (dateTime.millisOfDay().get() == 0) NO_TIME
-                else WITH_TIME)
-                    .let {
-                        DateTimeFormat
-                            .forStyle(it)
-                            .withLocale(Locale("ru"))
-                    }
-                    .let {
-                        val dateTxt = it.print(dateTime)
-                        dateTxt.replace(" г.", "")
-                    }
+                publication_item_event_date.text =
+                    if (topic == TOPIC.MAIN.title) DatePrinter.simpleDate(item.date)
+                    else DatePrinter.getDateForAdapter(item.date, item.end)
             } else {
                 start_date.isGone = true
                 publication_item_event_date.text = ""
@@ -114,7 +96,7 @@ class PublicationsAdapter(
                 .into(containerView.image_banner)
         }
 
-        private fun checkType(p: PublicationCommonUIModel) {
+        private fun checkType(p: PublicationCommon) {
             with(p) {
                 when (topic.title) {
                     TOPIC.MAIN.title -> {

@@ -32,6 +32,12 @@ class MainViewModel(
     private val cityFilterOpened: MutableLiveData<Region> = SingleLiveEvent()
     val cityFilterOpenedLiveData: LiveData<Region> get() = cityFilterOpened
 
+    private val aboutOpened: MutableLiveData<Boolean> = SingleLiveEvent()
+    val aboutOpenedLiveData: LiveData<Boolean> get() = aboutOpened
+
+    private val supportOpened: MutableLiveData<Boolean> = SingleLiveEvent()
+    val supportOpenedLiveData: LiveData<Boolean> get() = supportOpened
+
     private val contentShowing: MutableLiveData<Boolean> = MutableLiveData()
     val contentShowingLiveData: LiveData<Boolean> get() = contentShowing
 
@@ -78,6 +84,24 @@ class MainViewModel(
 
     fun cityClicked() {
         cityFilterOpened.value = accountRepository.region
+    }
+
+    fun aboutClicked() {
+        aboutOpened.value = true
+    }
+
+    fun supportClicked() {
+        supportOpened.value = true
+    }
+
+    fun onBackClicked() {
+        when {
+            supportOpened.value == true ||
+                    aboutOpened.value == true -> {
+
+            }
+            contentShowing.value != true -> { contentShowing.value = true }
+        }
     }
 
     private fun setProfile() {

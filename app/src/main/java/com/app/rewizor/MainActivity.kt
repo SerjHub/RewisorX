@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -23,11 +24,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.rewizor.data.model.Account
 import com.app.rewizor.data.model.Region
 import com.app.rewizor.exstension.observeViewModel
+import com.app.rewizor.exstension.removeFragment
 import com.app.rewizor.exstension.replaceFragment
 import com.app.rewizor.global.NEW_ACCOUNT
 import com.app.rewizor.global.UPDATE_All_DATA_FOR_NEW_PROFILE
-import com.app.rewizor.ui.RegionsListFragment
-import com.app.rewizor.ui.TopicTabFragment
+import com.app.rewizor.ui.*
 import com.app.rewizor.ui.utils.*
 import com.app.rewizor.viewmodel.MainViewModel
 import com.bumptech.glide.Glide
@@ -47,7 +48,9 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             supportActionBar?.title = value
         }
 
-    var mToolBarNavigationListenerIsRegistered = false
+    private var mToolBarNavigationListenerIsRegistered = false
+
+    private var backPressAction: BackClick? = null
 
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
@@ -108,13 +111,6 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
         nav_view.setNavigationItemSelectedListener(this)
 
-
-/*
-        var drawer: DrawerLayout = drawer_layout
-        var toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(
-            this,drawer,toolbar,, 2)
-        )
-*/
     }
 
     private fun setViewModel(viewModel: MainViewModel) {
@@ -125,6 +121,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             onNavigationSettingsLiveEvent.observeViewModel(this@MainActivity) { openTopic() }
             onTopicChosenLiveData.observeViewModel(this@MainActivity) { openTopic(it) }
             cityFilterOpenedLiveData.observeViewModel(this@MainActivity) { openCities(it) }
+            aboutOpenedLiveData.observeViewModel(this@MainActivity) { openAdditionalView(AboutFragment()) }
+            supportOpenedLiveData.observeViewModel(this@MainActivity) { openAdditionalView(SupportFragment()) }
             onLoadSettingsErrorLiveEvent.observeViewModel(this@MainActivity) {
                 Alerts.showAlertToUser(this@MainActivity, it)
             }
@@ -157,6 +155,20 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         }
     }
 
+    private fun openAdditionalView(fragment: BaseFragment) {
+        setDrawerDisabled(true) { closeAdditionalView(fragment) }
+        fr_container.isVisible = false
+        additional_container.isVisible = true
+        replaceFragment(R.id.additional_container, fragment)
+    }
+
+    private fun closeAdditionalView(fragment: BaseFragment) {
+        setDrawerDisabled(false)
+        fr_container.isVisible = true
+        additional_container.isVisible = false
+        removeFragment(fragment)
+    }
+
     private fun closeCities() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
@@ -164,7 +176,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     }
 
     private fun openCities(currentCity: Region) {
-        setDrawerDisabled(true)
+        setDrawerDisabled(true) { closeCities() }
         toolbarTitle = "Ваш город ${currentCity.name}"
         replaceFragment(fragment = RegionsListFragment())
     }
@@ -202,21 +214,23 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
 
 
-    private fun setDrawerDisabled(enabled: Boolean) {
+    private fun setDrawerDisabled(enabled: Boolean, backClick: BackClick? = null) {
         if (enabled) {
             drawer.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
             toggle.isDrawerIndicatorEnabled = false
 
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             if (!mToolBarNavigationListenerIsRegistered) {
-                toggle.toolbarNavigationClickListener = View.OnClickListener { closeCities() }
+                backPressAction = backClick
+                toggle.toolbarNavigationClickListener = View.OnClickListener { backPressAction!!.invoke() }
                 mToolBarNavigationListenerIsRegistered = true
             }
 
         } else {
-
+            mToolBarNavigationListenerIsRegistered = false
             drawer.setDrawerLockMode(LOCK_MODE_UNLOCKED)
-            supportActionBar?.setDisplayShowHomeEnabled(false)
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            backPressAction = null
             toggle.isDrawerIndicatorEnabled = true
             toggle.toolbarNavigationClickListener = null
         }
@@ -226,8 +240,11 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         when (item.itemId) {
             R.id.main -> { viewModel.menuClicked(TOPIC.MAIN) }
             R.id.afisha -> { viewModel.menuClicked(TOPIC.AFISHA) }
-            R.id.materials -> {viewModel.menuClicked(TOPIC.MATERIALS)}
+            R.id.materials -> { viewModel.menuClicked(TOPIC.MATERIALS) }
+            R.id.news -> { viewModel.menuClicked(TOPIC.NEWS) }
             R.id.city -> { viewModel.cityClicked();  }
+            R.id.about -> { viewModel.aboutClicked();  }
+            R.id.support -> { viewModel.supportClicked();  }
         }
         //        var categoryId = item.itemId
    //     toolbarTitle = item.title
@@ -244,7 +261,18 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onBackPressed() {
+        if (backPressAction != null) backPressAction?.invoke()
+        else {
+            Log.i("FindSup", "Called")
+            super.onBackPressed()
+        }
+
+    }
+
     companion object {
         const val FRAGMENT_CONTAINER = R.id.fr_container
     }
 }
+
+typealias BackClick = () -> Unit

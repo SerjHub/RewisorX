@@ -5,9 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.PublicationCommon
 import com.app.rewizor.data.repository.PublicationRepository
 import com.app.rewizor.exstension.asyncRequest
-import com.app.rewizor.ui.model.PublicationCommonUIModel
-import com.app.rewizor.ui.model.map
-import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
 class CategoryListViewModel(
@@ -18,8 +15,8 @@ class CategoryListViewModel(
 
     private val currentCategoryId: MutableLiveData<String> = MutableLiveData()
 
-    private val publicationList: MutableLiveData<List<PublicationCommonUIModel>> = MutableLiveData()
-    val publicationListLiveData: LiveData<List<PublicationCommonUIModel>> get() = publicationList
+    private val publicationList: MutableLiveData<List<PublicationCommon>> = MutableLiveData()
+    val publicationListLiveData: LiveData<List<PublicationCommon>> get() = publicationList
 
     private val refreshList: MutableLiveData<Boolean> = SingleLiveEvent()
     val refreshListLiveData: MutableLiveData<Boolean> get() = refreshList
@@ -37,6 +34,19 @@ class CategoryListViewModel(
         onNextPage()
     }
 
+    private fun prepareParams(): PublicationRepository.Params {
+        requestParams(currentCategoryId.value!!)!!
+            .run {
+
+            }
+        return PublicationRepository.Params(
+            currentPage,
+            PAGE_SIZE,
+            currentCategoryId.value!!,
+            parentViewModel.fragmentsTopicLiveData.value!!.requestKey
+        )
+    }
+
     fun onNextPage() {
         if (loadingSate.value != true) {
             asyncRequest(
@@ -44,10 +54,7 @@ class CategoryListViewModel(
                     requestParams(currentCategoryId.value!!)!!
                         .run {
                             publicationsRepository.fetchPublicationsList(
-                                currentPage,
-                                PAGE_SIZE,
-                                currentCategoryId.value!!,
-                                TOPIC.valueOf(topic).requestKey
+                                prepareParams()
                             )
                         }
                 },
@@ -72,7 +79,7 @@ class CategoryListViewModel(
 
     private fun onPageLoaded(list: List<PublicationCommon>) {
         currentPage += 1
-        publicationList.value = list.map { it.map(it) }
+        publicationList.value = list
     }
 
     private fun requestParams(categoryId: String) =

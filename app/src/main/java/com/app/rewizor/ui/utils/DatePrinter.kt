@@ -16,15 +16,17 @@ object DatePrinter {
             else -> ""
         }
 
+    fun getPublicationDate() {}
+
+
     fun getForPeriod(start: String, end: String): String {
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
-        val startDate: DateTime = formatter.parseDateTime(start)
-        val endDate: DateTime = formatter.parseDateTime(end)
+        val startDate: DateTime = ISO_FORMATTER.parseDateTime(start)
+        val endDate: DateTime = ISO_FORMATTER.parseDateTime(end)
 
         when {
-            startDate.isBeforeNow && endDate.isAfterNow -> parseForPrint(endDate)
+            startDate.isBeforeNow && endDate.isAfterNow -> "до ${parseForPrint(endDate)}"
             checkIfTodayDate(endDate) -> return "Сегодня"
-            endDate.isBeforeNow -> return "Закончено"
+            endDate.isBeforeNow -> return "Завершено"
             startDate.isAfterNow -> return parseForPrint(startDate)
             else -> ""
         }
@@ -34,15 +36,18 @@ object DatePrinter {
 
     }
 
+    fun simpleDate(str: String): String =
+        parseForPrint(
+            ISO_FORMATTER.parseDateTime(str)
+        )
+
 
     fun getSingleDate(inputIsoDate: String): String {
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
-        val dateTime: DateTime = formatter.parseDateTime(inputIsoDate)
+        val dateTime: DateTime = ISO_FORMATTER.parseDateTime(inputIsoDate)
         if (checkIfTodayDate(dateTime)) {
             return "Сегодня"
         } else if (dateTime.isBeforeNow)
             return "Завершено"
-
 
         return parseForPrint(dateTime)
     }
@@ -66,4 +71,6 @@ object DatePrinter {
 
     const val NO_TIME = "L-"
     const val WITH_TIME = "LS"
+
+    val ISO_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
 }
