@@ -3,7 +3,6 @@ package com.app.rewizor.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.app.rewizor.R
@@ -66,17 +65,11 @@ class PublicationsAdapter(
             }
 
             checkType(item)
+            setDate(item)
 
-            item.image.url?.let { setBanner(it) }
+            item.image?.url?.let { setBanner(it) }
 
-            if (item.date != null) {
-                publication_item_event_date.text =
-                    if (topic == TOPIC.MAIN.title) DatePrinter.simpleDate(item.date)
-                    else DatePrinter.getDateForAdapter(item.date, item.end)
-            } else {
-                start_date.isGone = true
-                publication_item_event_date.text = ""
-            }
+
 
             seen_counter.text = "${item.views}"
             comments_counter.text = "${item.comments}"
@@ -85,6 +78,33 @@ class PublicationsAdapter(
             if (item.hasLike) {
                 //TODO change color?
             }
+        }
+
+        private fun setDate(p: PublicationCommon) {
+
+            when (topic) {
+                TOPIC.AFISHA -> {
+                    (p.nearestDate ?: p.date)?.let {
+                        containerView.publication_item_event_date.text = DatePrinter.simpleDate(it)
+                    }
+
+                }
+                TOPIC.MAIN -> {
+                    if (p.date != null) {
+                        containerView.publication_item_event_date.text = DatePrinter.simpleDate(p.date)
+                    }
+                }
+                else -> { DatePrinter.getDateForAdapter(p.date, p.end) }
+            }
+
+//            if (p.date != null) {
+//                containerView.publication_item_event_date.text =
+//                    if (topic == TOPIC.MAIN) DatePrinter.simpleDate(p.date)
+//                    else DatePrinter.getDateForAdapter(p.date, p.end)
+//            } else {
+//                containerView.start_date.isGone = true
+//                containerView.publication_item_event_date.text = ""
+//            }
         }
 
         private fun setBanner(url: String) {

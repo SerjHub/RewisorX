@@ -35,6 +35,7 @@
             android:textSize="18sp"/>
 
     <include
+            android:id="@+id/profileDivider"
             layout="@layout/grey_divider"
             style="@style/menu_divider"/>
 

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.rewizor.data.model.PublicationDetailed
 import com.app.rewizor.exstension.observeViewModel
+import com.app.rewizor.ui.utils.DatePrinter
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.ui.utils.TagColorProvider
 import com.app.rewizor.viewmodel.PublicationViewModel
@@ -18,7 +19,6 @@ import kotlinx.android.synthetic.main.view_publication_tag.*
 import kotlinx.android.synthetic.main.view_text_info.view.*
 import org.joda.time.format.DateTimeFormat
 import org.koin.android.ext.android.inject
-
 import java.util.*
 
 class PublicationActivity : AppCompatActivity() {
@@ -111,7 +111,7 @@ class PublicationActivity : AppCompatActivity() {
 
 
 
-            image.url?.let {
+            image?.url?.let {
                 Glide.with(this@PublicationActivity)
                     .applyDefaultRequestOptions(RequestOptions.centerCropTransform())
                     .load(it)
@@ -182,6 +182,12 @@ class PublicationActivity : AppCompatActivity() {
             .forStyle(NO_TIME)
             .withLocale(Locale("ru"))
         val text: String? = when {
+            topic == TOPIC.AFISHA -> {
+                if (p.nearestDate != null) {
+                    period.infoTitle.text = "Ближайшая дата:"
+                    DatePrinter.simpleDate(p.nearestDate)
+                } else DatePrinter.getDateForAdapter(p.date, p.end)
+            }
             p.date != null && p.end != null -> {
                 val date = formatter.parseDateTime(p.date)
                 val end = formatter.parseDateTime(p.end)

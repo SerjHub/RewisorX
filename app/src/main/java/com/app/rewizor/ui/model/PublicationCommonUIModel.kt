@@ -17,7 +17,7 @@ data class PublicationCommonUIModel(
     val parentAddress: String?,
     val parentName: String?,
     val parentRegion: Region?,
-    val image: ImageInfo,
+    val image: ImageInfo?,
     val votes: Int,
     val rating: Int,
     val comments: Int,

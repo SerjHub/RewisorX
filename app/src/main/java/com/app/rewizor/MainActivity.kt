@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -198,6 +197,7 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
     private fun setProfileView(account: Account) {
         authButtons.isVisible = false
+        profileDivider.isVisible = false
         val name = "${account.lastName ?: ""} ${account.firstName ?: ""} ${account.middleName ?: ""}"
         fio.text = name
         Glide
@@ -263,10 +263,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
     override fun onBackPressed() {
         if (backPressAction != null) backPressAction?.invoke()
-        else {
-            Log.i("FindSup", "Called")
-            super.onBackPressed()
-        }
+        else super.onBackPressed()
+
 
     }
 

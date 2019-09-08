@@ -6,6 +6,7 @@ import com.app.rewizor.data.model.Account
 import com.app.rewizor.data.model.Region
 import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.SystemRepository
+import com.app.rewizor.exstension.asyncRequest
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
@@ -45,18 +46,17 @@ class MainViewModel(
     val onLoadSettingsErrorLiveEvent: LiveData<String> get() = onLoadSettingsError
 
     override fun onViewCreated() {
-        with(asyncProvider) {
-            startSuspend {
-                val start = systemRepository.coldStart()
-                if (!start.isError) {
-                    onNavigationSettings.value = true
-                    onTopicChosen.value = TOPIC.MAIN
-                    setProfile()
-                } else {
-                    onLoadSettingsError.value = start.error?.message ?: "${start.error?.code}"
-                }
-            }
-        }
+        asyncRequest(
+            loadData = { systemRepository.coldStart() },
+            onFail = { onLoadSettingsError.value = it.message },
+            onSuccess = { systemLoaded() }
+        )
+    }
+
+    private fun systemLoaded() {
+        onNavigationSettings.value = true
+        onTopicChosen.value = TOPIC.MAIN
+        setProfile()
     }
 
     fun refreshData() {

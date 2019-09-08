@@ -31,23 +31,13 @@ class PublicationViewModel(
         )
     }
 
-    private fun showPublication(p: PublicationDetailed) {
+    private fun showPublication(p: PublicationDetailed?) {
+        Log.i("FindPub", "${p == null}")
         publicationModel.value = p
-
-        Log.i("FinPub", "address: ${publicationModel.value!!}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.address}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.date}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.end}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.website}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.phone}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.source}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.website}")
-//        Log.i("FinPub", "address: ${publicationModel.value!!.image}")
     }
 
     private fun showError(error: RewizorError) {
         errorModel.value = error.message
-        Log.i("FinPub", "$error")
     }
 
     fun setPublicationId(id: String) {

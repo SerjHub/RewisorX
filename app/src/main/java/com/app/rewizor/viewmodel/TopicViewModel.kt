@@ -16,6 +16,12 @@ class TopicViewModel(
     private val fragmentParamsModel: MutableLiveData<List<FragmentParamsModel>> = MutableLiveData()
     val fragmentParamsModelLiveData: LiveData<List<FragmentParamsModel>> get() = fragmentParamsModel
 
+    private val filter: MutableLiveData<Boolean> = MutableLiveData()
+    val filterLiveDate: LiveData<Boolean> get() = filter
+
+    private val filterEnabled: MutableLiveData<Boolean> = MutableLiveData()
+    val filterEnabledLiveDate: LiveData<Boolean> get() = filterEnabled
+
     override fun onViewCreated() {
 
     }
