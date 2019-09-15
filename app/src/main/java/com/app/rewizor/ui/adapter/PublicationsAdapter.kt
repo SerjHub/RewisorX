@@ -52,6 +52,7 @@ class PublicationsAdapter(
     }
 
 
+    //TODO convert data to view models , or split VH
     inner class PublicationViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(item: PublicationCommon, topic: String, clickListener: (Int) -> Unit) = with(containerView) {
@@ -80,6 +81,7 @@ class PublicationsAdapter(
             }
         }
 
+
         private fun setDate(p: PublicationCommon) {
 
             when (topic) {
@@ -94,7 +96,9 @@ class PublicationsAdapter(
                         containerView.publication_item_event_date.text = DatePrinter.simpleDate(p.date)
                     }
                 }
-                else -> { DatePrinter.getDateForAdapter(p.date, p.end) }
+                else -> {
+                    containerView.publication_item_event_date.text = DatePrinter.simpleDate(p.date!!)
+                }
             }
 
 //            if (p.date != null) {
@@ -118,19 +122,25 @@ class PublicationsAdapter(
 
         private fun checkType(p: PublicationCommon) {
             with(p) {
-                when (topic.title) {
-                    TOPIC.MAIN.title -> {
+                when (topic) {
+                    TOPIC.MAIN -> {
                         containerView.description.isVisible = description != null
                         containerView.description.text = description
                         containerView.addressLayout.isVisible = false
                         containerView.placeLayout.isVisible = false
                     }
-                    TOPIC.AFISHA.title -> {
+                    TOPIC.AFISHA -> {
                         containerView.description.isVisible = false
                         containerView.addressLayout.isVisible = true
                         containerView.addressLayout.address.text = p.parentAddress
                         containerView.placeLayout.isVisible = true
                         containerView.placeLayout.place.text = p.parentName
+                    }
+
+                    TOPIC.NEWS -> {
+                        containerView.description.isVisible = false
+                        containerView.addressLayout.isVisible = false
+                        containerView.placeLayout.isVisible = false
                     }
                     else -> {
                         containerView.description.isVisible = false

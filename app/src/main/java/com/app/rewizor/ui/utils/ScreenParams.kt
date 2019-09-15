@@ -14,21 +14,8 @@ enum class TOPIC(val title: String,val requestKey: String?){
     KIDS("ДЛЯ ДЕТЕЙ", "mail")
 }
 
-enum class CATEGORY(val categoryTitle: String,val requestKey: String) {
-    ALL("ВСЕ", "all"),
-    THEATRE("ТЕАТР", "the"),
-    MOVIE("КИНО", "movie"),
-    LITERATURE("ЛИТЕРАТУРА", "lit")
-}
-
 enum class AUTHORIZATION {
     LOGIN,
     REGISTRATION,
     RECOVER
-}
-
-sealed class FragmentParams
-
-object Main : FragmentParams() {
-
 }

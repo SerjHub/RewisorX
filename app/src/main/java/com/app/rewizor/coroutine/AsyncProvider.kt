@@ -1,7 +1,9 @@
 package com.app.rewizor.coroutine
 
+import com.app.rewizor.data.RewizorError
 import com.app.rewizor.data.RewizorResult
 import kotlinx.coroutines.*
+import java.io.IOException
 import kotlin.coroutines.CoroutineContext
 
 class AsyncProvider (uiComponentContext: CoroutineContext): CoroutineScope {
@@ -17,5 +19,10 @@ class AsyncProvider (uiComponentContext: CoroutineContext): CoroutineScope {
 
     @Synchronized
     suspend fun <T>executeBackGroundTask(block: suspend CoroutineScope.() -> RewizorResult<T>): RewizorResult<T> =
-        startBlockingOperationWithResultAsync(block).await()
+        try {
+            startBlockingOperationWithResultAsync(block).await()
+        } catch (e: IOException) {
+            RewizorResult(null, RewizorError.REMOTE)
+        }
+
 }
