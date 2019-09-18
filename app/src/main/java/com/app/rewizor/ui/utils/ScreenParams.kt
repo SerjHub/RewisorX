@@ -5,14 +5,18 @@ const val TOPIC_KEY = "topic"
 
 const val AUTHORIZATION_INTENT_KEY = "auth_screen"
 
-enum class TOPIC(val title: String,val requestKey: String?){
-    MAIN("Главная", null),
+enum class TOPIC(val title: String,val requestKey: String?, filters: FilterStateModel? = null){
+    MAIN("Главная", null, Afisha),
     NEWS("Новости", "news"),
     AFISHA("Афиша", "afisha"),
     MATERIALS("Материалы", "articles"),
     PLACES("МЕСТА", "mail"),
     KIDS("ДЛЯ ДЕТЕЙ", "mail")
 }
+
+
+
+
 
 enum class AUTHORIZATION {
     LOGIN,

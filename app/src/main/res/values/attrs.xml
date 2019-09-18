@@ -13,4 +13,10 @@
         <attr name="body" format="string"/>
         <attr name="link" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="FilterField">
+        <attr name="filterHint" format="string"/>
+        <attr name="filterTitle" format="string"/>
+        <attr name="icon" format="reference"/>
+    </declare-styleable>
 </resources>

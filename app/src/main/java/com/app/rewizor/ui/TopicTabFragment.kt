@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.app.rewizor.R
 import com.app.rewizor.ui.CategoryListFragment.Companion.CATEGORY_NAME_ARG
 import com.app.rewizor.ui.model.FragmentParamsModel
+import com.app.rewizor.ui.utils.FilterStateModel
 import com.app.rewizor.ui.utils.ListFragmentProvider
 import com.app.rewizor.ui.utils.TOPIC_KEY
 import com.app.rewizor.viewmodel.TopicViewModel
@@ -49,6 +50,10 @@ class TopicTabFragment: TabFragment() {
             override fun getPageTitle(position: Int) = topicFragments[position].arguments!!.getString(CATEGORY_NAME_ARG)
         }
         category_pager.adapter = adapter
+    }
+
+    fun onOpenFilter(filterModel: FilterStateModel) {
+
     }
 
     companion object {

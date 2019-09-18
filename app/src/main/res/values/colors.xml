@@ -28,4 +28,7 @@
     <color name="museums">#40B7D0</color>
     <color name="music">#304BA3</color>
 
+    <color name="filter_item_bg">#F1F1F1</color>
+    <color name="filter_item_baseline">#D1D1D1</color>
+
 </resources>

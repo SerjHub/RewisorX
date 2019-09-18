@@ -38,9 +38,11 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 
-class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), KoinComponent,
+    NavigationView.OnNavigationItemSelectedListener {
 
     val viewModel: MainViewModel by inject()
+    private var backPressAction: BackClick? = null
     var toolbarTitle: CharSequence?
         get() = supportActionBar?.title
         set(value) {
@@ -48,11 +50,20 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         }
 
     private var mToolBarNavigationListenerIsRegistered = false
-
-    private var backPressAction: BackClick? = null
-
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
+
+    private val updaterReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.let {
+                when {
+                    it.getBooleanExtra(UPDATE_All_DATA_FOR_NEW_PROFILE, true) -> {
+                        viewModel.refreshData()
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,19 +72,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
         setViewModel(viewModel)
         toolbarTitle = TOPIC.MAIN.title
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(updaterReceiver, IntentFilter(NEW_ACCOUNT))
-    }
-
-    private val updaterReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.let {
-                when  {
-                    it.getBooleanExtra(UPDATE_All_DATA_FOR_NEW_PROFILE, true) -> {
-                        viewModel.refreshData()
-                    }
-                }
-            }
-        }
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(updaterReceiver, IntentFilter(NEW_ACCOUNT))
     }
 
     override fun onDestroy() {
@@ -104,7 +104,10 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             toggle.drawerArrowDrawable.color = resources.getColor(R.color.superWhite);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            toolbar.navigationIcon?.setColorFilter(resources.getColor(R.color.superWhite, null), PorterDuff.Mode.SRC_ATOP)
+            toolbar.navigationIcon?.setColorFilter(
+                resources.getColor(R.color.superWhite, null),
+                PorterDuff.Mode.SRC_ATOP
+            )
         }
 
 
@@ -118,15 +121,26 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             regionModelLiveData.observeViewModel(this@MainActivity) { setRegion(it) }
             profileLiveData.observeViewModel(this@MainActivity) { setProfileView(it) }
             onNavigationSettingsLiveEvent.observeViewModel(this@MainActivity) { openTopic() }
-            onTopicChosenLiveData.observeViewModel(this@MainActivity) { openTopic(it) }
+            currentTopicLiveData.observeViewModel(this@MainActivity) { openTopic(it) }
             cityFilterOpenedLiveData.observeViewModel(this@MainActivity) { openCities(it) }
-            aboutOpenedLiveData.observeViewModel(this@MainActivity) { openAdditionalView(AboutFragment()) }
-            supportOpenedLiveData.observeViewModel(this@MainActivity) { openAdditionalView(SupportFragment()) }
+            aboutOpenedLiveData.observeViewModel(this@MainActivity) {
+                openAdditionalView(
+                    AboutFragment()
+                )
+            }
+            supportOpenedLiveData.observeViewModel(this@MainActivity) {
+                openAdditionalView(
+                    SupportFragment()
+                )
+            }
             onLoadSettingsErrorLiveEvent.observeViewModel(this@MainActivity) {
                 Alerts.showAlertToUser(this@MainActivity, it)
             }
             contentShowingLiveData.observeViewModel(this@MainActivity) {
                 if (it) closeCities()
+            }
+            filterStateLiveData.observeViewModel(this@MainActivity) {
+                filterOpened(it)
             }
             onViewCreated()
         }
@@ -198,7 +212,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     private fun setProfileView(account: Account) {
         authButtons.isVisible = false
         profileDivider.isVisible = false
-        val name = "${account.lastName ?: ""} ${account.firstName ?: ""} ${account.middleName ?: ""}"
+        val name =
+            "${account.lastName ?: ""} ${account.firstName ?: ""} ${account.middleName ?: ""}"
         fio.text = name
         Glide
             .with(this)
@@ -213,7 +228,6 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
     }
 
 
-
     private fun setDrawerDisabled(enabled: Boolean, backClick: BackClick? = null) {
         if (enabled) {
             drawer.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
@@ -222,7 +236,8 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             if (!mToolBarNavigationListenerIsRegistered) {
                 backPressAction = backClick
-                toggle.toolbarNavigationClickListener = View.OnClickListener { backPressAction!!.invoke() }
+                toggle.toolbarNavigationClickListener =
+                    View.OnClickListener { backPressAction!!.invoke() }
                 mToolBarNavigationListenerIsRegistered = true
             }
 
@@ -238,34 +253,50 @@ class MainActivity : AppCompatActivity(),KoinComponent,  NavigationView.OnNaviga
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.main -> { viewModel.menuClicked(TOPIC.MAIN) }
-            R.id.afisha -> { viewModel.menuClicked(TOPIC.AFISHA) }
-            R.id.materials -> { viewModel.menuClicked(TOPIC.MATERIALS) }
-            R.id.news -> { viewModel.menuClicked(TOPIC.NEWS) }
-            R.id.city -> { viewModel.cityClicked();  }
-            R.id.about -> { viewModel.aboutClicked();  }
-            R.id.support -> { viewModel.supportClicked();  }
+            R.id.main -> {
+                viewModel.menuClicked(TOPIC.MAIN)
+            }
+            R.id.afisha -> {
+                viewModel.menuClicked(TOPIC.AFISHA)
+            }
+            R.id.materials -> {
+                viewModel.menuClicked(TOPIC.MATERIALS)
+            }
+            R.id.news -> {
+                viewModel.menuClicked(TOPIC.NEWS)
+            }
+            R.id.city -> {
+                viewModel.cityClicked(); }
+            R.id.about -> {
+                viewModel.aboutClicked(); }
+            R.id.support -> {
+                viewModel.supportClicked(); }
         }
-        //        var categoryId = item.itemId
-   //     toolbarTitle = item.title
-   //     supportActionBar?.title = item.title
+
         var drawer: DrawerLayout = drawer_layout
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
 
+    private fun filterOpened(filter: FilterStateModel) {
+        (supportFragmentManager
+            .fragments
+            .firstOrNull { it is TopicTabFragment } as? TopicTabFragment)
+            ?.onOpenFilter(filter)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    //    menuInflater.inflate(R.menu.toolbar_menu, menu)
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
         initClickListeners()
-    //    menu?.findItem(R.id.filter)?.setOnMenuItemClickListener { viewModel.logout(); return@setOnMenuItemClickListener true }
+        menu?.findItem(R.id.filter)?.setOnMenuItemClickListener {
+            viewModel.filterClicked(); return@setOnMenuItemClickListener true
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onBackPressed() {
         if (backPressAction != null) backPressAction?.invoke()
         else super.onBackPressed()
-
-
     }
 
     companion object {

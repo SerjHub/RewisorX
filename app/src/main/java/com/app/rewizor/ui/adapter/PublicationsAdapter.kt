@@ -100,15 +100,6 @@ class PublicationsAdapter(
                     containerView.publication_item_event_date.text = DatePrinter.simpleDate(p.date!!)
                 }
             }
-
-//            if (p.date != null) {
-//                containerView.publication_item_event_date.text =
-//                    if (topic == TOPIC.MAIN) DatePrinter.simpleDate(p.date)
-//                    else DatePrinter.getDateForAdapter(p.date, p.end)
-//            } else {
-//                containerView.start_date.isGone = true
-//                containerView.publication_item_event_date.text = ""
-//            }
         }
 
         private fun setBanner(url: String) {
@@ -152,10 +143,5 @@ class PublicationsAdapter(
 
         }
 
-    }
-
-    companion object {
-        const val NO_TIME = "L-"
-        const val WITH_TIME = "LS"
     }
 }

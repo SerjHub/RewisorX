@@ -7,6 +7,7 @@ import com.app.rewizor.data.model.Region
 import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.exstension.asyncRequest
+import com.app.rewizor.ui.utils.FilterStateModel
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
@@ -27,8 +28,8 @@ class MainViewModel(
     private val onNavigationSettings: MutableLiveData<Boolean> = SingleLiveEvent()
     val onNavigationSettingsLiveEvent: LiveData<Boolean> get() = onNavigationSettings
 
-    private val onTopicChosen: MutableLiveData<TOPIC> = MutableLiveData()
-    val onTopicChosenLiveData: LiveData<TOPIC> get() = onTopicChosen
+    private val currentTopic: MutableLiveData<TOPIC> = MutableLiveData()
+    val currentTopicLiveData: LiveData<TOPIC> get() = currentTopic
 
     private val cityFilterOpened: MutableLiveData<Region> = SingleLiveEvent()
     val cityFilterOpenedLiveData: LiveData<Region> get() = cityFilterOpened
@@ -45,6 +46,9 @@ class MainViewModel(
     private val onLoadSettingsError: MutableLiveData<String> = SingleLiveEvent()
     val onLoadSettingsErrorLiveEvent: LiveData<String> get() = onLoadSettingsError
 
+    private val filterState: MutableLiveData<FilterStateModel> = SingleLiveEvent()
+    val filterStateLiveData: LiveData<FilterStateModel> get() = filterState
+
     override fun onViewCreated() {
         asyncRequest(
             loadData = { systemRepository.coldStart() },
@@ -55,22 +59,22 @@ class MainViewModel(
 
     private fun systemLoaded() {
         onNavigationSettings.value = true
-        onTopicChosen.value = TOPIC.MAIN
+        currentTopic.value = TOPIC.MAIN
         setProfile()
     }
 
     fun refreshData() {
-        onTopicChosen.value = TOPIC.MAIN
+        currentTopic.value = TOPIC.MAIN
         setProfile()
     }
 
     fun menuClicked(topic: TOPIC) {
-        if (onTopicChosen.value == topic) return
-        onTopicChosen.value = topic
+        if (currentTopic.value == topic) return
+        currentTopic.value = topic
     }
 
     fun openLastTopic() {
-        onTopicChosen.value = onTopicChosen.value
+        currentTopic.value = currentTopic.value
     }
 
 
@@ -94,16 +98,6 @@ class MainViewModel(
         supportOpened.value = true
     }
 
-    fun onBackClicked() {
-        when {
-            supportOpened.value == true ||
-                    aboutOpened.value == true -> {
-
-            }
-            contentShowing.value != true -> { contentShowing.value = true }
-        }
-    }
-
     private fun setProfile() {
         if (cityFilterOpened.value == null) {
             regionModel.value = accountRepository.region.name
@@ -112,6 +106,10 @@ class MainViewModel(
                 profile.value = accountRepository.account
             }
         }
+    }
+
+    fun filterClicked() {
+
     }
 
     fun logout() {
