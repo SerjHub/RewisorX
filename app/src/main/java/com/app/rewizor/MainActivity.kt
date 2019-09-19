@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), KoinComponent,
     private var mToolBarNavigationListenerIsRegistered = false
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
+    private var menu: Menu? = null
 
     private val updaterReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -139,9 +140,18 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             contentShowingLiveData.observeViewModel(this@MainActivity) {
                 if (it) closeCities()
             }
-            filterStateLiveData.observeViewModel(this@MainActivity) {
-                filterOpened(it)
+            filterOpenedLiveData.observeViewModel(this@MainActivity) {
+                if (it) filterOpened() else filterClosed()
             }
+
+            filterEnabledLiveData.observeViewModel(this@MainActivity) {
+                menu?.findItem(R.id.filter)
+                    ?.setIcon(
+                        if (it) R.drawable.btn_filter_active
+                        else R.drawable.ic_filter
+                )
+            }
+
             onViewCreated()
         }
     }
@@ -203,7 +213,13 @@ class MainActivity : AppCompatActivity(), KoinComponent,
     }
 
     private fun hideProfile() {
-        authButtons.isVisible = true
+        try {
+            authButtons.isVisible = true
+        } catch (e: IllegalStateException) {
+            viewModel.clearVm()
+            return
+        }
+
         profileMenuItem.isVisible = false
         fio.text = "Неизвестный пользователь"
         avatar.setImageResource(R.drawable.ic_avatar_icons)
@@ -266,11 +282,14 @@ class MainActivity : AppCompatActivity(), KoinComponent,
                 viewModel.menuClicked(TOPIC.NEWS)
             }
             R.id.city -> {
-                viewModel.cityClicked(); }
+                viewModel.cityClicked()
+            }
             R.id.about -> {
-                viewModel.aboutClicked(); }
+                viewModel.aboutClicked()
+            }
             R.id.support -> {
-                viewModel.supportClicked(); }
+                viewModel.supportClicked()
+            }
         }
 
         var drawer: DrawerLayout = drawer_layout
@@ -278,18 +297,29 @@ class MainActivity : AppCompatActivity(), KoinComponent,
         return true
     }
 
-    private fun filterOpened(filter: FilterStateModel) {
+    private fun filterOpened() {
+        (supportFragmentManager
+            .fragments
+            .firstOrNull {
+                it is TopicTabFragment
+            } as? TopicTabFragment)
+            ?.onOpenFilter()
+    }
+
+    private fun filterClosed() {
         (supportFragmentManager
             .fragments
             .firstOrNull { it is TopicTabFragment } as? TopicTabFragment)
-            ?.onOpenFilter(filter)
+            ?.onCloseFilter()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         initClickListeners()
         menu?.findItem(R.id.filter)?.setOnMenuItemClickListener {
-            viewModel.filterClicked(); return@setOnMenuItemClickListener true
+            viewModel.filterClicked()
+            return@setOnMenuItemClickListener true
         }
         return super.onCreateOptionsMenu(menu)
     }

@@ -1,7 +1,6 @@
 package com.app.rewizor.ui.utils
 
 sealed class FilterStateModel(
-    val searchTextTitle: String,
     var searchText: String? = null,
     var dates: String? = null,
     var category: String? = null,
@@ -15,8 +14,16 @@ sealed class FilterStateModel(
     abstract fun isCleared(): Boolean
 }
 
-object Afisha : FilterStateModel(
-    searchTextTitle = "Поиск по событиям",
+object Main : FilterStateModel(
+    null, null, null, null, null, null, null, null
+) {
+    override fun clear() = Unit
+    override fun isCleared() = true
+}
+
+data class Afisha(
+    val searchTextTitle: String = "Поиск по событиям"
+) : FilterStateModel(
     searchText = "",
     dates = "",
     category = "",

@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.ui.model.FragmentParamsModel
+import com.app.rewizor.ui.utils.Afisha
 import com.app.rewizor.ui.utils.FilterStateModel
+import com.app.rewizor.ui.utils.Main
 import com.app.rewizor.ui.utils.TOPIC
 
 class TopicViewModel(
@@ -17,20 +19,22 @@ class TopicViewModel(
     private val fragmentParamsModel: MutableLiveData<List<FragmentParamsModel>> = MutableLiveData()
     val fragmentParamsModelLiveData: LiveData<List<FragmentParamsModel>> get() = fragmentParamsModel
 
-    private val filter: MutableLiveData<FilterStateModel> = MutableLiveData()
-    val filterLiveDate: LiveData<FilterStateModel> get() = filter
+    private val updateCategory: MutableLiveData<Boolean> = MutableLiveData()
+    val updateCategoryLiveData: LiveData<Boolean> get() = updateCategory
 
-    private val filterEnabled: MutableLiveData<Boolean> = MutableLiveData()
-    val filterEnabledLiveDate: LiveData<Boolean> get() = filterEnabled
 
-    var viewModelFilter: FilterStateModel?
-        get() = null
-    set(value) {
-        filter.value = value
-    }
+
+    private val lastFilter: MutableLiveData<FilterStateModel> = MutableLiveData()
 
     override fun onViewCreated() {
+        updateLastFilter()
+    }
 
+    fun updateLastFilter() {
+        lastFilter.value = when (val f = fragmentsTopic.value!!.filters as FilterStateModel) {
+            is Afisha -> f.copy()
+            is Main -> Main
+        }
     }
 
     // создаются параметры для генерации фрагментов для показа определенной категории каждого раздела
@@ -47,6 +51,19 @@ class TopicViewModel(
                     )
                 }
             }
+    }
+
+    fun onFiltersUpdated() {
+        if (lastFilter == fragmentsTopic.value!!.filters) {
+            return
+        } else {
+            updateLastFilter()
+            updateCategory.value = true
+            if (!lastFilter.value!!.category.isNullOrEmpty()) {
+                //updateCategory.value = true
+            }
+
+        }
     }
 
     fun refreshData() {

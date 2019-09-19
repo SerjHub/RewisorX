@@ -41,6 +41,10 @@ object DatePrinter {
             ISO_FORMATTER.parseDateTime(str)
         )
 
+    fun dateToIso(d: DateTime): String =
+        d.toString("yyyy-MM-dd'T'HH:mm:ss")
+
+
 
     fun getSingleDate(inputIsoDate: String): String {
         val dateTime: DateTime = ISO_FORMATTER.parseDateTime(inputIsoDate)

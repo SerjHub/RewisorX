@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
+        android:background="@color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:layout_width="match_parent"
@@ -34,7 +35,7 @@
             android:layout_height="wrap_content"
             style="@style/filter_item"
             app:icon="@drawable/ic_calendar"
-            app:filterTitle="Выбрать дату"
+            app:filterHint="Выбрать дату"
             android:visibility="gone"
             tools:visibility="visible"/>
 
@@ -123,6 +124,7 @@
             android:layout_weight="1"/>
 
     <Button
+            android:id="@+id/clearFilters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

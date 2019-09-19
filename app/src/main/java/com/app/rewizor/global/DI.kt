@@ -43,10 +43,11 @@ val viewModelModule = module {
     viewModel { RecoverPasswordViewModel(get()) }
     viewModel { CategoryListViewModel(get()) }
     viewModel { TopicViewModel(get()) }
-    viewModel { MainViewModel(get(), get()) }
+    single { MainViewModel(get(), get()) }
     viewModel { RegionViewModel(get(), get()) }
     viewModel { PublicationViewModel(get()) }
     viewModel { SupportViewModel(get()) }
+    viewModel { FilterViewModel(get()) }
 }
 
 

@@ -10,6 +10,7 @@ import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 class CategoryListViewModel(
     private val publicationsRepository: PublicationRepository
 ) : BaseViewModel() {
+
     private lateinit var parentViewModel: TopicViewModel
     private var currentPage = START_PAGE
 
@@ -24,14 +25,22 @@ class CategoryListViewModel(
     private val loadingSate: MutableLiveData<Boolean> = MutableLiveData()
     val loadingStateLiveData: LiveData<Boolean> get() = loadingSate
 
+    private val updateObserver = { u: Boolean ->
+        if (u) onRefresh()
+    }
+
     fun setUpModelParams(topicViewModel: TopicViewModel, categoryId: String) {
         parentViewModel = topicViewModel
         this.currentCategoryId.value = categoryId
+        observeFilterUpdate()
+    }
+
+    private fun observeFilterUpdate() {
+        parentViewModel.updateCategoryLiveData.observeForever(updateObserver)
     }
 
     override fun onViewCreated() {
         onRefresh()
-        onNextPage()
     }
 
     private fun prepareParams(): PublicationRepository.Params {
@@ -47,7 +56,7 @@ class CategoryListViewModel(
         )
     }
 
-    fun onNextPage() {
+    private fun onNextPage() {
         if (loadingSate.value != true) {
             asyncRequest(
                 loadData = {
@@ -66,9 +75,10 @@ class CategoryListViewModel(
         }
     }
 
-    fun onRefresh() {
+    private fun onRefresh() {
         refreshList.value = true
         currentPage = START_PAGE
+        onNextPage()
     }
 
     fun listScrolled(position: Int) {
@@ -84,6 +94,11 @@ class CategoryListViewModel(
 
     private fun requestParams(categoryId: String) =
         parentViewModel.getParams(categoryId)
+
+    override fun onCleared() {
+        super.onCleared()
+        parentViewModel.updateCategoryLiveData.removeObserver(updateObserver)
+    }
 
 
     companion object {

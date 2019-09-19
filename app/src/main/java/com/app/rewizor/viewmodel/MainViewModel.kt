@@ -1,5 +1,6 @@
 package com.app.rewizor.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.Account
@@ -46,8 +47,14 @@ class MainViewModel(
     private val onLoadSettingsError: MutableLiveData<String> = SingleLiveEvent()
     val onLoadSettingsErrorLiveEvent: LiveData<String> get() = onLoadSettingsError
 
-    private val filterState: MutableLiveData<FilterStateModel> = SingleLiveEvent()
+    private val filterState: MutableLiveData<FilterStateModel> = MutableLiveData()
     val filterStateLiveData: LiveData<FilterStateModel> get() = filterState
+
+    private val filterOpened: MutableLiveData<Boolean> = MutableLiveData()
+    val filterOpenedLiveData: LiveData<Boolean> get() = filterOpened
+
+    private val filterEnabled: MutableLiveData<Boolean> = MutableLiveData()
+    val filterEnabledLiveData: LiveData<Boolean> get() = filterEnabled
 
     override fun onViewCreated() {
         asyncRequest(
@@ -71,13 +78,14 @@ class MainViewModel(
     fun menuClicked(topic: TOPIC) {
         if (currentTopic.value == topic) return
         currentTopic.value = topic
+        Log.i("FindOpenFilters", "TOPIC ${topic.name} ${topic.filters}")
+        filterState.value = topic.filters
+        Log.i("FindOpenFilters", "state ${filterState.value}")
     }
 
     fun openLastTopic() {
         currentTopic.value = currentTopic.value
     }
-
-
 
     fun cityChosen() {
         contentShowing.value = true
@@ -109,12 +117,22 @@ class MainViewModel(
     }
 
     fun filterClicked() {
+        filterOpened.value = filterOpened.value?.not() ?: true
+    }
 
+    fun filterEnabled(enabled: Boolean) {
+        filterEnabled.value = enabled
     }
 
     fun logout() {
         anonModel.value = true
         accountRepository.logout()
+        onCleared()
     }
 
+    fun clearVm() {
+        onCleared()
+    }
+
+    fun getFilterState() = filterState.value
 }
