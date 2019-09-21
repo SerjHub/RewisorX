@@ -43,10 +43,10 @@ data class Afisha(
     }
 
     override fun isCleared() =
-        searchText!!.isNotBlank() &&
-                dates!!.isNotBlank() &&
-                category!!.isNotBlank() &&
-                age!!.isNotBlank() &&
+        searchText!!.isEmpty() &&
+                dates!!.isEmpty() &&
+                category!!.isEmpty() &&
+                age!!.isEmpty() &&
                 popular!! &&
                 recommend!!
 

@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import com.app.rewizor.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_filter_input.view.*
@@ -31,6 +32,10 @@ class FilterField @JvmOverloads constructor(
 
             recycle()
         }
+    }
+
+    fun setEditable() {
+        clickableView.isVisible = false
     }
 
 

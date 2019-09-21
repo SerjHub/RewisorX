@@ -1,5 +1,6 @@
 package com.app.rewizor.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.repository.SystemRepository
@@ -13,6 +14,10 @@ class TopicViewModel(
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
 
+    init {
+        Log.i("FindTopic", "init")
+    }
+
     private val fragmentsTopic: MutableLiveData<TOPIC> = MutableLiveData()
     val fragmentsTopicLiveData: LiveData<TOPIC> get() = fragmentsTopic
 
@@ -22,7 +27,8 @@ class TopicViewModel(
     private val updateCategory: MutableLiveData<Boolean> = MutableLiveData()
     val updateCategoryLiveData: LiveData<Boolean> get() = updateCategory
 
-
+    private val filterState: MutableLiveData<FilterStateModel> = MutableLiveData()
+    val filterStateLiveData: LiveData<FilterStateModel> get() = filterState
 
     private val lastFilter: MutableLiveData<FilterStateModel> = MutableLiveData()
 
@@ -41,8 +47,9 @@ class TopicViewModel(
     //категории приходят с бэка и мапятся для вариаций в количестве = разделы * категории
     fun setViewArgs(topic: String) {
         fragmentsTopic.value = TOPIC.valueOf(topic)
-
             .also {
+                filterState.value = it.filters
+                Log.i("FindFilter", "set state ${filterState.value}")
                 fragmentParamsModel.value = systemRepository.rewizorCategories.map { item ->
                     FragmentParamsModel(
                         item.guid,

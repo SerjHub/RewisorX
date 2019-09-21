@@ -1,6 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.Account
@@ -8,7 +7,6 @@ import com.app.rewizor.data.model.Region
 import com.app.rewizor.data.repository.AccountRepository
 import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.exstension.asyncRequest
-import com.app.rewizor.ui.utils.FilterStateModel
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.viewmodel.livedata.SingleLiveEvent
 
@@ -25,9 +23,6 @@ class MainViewModel(
 
     private val profile: MutableLiveData<Account> = MutableLiveData()
     val profileLiveData: LiveData<Account> get() = profile
-
-    private val onNavigationSettings: MutableLiveData<Boolean> = SingleLiveEvent()
-    val onNavigationSettingsLiveEvent: LiveData<Boolean> get() = onNavigationSettings
 
     private val currentTopic: MutableLiveData<TOPIC> = MutableLiveData()
     val currentTopicLiveData: LiveData<TOPIC> get() = currentTopic
@@ -47,14 +42,14 @@ class MainViewModel(
     private val onLoadSettingsError: MutableLiveData<String> = SingleLiveEvent()
     val onLoadSettingsErrorLiveEvent: LiveData<String> get() = onLoadSettingsError
 
-    private val filterState: MutableLiveData<FilterStateModel> = MutableLiveData()
-    val filterStateLiveData: LiveData<FilterStateModel> get() = filterState
-
     private val filterOpened: MutableLiveData<Boolean> = MutableLiveData()
     val filterOpenedLiveData: LiveData<Boolean> get() = filterOpened
 
     private val filterEnabled: MutableLiveData<Boolean> = MutableLiveData()
     val filterEnabledLiveData: LiveData<Boolean> get() = filterEnabled
+
+    private val filterVisible: MutableLiveData<Boolean> = MutableLiveData()
+    val filterVisibleLiveData: LiveData<Boolean> get() = filterVisible
 
     override fun onViewCreated() {
         asyncRequest(
@@ -65,7 +60,6 @@ class MainViewModel(
     }
 
     private fun systemLoaded() {
-        onNavigationSettings.value = true
         currentTopic.value = TOPIC.MAIN
         setProfile()
     }
@@ -78,9 +72,8 @@ class MainViewModel(
     fun menuClicked(topic: TOPIC) {
         if (currentTopic.value == topic) return
         currentTopic.value = topic
-        Log.i("FindOpenFilters", "TOPIC ${topic.name} ${topic.filters}")
-        filterState.value = topic.filters
-        Log.i("FindOpenFilters", "state ${filterState.value}")
+        filterEnabled.value = topic.filters?.isCleared()?.not() ?: false
+        filterVisible.value = topic != TOPIC.MAIN
     }
 
     fun openLastTopic() {
@@ -133,6 +126,4 @@ class MainViewModel(
     fun clearVm() {
         onCleared()
     }
-
-    fun getFilterState() = filterState.value
 }

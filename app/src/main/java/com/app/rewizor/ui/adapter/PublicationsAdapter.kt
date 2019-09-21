@@ -97,7 +97,9 @@ class PublicationsAdapter(
                     }
                 }
                 else -> {
-                    containerView.publication_item_event_date.text = DatePrinter.simpleDate(p.date!!)
+                    containerView.publication_item_event_date.text = p.date?.let {
+                        DatePrinter.simpleDate(it)
+                    } ?: ""
                 }
             }
         }

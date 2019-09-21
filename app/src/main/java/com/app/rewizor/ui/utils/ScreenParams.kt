@@ -10,7 +10,7 @@ enum class TOPIC(val title: String,val requestKey: String?, val filters: FilterS
     NEWS("Новости", "news"),
     AFISHA("Афиша", "afisha", Afisha()),
     MATERIALS("Материалы", "articles"),
-    PLACES("МЕСТА", "mail"),
+    PLACES("МЕСТА", "places"),
     KIDS("ДЛЯ ДЕТЕЙ", "mail")
 }
 

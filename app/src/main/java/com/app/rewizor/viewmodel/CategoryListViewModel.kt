@@ -2,6 +2,7 @@ package com.app.rewizor.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.app.rewizor.data.model.PublicationCommon
 import com.app.rewizor.data.repository.PublicationRepository
 import com.app.rewizor.exstension.asyncRequest
@@ -14,6 +15,9 @@ class CategoryListViewModel(
     private lateinit var parentViewModel: TopicViewModel
     private var currentPage = START_PAGE
 
+    private val filter
+        get() = parentViewModel.filterStateLiveData.value
+
     private val currentCategoryId: MutableLiveData<String> = MutableLiveData()
 
     private val publicationList: MutableLiveData<List<PublicationCommon>> = MutableLiveData()
@@ -25,7 +29,7 @@ class CategoryListViewModel(
     private val loadingSate: MutableLiveData<Boolean> = MutableLiveData()
     val loadingStateLiveData: LiveData<Boolean> get() = loadingSate
 
-    private val updateObserver = { u: Boolean ->
+    private val updateObserver = Observer<Boolean> { u ->
         if (u) onRefresh()
     }
 
@@ -44,16 +48,25 @@ class CategoryListViewModel(
     }
 
     private fun prepareParams(): PublicationRepository.Params {
-        requestParams(currentCategoryId.value!!)!!
-            .run {
-
-            }
         return PublicationRepository.Params(
             currentPage,
             PAGE_SIZE,
             currentCategoryId.value!!,
             parentViewModel.fragmentsTopicLiveData.value!!.requestKey
         )
+    }
+
+    private fun prepareFilter(): PublicationRepository.Filter {
+        return filter!!.run {
+            PublicationRepository.Filter(
+                age,
+                dates,
+                searchText,
+                place,
+                popular,
+                recommend
+                )
+        }
     }
 
     private fun onNextPage() {
@@ -63,7 +76,8 @@ class CategoryListViewModel(
                     requestParams(currentCategoryId.value!!)!!
                         .run {
                             publicationsRepository.fetchPublicationsList(
-                                prepareParams()
+                                prepareParams(),
+                                prepareFilter()
                             )
                         }
                 },

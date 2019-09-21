@@ -7,7 +7,8 @@ import com.app.rewizor.data.model.PublicationDetailed
 interface PublicationRepository {
 
     suspend fun fetchPublicationsList(
-        params: Params
+        params: Params,
+        filter: Filter
     ): RewizorResult<List<PublicationCommon>>
 
     suspend fun fetchPublication(id: String): RewizorResult<PublicationDetailed>
@@ -24,5 +25,14 @@ interface PublicationRepository {
         val popular: Boolean? = null,
         val recommendations: Boolean? = null
 
+    )
+
+    data class Filter(
+        val age: String?,
+        val period: String?,
+        val searchText: String?,
+        val places: String?,
+        val popular: Boolean?,
+        val recommendations: Boolean?
     )
 }

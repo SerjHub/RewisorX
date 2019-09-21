@@ -16,9 +16,6 @@ object DatePrinter {
             else -> ""
         }
 
-    fun getPublicationDate() {}
-
-
     fun getForPeriod(start: String, end: String): String {
         val startDate: DateTime = ISO_FORMATTER.parseDateTime(start)
         val endDate: DateTime = ISO_FORMATTER.parseDateTime(end)
@@ -33,17 +30,36 @@ object DatePrinter {
             .also {
                 return it
             }
-
     }
 
-    fun simpleDate(str: String): String =
+    //19
+    fun printIsoPeriod(period: String) =
+        period.run {
+            when (period.length) {
+                39 -> {
+                    toMutableList()
+                        .let {
+                            "${simpleDate(
+                                String(it.subList(0, 18).toCharArray())
+                            )} ${simpleDate(
+                                String(it.subList(20, 39).toCharArray())
+                            )}"
+                        }
+                }
+                else -> ""
+            }
+        }
+
+
+
+    fun simpleDate(str: String, withoutTime: Boolean = false): String =
         parseForPrint(
-            ISO_FORMATTER.parseDateTime(str)
+            ISO_FORMATTER.parseDateTime(str),
+            withoutTime
         )
 
     fun dateToIso(d: DateTime): String =
         d.toString("yyyy-MM-dd'T'HH:mm:ss")
-
 
 
     fun getSingleDate(inputIsoDate: String): String {
@@ -56,8 +72,8 @@ object DatePrinter {
         return parseForPrint(dateTime)
     }
 
-    fun parseForPrint(dateTime: DateTime) =
-        (if (dateTime.millisOfDay().get() == 0) NO_TIME
+    fun parseForPrint(dateTime: DateTime, printTime: Boolean = true) =
+        (if (dateTime.millisOfDay().get() == 0 && !printTime) NO_TIME
         else WITH_TIME)
             .let {
                 DateTimeFormat

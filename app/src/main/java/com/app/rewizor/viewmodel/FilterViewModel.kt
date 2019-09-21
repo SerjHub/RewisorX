@@ -19,10 +19,6 @@ class FilterViewModel(
     val categoriesLiveData: LiveData<List<RewizorCategory>> get() = categories
 
     private val startDay: MutableLiveData<DateTime> = MutableLiveData()
-    val startDayLiveData: LiveData<DateTime> get() = startDay
-
-    private val endDay: MutableLiveData<DateTime> = MutableLiveData()
-    val endDayLiveData: LiveData<DateTime> get() = endDay
 
     private val date: MutableLiveData<String> = MutableLiveData()
     val dateLiveData: LiveData<String> get() = date
@@ -34,7 +30,6 @@ class FilterViewModel(
     lateinit var filterStateModel: FilterStateModel
 
     override fun onViewCreated() {
-        mainViewModel.getFilterState()?.let { filterStateModel = it }
         filterStateModel.category?.let { categories.value = systemRepository.rewizorCategories  }
     }
 
@@ -72,7 +67,7 @@ class FilterViewModel(
         startDay.value = DateTime(y, m, d, 0, 0)
         date.value = DatePrinter.dateToIso(startDay.value!!)
         filterStateModel.dates =
-            "${DatePrinter.dateToIso(startDay.value!!)} - ${DatePrinter.dateToIso(DateTime(y, m, d, 23, 59))}"
+            "${DatePrinter.dateToIso(startDay.value!!)}-${DatePrinter.dateToIso(DateTime(y, m, d, 23, 59))}"
         Log.i("FindDate", "${filterStateModel.dates}")
         mainViewModel.filterEnabled(!filterStateModel.isCleared())
     }
@@ -87,17 +82,13 @@ class FilterViewModel(
         DateTime(y,m,d,23,59)
             .also {
                 if (it.isAfter(startDay.value)) {
-                    filterStateModel.dates = "${DatePrinter.dateToIso(startDay.value!!)} - ${DatePrinter.dateToIso(it)}"
+                    filterStateModel.dates = "${DatePrinter.dateToIso(startDay.value!!)}-${DatePrinter.dateToIso(it)}"
                     mainViewModel.filterEnabled(!filterStateModel.isCleared())
                     Log.i("FindDate", "${filterStateModel.dates}")
                 }
                 else { reChangeEndDate.value = it }
             }
 
-    }
-
-    fun releaseEndDateFilter() {
-        endDay.value = EMPTY_DATE
     }
 
     companion object {

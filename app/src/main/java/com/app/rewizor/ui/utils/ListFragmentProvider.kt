@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.app.rewizor.ui.CategoryListFragment
 import com.app.rewizor.ui.CategoryListFragment.Companion.CATEGORY_ID_ARG
 import com.app.rewizor.ui.CategoryListFragment.Companion.CATEGORY_NAME_ARG
-import com.app.rewizor.ui.TopicTabFragment
 import com.app.rewizor.ui.model.FragmentParamsModel
 
 object ListFragmentProvider {
@@ -18,7 +17,4 @@ object ListFragmentProvider {
                 }
             }
         }
-
-    fun getTabFragment(topic: TOPIC) =
-        TopicTabFragment.getInstance()
 }

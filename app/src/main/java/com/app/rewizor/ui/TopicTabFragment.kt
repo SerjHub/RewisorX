@@ -1,7 +1,6 @@
 package com.app.rewizor.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentPagerAdapter
@@ -31,20 +30,23 @@ class TopicTabFragment : TabFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        category_tabs.setupWithViewPager(category_pager)
         setupViewModel(viewModel)
+        category_tabs.setupWithViewPager(category_pager)
     }
 
     private fun setupViewModel(viewModel: TopicViewModel) {
         with(viewModel) {
+
             fragmentParamsModelLiveData.observe(
                 viewLifecycleOwner,
                 Observer { createFragments(it) })
+
             setViewArgs(
                 arguments?.getString(TOPIC_KEY)
                     ?: throw NullPointerException("No arguments to show data")
             )
+
+            onViewCreated()
         }
     }
 
@@ -65,7 +67,6 @@ class TopicTabFragment : TabFragment() {
     }
 
     fun onOpenFilter() {
-        Log.i("FindOpen", "opened")
         category_tabs.isVisible = false
         category_pager.isVisible = false
         childFragmentManager
@@ -75,7 +76,6 @@ class TopicTabFragment : TabFragment() {
     }
 
     fun onCloseFilter() {
-        Log.i("FindOpen", "close")
         category_tabs.isVisible = true
         category_pager.isVisible = true
         childFragmentManager

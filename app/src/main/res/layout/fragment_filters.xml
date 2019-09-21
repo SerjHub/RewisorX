@@ -69,6 +69,8 @@
             tools:visibility="visible">
         <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/popularSwitch"
+                android:checked="true"
+                style="@style/switchers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <TextView

@@ -3,7 +3,6 @@ package com.app.rewizor.ui
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import androidx.core.view.isVisible
@@ -11,9 +10,11 @@ import com.app.rewizor.R
 import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.openItemsDialogListener
+import com.app.rewizor.ui.utils.DatePrinter
 import com.app.rewizor.ui.utils.FilterStateModel
 import com.app.rewizor.viewmodel.FilterViewModel
 import com.app.rewizor.viewmodel.MainViewModel
+import com.app.rewizor.viewmodel.TopicViewModel
 import kotlinx.android.synthetic.main.fragment_filters.*
 import kotlinx.android.synthetic.main.view_filter_input.view.*
 import org.joda.time.DateTime
@@ -21,10 +22,11 @@ import org.koin.android.ext.android.inject
 
 class FiltersFragment : BaseFragment() {
     private val filterViewModel: FilterViewModel by inject()
-    private val parentViewModel: MainViewModel
+    private val parentViewModel: TopicViewModel
+        get() = (parentFragment as TopicTabFragment).viewModel
+    private val mainViewModel: MainViewModel
         get() = (parentFragment as TopicTabFragment).parentViewModel
 
-    lateinit var filters: FilterStateModel
 
     override val layout: Int
         get() = R.layout.fragment_filters
@@ -34,21 +36,21 @@ class FiltersFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("FindFragc", "crewted")
         setObservers()
     }
 
     private fun setObservers() {
-        Log.i("FindOpenFilters", "st observe ${parentViewModel.filterStateLiveData.value}")
         with(filterViewModel) {
-            mainViewModel = parentViewModel
+            this.mainViewModel = this@FiltersFragment.mainViewModel
+
             parentViewModel.filterStateLiveData.observeViewModel(viewLifecycleOwner) {
-                Log.i("FindOpenFilters", "onChange $it")
-                filters = it
+                filterStateModel = it
+                onViewCreated()
                 setUpFiltersUi(it)
                 initInputListeners(it)
 
             }
+
             categoriesLiveData.observeViewModel(viewLifecycleOwner) { list ->
 
                 categoryField.openItemsDialogListener(list.map { c -> c.name }) { item ->
@@ -68,31 +70,36 @@ class FiltersFragment : BaseFragment() {
                     showEndDateDialog(c, it.year, it.monthOfYear, it.dayOfMonth)
                 }
             }
-
         }
     }
 
     private fun initInputListeners(model: FilterStateModel) {
         model.apply {
+            events.setEditable()
             events.currentFilterValue.onTextChange {
                 filterViewModel.setSearch(it)
             }
+            places.setEditable()
             places.currentFilterValue.onTextChange {
                 filterViewModel.setPlace(it)
             }
-            ages.setOnClickListener {
+            ages.clickableView.setOnClickListener {
+
                 with(PickerDialog()) {
                     listener = object : PickerDialog.NumberListener {
                         override fun onChanged(value: Int) {
+                            ages.currentFilterValue.setText(getAgeTitle("$value"))
                             filterViewModel.setAge("$value")
                         }
 
                         override fun onCleared() {
+                            ages.currentFilterValue.setText(getAgeTitle("0"))
                             filterViewModel.setAge("0")
                         }
                     }
-                    showDialog(childFragmentManager)
+                    showDialog(fragmentManager!!)
                 }
+
             }
 
             popularSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -103,8 +110,7 @@ class FiltersFragment : BaseFragment() {
                 filterViewModel.setRecommended(isChecked)
             }
 
-
-            date.setOnClickListener {
+            date.clickableView.setOnClickListener {
                 context?.let { c ->
                     DateTime().also {
                         DatePickerDialog(
@@ -136,7 +142,6 @@ class FiltersFragment : BaseFragment() {
             m,
             d
         ).apply {
-            setOnCancelListener { filterViewModel.releaseEndDateFilter() }
             show()
         }
     }
@@ -146,30 +151,38 @@ class FiltersFragment : BaseFragment() {
         with(model) {
             searchText?.let {
                 events.isVisible = true
+                events.currentFilterValue.setText(it)
             }
             dates?.let {
                 date.isVisible = true
+                DatePrinter.printIsoPeriod(it)
             }
             category?.let {
                 categoryField.isVisible = true
             }
             age?.let {
                 ages.isVisible = true
+                ages.currentFilterValue.setText(getAgeTitle(it))
             }
             place?.let {
                 places.isVisible = true
+                places.currentFilterValue.setText(it)
             }
             popular?.let {
                 popularItem.isVisible = true
+                popularSwitch.isChecked = it
             }
             recommend?.let {
                 recommendedItem.isVisible = true
+                recommendedSwitch.isChecked = it
             }
 //            mostRead?.let {
 //                mostReadItem.isVisible = true
 //            }
         }
     }
+
+    private fun getAgeTitle(a: String) = if (a.isNotEmpty())"Возраст $a+" else "Возраст"
 
     companion object {
         const val TRANSACTION_TAG = "filtersFragment"

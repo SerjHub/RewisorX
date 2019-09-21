@@ -121,7 +121,6 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             anonModelLiveData.observeViewModel(this@MainActivity) { if (it) hideProfile() }
             regionModelLiveData.observeViewModel(this@MainActivity) { setRegion(it) }
             profileLiveData.observeViewModel(this@MainActivity) { setProfileView(it) }
-            onNavigationSettingsLiveEvent.observeViewModel(this@MainActivity) { openTopic() }
             currentTopicLiveData.observeViewModel(this@MainActivity) { openTopic(it) }
             cityFilterOpenedLiveData.observeViewModel(this@MainActivity) { openCities(it) }
             aboutOpenedLiveData.observeViewModel(this@MainActivity) {
@@ -151,6 +150,12 @@ class MainActivity : AppCompatActivity(), KoinComponent,
                         else R.drawable.ic_filter
                 )
             }
+            filterVisibleLiveData.observeViewModel(this@MainActivity) { v ->
+                menu?.findItem(R.id.filter)?.let {
+                    it.isVisible = v
+                }
+            }
+
 
             onViewCreated()
         }
@@ -281,6 +286,9 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             R.id.news -> {
                 viewModel.menuClicked(TOPIC.NEWS)
             }
+            R.id.locations -> {
+                viewModel.menuClicked(TOPIC.PLACES)
+            }
             R.id.city -> {
                 viewModel.cityClicked()
             }
@@ -317,9 +325,12 @@ class MainActivity : AppCompatActivity(), KoinComponent,
         this.menu = menu
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         initClickListeners()
-        menu?.findItem(R.id.filter)?.setOnMenuItemClickListener {
-            viewModel.filterClicked()
-            return@setOnMenuItemClickListener true
+        menu?.findItem(R.id.filter)?.apply {
+            setOnMenuItemClickListener {
+                viewModel.filterClicked()
+                return@setOnMenuItemClickListener true
+            }
+            isVisible = false
         }
         return super.onCreateOptionsMenu(menu)
     }

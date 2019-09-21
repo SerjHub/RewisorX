@@ -15,15 +15,17 @@ class PickerDialog : DialogFragment() {
 
         val picker = NumberPicker(activity)
             .apply {
-                minValue = 3
-                maxValue = 60
+                minValue = 0
+                maxValue = 18
+                wrapSelectorWheel = false
             }
         picker.setOnValueChangedListener { _, _, newVal ->
             listener.onChanged(newVal)
         }
         return AlertDialog.Builder(activity!!).run {
             setTitle("Выберите возраст")
-            setNegativeButton("Отмена") { _, _ -> listener.onCleared() }
+            setNegativeButton("Отменить") { _, _ -> listener.onCleared() }
+            setPositiveButton("Применить") {_, _ -> dismiss() }
             setView(picker)
             create()
         }

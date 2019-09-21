@@ -22,9 +22,9 @@
         android:id="@+id/news"
         android:title="@string/news"/>
 
-    <!--<item-->
-        <!--android:id="@+id/locations"-->
-        <!--android:title="@string/locations"/>-->
+    <item
+        android:id="@+id/locations"
+        android:title="@string/locations"/>
 
     <!--<item-->
         <!--android:id="@+id/kids"-->
