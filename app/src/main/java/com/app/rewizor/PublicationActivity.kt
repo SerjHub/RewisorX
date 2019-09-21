@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.rewizor.data.model.PublicationDetailed
 import com.app.rewizor.exstension.observeViewModel
+import com.app.rewizor.ui.custom.PublicationTextItem
 import com.app.rewizor.ui.utils.DatePrinter
 import com.app.rewizor.ui.utils.TOPIC
 import com.app.rewizor.ui.utils.TagColorProvider
@@ -82,32 +83,26 @@ class PublicationActivity : AppCompatActivity() {
             setColor(p)
 
             name?.let { this@PublicationActivity.name.text = it }
-            parentAddress?.let { this@PublicationActivity.address.setContent(it) }
+            (address ?: parentAddress)?.let { this@PublicationActivity.address.setContent(it) }
             description?.let { this@PublicationActivity.description.setContent(it) }
 
-            website?.let {
-                this@PublicationActivity.website
-                    .apply {
-                        isLink = true
-                        setOnClickListener {
-                            Intent(Intent.ACTION_VIEW)
-                                .also {
-                                    it.data = Uri.parse("${infoBody.text}")
-                                    startActivity(it)
-                                }
-                        }
-                        setContent(it)
-                    }
+            website?.let { setLink(this@PublicationActivity.website, it) }
+            source?.let { setLink(this@PublicationActivity.source, it) }
 
-            }
             this@PublicationActivity.age.text = "$age+"
-            category?.let { }
-            phone?.let { this@PublicationActivity.phone.setContent(it) }
-            source?.let { this@PublicationActivity.source.setContent(it) }
-            workingDaysHours?.let { }
-            fullDescription?.let { }
             (fullDescription ?: description)
                 ?.let { this@PublicationActivity.description.setContent(it) }
+
+
+            phone?.let { this@PublicationActivity.phone.setContent(it) }
+
+
+            city?.let { this@PublicationActivity.city.setContent(it) }
+            workingDaysHours?.let {  }
+            category?.let { }
+
+
+
 
 
 
@@ -118,6 +113,21 @@ class PublicationActivity : AppCompatActivity() {
                     .into(main_image)
             }
         }
+    }
+
+    private fun setLink(view: PublicationTextItem, url: String) {
+        view
+            .apply {
+                isLink = true
+                setOnClickListener {
+                    Intent(Intent.ACTION_VIEW)
+                        .also {
+                            it.data = Uri.parse("${infoBody.text}")
+                            startActivity(it)
+                        }
+                }
+                setContent(url)
+            }
     }
 
     private fun setActions(p: PublicationDetailed) {
@@ -174,8 +184,6 @@ class PublicationActivity : AppCompatActivity() {
             }
 
 
-
-
     private fun setDate(p: PublicationDetailed) {
         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
         val formatterStyled = DateTimeFormat
@@ -207,12 +215,13 @@ class PublicationActivity : AppCompatActivity() {
     private fun setUnderGrounds(p: PublicationDetailed) {
         with(p) {
             if (undergrounds.isNotEmpty()) {
-                val str = ""
-                undergrounds.values.forEach {
-                    str.plus("$it, ")
+                var str = ""
+                undergrounds.forEach {
+                    str = str
+                        .plus("${it.name}, ")
+
                 }
-                str.removeRange(str.length - 2, str.length - 1)
-                nearMetro.setContent(str)
+                nearMetro.setContent(str.removeRange(str.length - 2, str.length - 1))
             }
         }
     }

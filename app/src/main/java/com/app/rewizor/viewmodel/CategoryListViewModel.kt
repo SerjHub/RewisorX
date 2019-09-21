@@ -56,8 +56,8 @@ class CategoryListViewModel(
         )
     }
 
-    private fun prepareFilter(): PublicationRepository.Filter {
-        return filter!!.run {
+    private fun prepareFilter(): PublicationRepository.Filter? {
+        return filter?.run {
             PublicationRepository.Filter(
                 age,
                 dates,

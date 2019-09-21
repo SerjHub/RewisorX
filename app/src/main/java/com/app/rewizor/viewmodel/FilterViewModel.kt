@@ -1,6 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.RewizorCategory
@@ -65,11 +64,19 @@ class FilterViewModel(
 
     fun setStartDate(y: Int, m: Int, d: Int) {
         startDay.value = DateTime(y, m, d, 0, 0)
-        date.value = DatePrinter.dateToIso(startDay.value!!)
         filterStateModel.dates =
             "${DatePrinter.dateToIso(startDay.value!!)}-${DatePrinter.dateToIso(DateTime(y, m, d, 23, 59))}"
-        Log.i("FindDate", "${filterStateModel.dates}")
+        showSelectedDate()
         mainViewModel.filterEnabled(!filterStateModel.isCleared())
+    }
+
+    private fun showSelectedDate() {
+        date.value = DatePrinter.dateNoYear(DatePrinter.dateToIso(startDay.value!!))
+            .let { checkForYear.invoke(it) }
+    }
+
+    private val checkForYear: (String) -> String = {
+        if (it.contains("$CURRENT_YEAR")) it.removeSuffix("$CURRENT_YEAR") else it
     }
 
     fun releaseDateFilter() {
@@ -83,8 +90,8 @@ class FilterViewModel(
             .also {
                 if (it.isAfter(startDay.value)) {
                     filterStateModel.dates = "${DatePrinter.dateToIso(startDay.value!!)}-${DatePrinter.dateToIso(it)}"
+                    date.value = DatePrinter.printIsoPeriod(filterStateModel.dates!!)
                     mainViewModel.filterEnabled(!filterStateModel.isCleared())
-                    Log.i("FindDate", "${filterStateModel.dates}")
                 }
                 else { reChangeEndDate.value = it }
             }
@@ -92,7 +99,7 @@ class FilterViewModel(
     }
 
     companion object {
-        val EMPTY_DATE = DateTime()
+        val CURRENT_YEAR = DateTime.now().year
     }
 
 }

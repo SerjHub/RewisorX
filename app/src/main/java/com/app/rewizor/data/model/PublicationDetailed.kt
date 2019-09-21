@@ -13,11 +13,12 @@ data class PublicationDetailed(
     val age: Int,
     val website: String?,
     val phone: String?,
+    val city: String?,
     val workingDaysHours: String?,
     val source: String?,
     val address: String?,
-    val lat: Long,
-    val lon: Long,
+    val lat: Float?,
+    val lon: Float?,
     val parent: String,
     val image: ImageInfo?,
     val photos: List<ImageInfo>,
@@ -26,7 +27,7 @@ data class PublicationDetailed(
     val views: Int,
     val likes: Int,
     val hasLike: Boolean,
-    val undergrounds: Map<Int, String>,
+    val undergrounds: List<Underground>,
 
     val parentAddress: String?,
     val parentName: String?

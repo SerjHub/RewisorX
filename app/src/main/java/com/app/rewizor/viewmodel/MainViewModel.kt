@@ -73,7 +73,7 @@ class MainViewModel(
         if (currentTopic.value == topic) return
         currentTopic.value = topic
         filterEnabled.value = topic.filters?.isCleared()?.not() ?: false
-        filterVisible.value = topic != TOPIC.MAIN
+        filterVisible.value = topic.filters != null
     }
 
     fun openLastTopic() {

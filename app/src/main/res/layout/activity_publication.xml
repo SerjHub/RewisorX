@@ -144,6 +144,7 @@
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/phone"
+                    app:title="Телефон:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -167,6 +168,7 @@
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/source"
+                    app:title="Источник информации"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"

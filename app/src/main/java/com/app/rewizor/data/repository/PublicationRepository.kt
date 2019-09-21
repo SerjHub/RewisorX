@@ -8,7 +8,7 @@ interface PublicationRepository {
 
     suspend fun fetchPublicationsList(
         params: Params,
-        filter: Filter
+        filter: Filter?
     ): RewizorResult<List<PublicationCommon>>
 
     suspend fun fetchPublication(id: String): RewizorResult<PublicationDetailed>

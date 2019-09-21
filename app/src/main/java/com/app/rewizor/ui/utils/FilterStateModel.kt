@@ -14,13 +14,6 @@ sealed class FilterStateModel(
     abstract fun isCleared(): Boolean
 }
 
-object Main : FilterStateModel(
-    null, null, null, null, null, null, null, null
-) {
-    override fun clear() = Unit
-    override fun isCleared() = true
-}
-
 data class Afisha(
     val searchTextTitle: String = "Поиск по событиям"
 ) : FilterStateModel(
@@ -47,30 +40,61 @@ data class Afisha(
                 dates!!.isEmpty() &&
                 category!!.isEmpty() &&
                 age!!.isEmpty() &&
-                popular!! &&
-                recommend!!
+                !popular!! &&
+                !recommend!!
 
 }
 
-//object News: FilterStateModel (
-//    "Поиск по новостям",
-//    true,
-//    false,
-//    true,
-//    true,
-//    false,
-//    false,
-//    false
-//)
-//
-//object Materials: FilterStateModel (
-//    "Поиск материалов",
-//    true,
-//    true,
-//    true,
-//    true,
-//    false,
-//    false,
-//    true
-//)
+data class News(
+    val searchTextTitle: String = "Поиск по новостям"
+): FilterStateModel (
+    searchText = "",
+    age = "",
+    dates = "",
+    place = ""
+) {
+    override fun clear() {
+        searchText = ""
+        age = ""
+        dates = ""
+        place = ""
+    }
+
+    override fun isCleared(): Boolean =
+        searchText!!.isEmpty() &&
+                age!!.isEmpty() &&
+                dates!!.isEmpty() &&
+                place!!.isEmpty()
+
+}
+
+data class Materials(
+    val searchTextTitle: String = "Поиск материалов"
+): FilterStateModel (
+    searchText = "",
+    age = "",
+    dates = "",
+    place = "",
+    mostRead = false,
+    category = ""
+) {
+    override fun clear() {
+        searchText = ""
+        age = ""
+        dates = ""
+        place = ""
+        mostRead = false
+        category = ""
+
+    }
+
+    override fun isCleared(): Boolean =
+        searchText!!.isEmpty() &&
+                age!!.isEmpty() &&
+                dates!!.isEmpty() &&
+                place!!.isEmpty() &&
+                !mostRead!! &&
+                category!!.isEmpty()
+
+}
 

@@ -16,7 +16,7 @@ class PublicationRepositoryImpl(
 
     override suspend fun fetchPublicationsList(
         params: PublicationRepository.Params,
-        filter: PublicationRepository.Filter
+        filter: PublicationRepository.Filter?
     ): RewizorResult<List<PublicationCommon>> {
         val pageResult = params.run {
             apiClient.callApi {

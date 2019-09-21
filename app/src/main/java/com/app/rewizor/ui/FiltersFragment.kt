@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
+import android.widget.NumberPicker
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import com.app.rewizor.R
 import com.app.rewizor.exstension.observeViewModel
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.view_filter_input.view.*
 import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
 
-class FiltersFragment : BaseFragment() {
+class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
     private val filterViewModel: FilterViewModel by inject()
     private val parentViewModel: TopicViewModel
         get() = (parentFragment as TopicTabFragment).viewModel
@@ -73,6 +75,16 @@ class FiltersFragment : BaseFragment() {
         }
     }
 
+    override fun onChanged(value: Int) {
+        ages.currentFilterValue.setText(getAgeTitle("$value"))
+        filterViewModel.setAge("$value")
+    }
+
+    override fun onCleared() {
+        ages.currentFilterValue.setText(getAgeTitle("0"))
+        filterViewModel.setAge("0")
+    }
+
     private fun initInputListeners(model: FilterStateModel) {
         model.apply {
             events.setEditable()
@@ -85,20 +97,29 @@ class FiltersFragment : BaseFragment() {
             }
             ages.clickableView.setOnClickListener {
 
-                with(PickerDialog()) {
-                    listener = object : PickerDialog.NumberListener {
-                        override fun onChanged(value: Int) {
-                            ages.currentFilterValue.setText(getAgeTitle("$value"))
-                            filterViewModel.setAge("$value")
-                        }
 
-                        override fun onCleared() {
-                            ages.currentFilterValue.setText(getAgeTitle("0"))
-                            filterViewModel.setAge("0")
-                        }
+                val picker = NumberPicker(activity)
+                    .apply {
+                        minValue = 0
+                        maxValue = 18
+                        wrapSelectorWheel = false
                     }
-                    showDialog(fragmentManager!!)
+                picker.setOnValueChangedListener { _, _, newVal ->
+                    ages.currentFilterValue.setText(getAgeTitle("$newVal"))
+                    filterViewModel.setAge("$newVal")
                 }
+                AlertDialog.Builder(activity!!).let {
+                    it.setTitle("Выберите возраст")
+                    it.setNegativeButton("Отменить") { _, _ ->
+                        ages.currentFilterValue.setText(getAgeTitle("0"))
+                        filterViewModel.setAge("0")
+                    }
+                    it.setPositiveButton("Применить") { _, _ -> }
+                    it.setView(picker)
+                    it.create()
+                        .show()
+                }
+
 
             }
 
@@ -112,7 +133,7 @@ class FiltersFragment : BaseFragment() {
 
             date.clickableView.setOnClickListener {
                 context?.let { c ->
-                    DateTime().also {
+                    DateTime.now().also {
                         DatePickerDialog(
                             c,
                             { p: DatePicker, y: Int, m: Int, d: Int ->
@@ -155,7 +176,7 @@ class FiltersFragment : BaseFragment() {
             }
             dates?.let {
                 date.isVisible = true
-                DatePrinter.printIsoPeriod(it)
+                date.currentFilterValue.setText(DatePrinter.printIsoPeriod(it))
             }
             category?.let {
                 categoryField.isVisible = true
@@ -182,7 +203,7 @@ class FiltersFragment : BaseFragment() {
         }
     }
 
-    private fun getAgeTitle(a: String) = if (a.isNotEmpty())"Возраст $a+" else "Возраст"
+    private fun getAgeTitle(a: String) = if (a.isNotEmpty()) "Возраст $a+" else "Возраст"
 
     companion object {
         const val TRANSACTION_TAG = "filtersFragment"

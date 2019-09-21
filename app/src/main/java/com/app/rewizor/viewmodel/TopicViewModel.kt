@@ -5,18 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.repository.SystemRepository
 import com.app.rewizor.ui.model.FragmentParamsModel
-import com.app.rewizor.ui.utils.Afisha
-import com.app.rewizor.ui.utils.FilterStateModel
-import com.app.rewizor.ui.utils.Main
-import com.app.rewizor.ui.utils.TOPIC
+import com.app.rewizor.ui.utils.*
 
 class TopicViewModel(
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
-
-    init {
-        Log.i("FindTopic", "init")
-    }
 
     private val fragmentsTopic: MutableLiveData<TOPIC> = MutableLiveData()
     val fragmentsTopicLiveData: LiveData<TOPIC> get() = fragmentsTopic
@@ -37,10 +30,14 @@ class TopicViewModel(
     }
 
     fun updateLastFilter() {
-        lastFilter.value = when (val f = fragmentsTopic.value!!.filters as FilterStateModel) {
-            is Afisha -> f.copy()
-            is Main -> Main
+        fragmentsTopic.value?.filters?.also {
+            lastFilter.value = when (it) {
+                is Afisha-> it.copy()
+                is News -> it.copy()
+                is Materials -> it.copy()
+            }
         }
+
     }
 
     // создаются параметры для генерации фрагментов для показа определенной категории каждого раздела
