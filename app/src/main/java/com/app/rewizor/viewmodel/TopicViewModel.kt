@@ -11,6 +11,8 @@ class TopicViewModel(
     private val systemRepository: SystemRepository
 ) : BaseViewModel() {
 
+    lateinit var mainViewModel: MainViewModel
+
     private val fragmentsTopic: MutableLiveData<TOPIC> = MutableLiveData()
     val fragmentsTopicLiveData: LiveData<TOPIC> get() = fragmentsTopic
 
@@ -35,9 +37,10 @@ class TopicViewModel(
                 is Afisha-> it.copy()
                 is News -> it.copy()
                 is Materials -> it.copy()
+                is Main -> it.copy()
+                is Places -> it.copy()
             }
         }
-
     }
 
     // создаются параметры для генерации фрагментов для показа определенной категории каждого раздела
@@ -63,10 +66,6 @@ class TopicViewModel(
         } else {
             updateLastFilter()
             updateCategory.value = true
-            if (!lastFilter.value!!.category.isNullOrEmpty()) {
-                //updateCategory.value = true
-            }
-
         }
     }
 
@@ -80,8 +79,18 @@ class TopicViewModel(
         }
     }
 
+    fun searchInserted(text: String?) {
+        when {
+            (text.isNullOrEmpty() || text.length < 3) && !filterState.value?.searchText.isNullOrEmpty() -> {
+                filterState.value?.searchText = ""
+                onFiltersUpdated()
+            }
+            (text?.length ?: 0 > 2)  -> {
+                filterState.value?.let { it.searchText = text }
+                onFiltersUpdated()
+            }
+        }
+    }
+
     fun getParams(categoryId: String) = fragmentParamsModel.value?.first { it.categoryId == categoryId }
-
-
-
 }

@@ -96,6 +96,10 @@ class PublicationsAdapter(
                         containerView.publication_item_event_date.text = DatePrinter.simpleDate(p.date)
                     }
                 }
+
+                TOPIC.PLACES -> {
+                    containerView.start_date.isVisible = false
+                }
                 else -> {
                     containerView.publication_item_event_date.text = p.date?.let {
                         DatePrinter.simpleDate(it)
@@ -134,6 +138,14 @@ class PublicationsAdapter(
                         containerView.description.isVisible = false
                         containerView.addressLayout.isVisible = false
                         containerView.placeLayout.isVisible = false
+                    }
+
+                    TOPIC.PLACES -> {
+                        containerView.description.isVisible = false
+                        containerView.addressLayout.isVisible = true
+                        containerView.placeLayout.isVisible = false
+                        containerView.actionsView.isVisible = false
+                        containerView.addressLayout.address.text = p.address
                     }
                     else -> {
                         containerView.description.isVisible = false

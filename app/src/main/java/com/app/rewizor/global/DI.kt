@@ -48,6 +48,7 @@ val viewModelModule = module {
     viewModel { PublicationViewModel(get()) }
     viewModel { SupportViewModel(get()) }
     viewModel { FilterViewModel(get()) }
+    viewModel { SettingsViewModel(get()) }
 }
 
 

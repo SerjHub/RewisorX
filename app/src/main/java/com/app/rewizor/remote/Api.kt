@@ -71,13 +71,13 @@ interface Api {
         @Field("page") page: String,
         @Field("pageSize") pageSize: String,
         @Field("parent") category: String? = null,
-        @Field("pageType") pageType: String? = null
-//        @Field("age") age: String? = null,
-//        @Field("period") period: String? = "",
-//        @Field("text") text: String? = null,
-//        @Field("places") places: String? = null,
-//        @Field("popular") popular: Boolean? = null,
-//        @Field("recommendations") recommendations: Boolean? = null
+        @Field("pageType") pageType: String? = null,
+        @Field("age") age: String? = null,
+        @Field("period") period: String? = null,
+        @Field("text") text: String? = null,
+        @Field("places") places: String? = null,
+        @Field("popular") popular: Boolean? = null,
+        @Field("recommendations") recommendations: Boolean? = null
     ): Deferred<RewizorResponse<PageInfo>>
 
     @POST("$API_NODES/{guid}")

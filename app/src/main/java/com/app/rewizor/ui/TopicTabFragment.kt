@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 import com.app.rewizor.MainActivity
 import com.app.rewizor.R
+import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.ui.CategoryListFragment.Companion.CATEGORY_NAME_ARG
 import com.app.rewizor.ui.model.FragmentParamsModel
 import com.app.rewizor.ui.utils.ListFragmentProvider
@@ -24,8 +25,8 @@ class TopicTabFragment : TabFragment() {
     override val TAG: String = "TopicTabFragment"
     override val viewModel: TopicViewModel by inject()
     lateinit var topicFragments: List<CategoryListFragment>
-    val parentViewModel: MainViewModel
-        get() = (activity as MainActivity).viewModel
+    val parentViewModel: MainViewModel?
+        get() = (activity as? MainActivity)?.viewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,6 +37,12 @@ class TopicTabFragment : TabFragment() {
 
     private fun setupViewModel(viewModel: TopicViewModel) {
         with(viewModel) {
+            parentViewModel?.let {
+                mainViewModel = it
+                it.searchTextLiveData.observeViewModel(viewLifecycleOwner) {
+
+                }
+            }
 
             fragmentParamsModelLiveData.observe(
                 viewLifecycleOwner,
@@ -87,6 +94,10 @@ class TopicTabFragment : TabFragment() {
                     .commit()
             }
         viewModel.onFiltersUpdated()
+    }
+
+    fun searchTextInserted(text: String?) {
+        viewModel.searchInserted(text)
     }
 
     companion object {

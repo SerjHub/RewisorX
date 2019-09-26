@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_button"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search_hint"
-        />
+            android:id="@+id/searchBar"
+            android:icon="@drawable/ic_search"
+            android:title="@string/search_hint"
+            app:actionViewClass="android.widget.SearchView"
+            app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/filter"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_filter"
-        android:title="@string/filter_hint"
-        />
+            android:id="@+id/filter"
+            android:icon="@drawable/ic_filter"
+            android:title="@string/filter_hint"
+            app:showAsAction="always" />
 </menu>

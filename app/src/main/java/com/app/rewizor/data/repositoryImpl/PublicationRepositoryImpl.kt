@@ -6,6 +6,7 @@ import com.app.rewizor.data.model.PublicationCommon
 import com.app.rewizor.data.model.PublicationDetailed
 import com.app.rewizor.data.repository.PublicationRepository
 import com.app.rewizor.data.repository.SystemRepository
+import com.app.rewizor.exstension.getNotEmpty
 import com.app.rewizor.remote.RestClient
 
 class PublicationRepositoryImpl(
@@ -24,13 +25,13 @@ class PublicationRepositoryImpl(
                     page.toString(),
                     pageCount.toString(),
                     category,
-                    pageType
-       //             filter.age,
-          //          filter.period,
-//                    filter.searchText,
-//                    filter.places,
-//                    filter.popular,
-//                    filter.recommendations
+                    pageType,
+                    filter?.age.getNotEmpty(),
+                    filter?.period.getNotEmpty(),
+                    filter?.searchText.getNotEmpty(),
+                    filter?.places.getNotEmpty(),
+                    filter?.popular,
+                    filter?.recommendations
                 )
             }
         }

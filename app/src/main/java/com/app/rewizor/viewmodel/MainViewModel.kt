@@ -51,6 +51,9 @@ class MainViewModel(
     private val filterVisible: MutableLiveData<Boolean> = MutableLiveData()
     val filterVisibleLiveData: LiveData<Boolean> get() = filterVisible
 
+    private val searchText: MutableLiveData<String> = MutableLiveData()
+    val searchTextLiveData: LiveData<String> get() = searchText
+
     override fun onViewCreated() {
         asyncRequest(
             loadData = { systemRepository.coldStart() },
@@ -74,6 +77,13 @@ class MainViewModel(
         currentTopic.value = topic
         filterEnabled.value = topic.filters?.isCleared()?.not() ?: false
         filterVisible.value = topic.filters != null
+    }
+
+    fun searchInserted(text: String?) {
+        text?.let {
+            return
+        }
+
     }
 
     fun openLastTopic() {

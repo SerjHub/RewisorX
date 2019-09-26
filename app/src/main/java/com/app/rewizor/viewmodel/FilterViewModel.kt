@@ -25,6 +25,9 @@ class FilterViewModel(
     private val reChangeEndDate: MutableLiveData<DateTime> = SingleLiveEvent()
     val reChangeEndDateLiveData: LiveData<DateTime> get() = reChangeEndDate
 
+    private val resetUi: MutableLiveData<Boolean> = SingleLiveEvent()
+    val resetUiLiveData: LiveData<Boolean> get() = resetUi
+
 
     lateinit var filterStateModel: FilterStateModel
 
@@ -96,6 +99,12 @@ class FilterViewModel(
                 else { reChangeEndDate.value = it }
             }
 
+    }
+
+    fun onClear() {
+        filterStateModel.clear()
+        resetUi.value = true
+        mainViewModel.filterEnabled(!filterStateModel.isCleared())
     }
 
     companion object {

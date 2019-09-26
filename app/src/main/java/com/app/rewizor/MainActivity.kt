@@ -13,6 +13,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -22,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.app.rewizor.data.model.Account
 import com.app.rewizor.data.model.Region
+import com.app.rewizor.exstension.getCurrentFragment
 import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.removeFragment
 import com.app.rewizor.exstension.replaceFragment
@@ -37,6 +39,8 @@ import kotlinx.android.synthetic.main.fragment_drawer_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
+
+
 
 class MainActivity : AppCompatActivity(), KoinComponent,
     NavigationView.OnNavigationItemSelectedListener {
@@ -331,6 +335,33 @@ class MainActivity : AppCompatActivity(), KoinComponent,
                 return@setOnMenuItemClickListener true
             }
             isVisible = false
+        }
+
+        menu?.findItem(R.id.searchBar)?.let {
+            (it.actionView as android.widget.SearchView)
+                .apply {
+//                    findViewById<EditText>(androidx.appcompat.R.id.search_plate)
+//                        .also {
+//                            it.setBackgroundColor(Color.TRANSPARENT)
+//                        }
+                    setOnQueryTextListener(
+                        object : SearchView.OnQueryTextListener,
+                            android.widget.SearchView.OnQueryTextListener {
+                            override fun onQueryTextSubmit(query: String?) = false
+                            override fun onQueryTextChange(newText: String?): Boolean {
+                                getCurrentFragment(TopicTabFragment::class.java)
+                                    ?.also { f ->
+                                        f.searchTextInserted(newText)
+                                    }
+                                return false
+                            }
+                        }
+                    )
+                    setOnCloseListener {
+                        getCurrentFragment(TopicTabFragment::class.java)?.searchTextInserted(null)
+                        return@setOnCloseListener false
+                    }
+                }
         }
         return super.onCreateOptionsMenu(menu)
     }

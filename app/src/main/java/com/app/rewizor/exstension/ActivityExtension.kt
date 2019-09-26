@@ -1,11 +1,12 @@
 package com.app.rewizor.exstension
 
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.app.rewizor.AuthorizationActivity
 import com.app.rewizor.MainActivity
 import com.app.rewizor.ui.BaseFragment
 
-fun FragmentActivity.replaceFragment(
+fun AppCompatActivity.replaceFragment(
     container: Int = when (this) {
         is AuthorizationActivity -> AuthorizationActivity.FRAGMENT_CONTAINER
         is MainActivity -> MainActivity.FRAGMENT_CONTAINER
@@ -19,9 +20,14 @@ fun FragmentActivity.replaceFragment(
         .commit()
 }
 
-fun FragmentActivity.removeFragment(fragment: BaseFragment) {
+fun AppCompatActivity.removeFragment(fragment: BaseFragment) {
     supportFragmentManager
         .beginTransaction()
         .remove(fragment)
         .commit()
 }
+
+fun <T: Fragment>AppCompatActivity.getCurrentFragment(type: Class<T>) =
+    supportFragmentManager
+        .fragments
+        .firstOrNull { it::class.java == type } as? T?

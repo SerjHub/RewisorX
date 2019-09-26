@@ -14,6 +14,30 @@ sealed class FilterStateModel(
     abstract fun isCleared(): Boolean
 }
 
+data class Main(
+    val searchTextTitle: String = "Поиск"
+) : FilterStateModel(
+    searchText = ""
+) {
+    override fun clear() {
+        searchText = ""
+    }
+
+    override fun isCleared() = searchText!!.isEmpty()
+}
+
+data class Places(
+    val searchTextTitle: String = "Поиск местам"
+) : FilterStateModel(
+    searchText = ""
+) {
+    override fun clear() {
+        searchText = ""
+    }
+
+    override fun isCleared() = searchText!!.isEmpty()
+}
+
 data class Afisha(
     val searchTextTitle: String = "Поиск по событиям"
 ) : FilterStateModel(

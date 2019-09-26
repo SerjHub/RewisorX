@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="16dp">
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/news_push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            style="@style/settingsTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Получать уведомления о новых «Новостях»."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/news_push"
+
+            app:layout_constraintTop_toTopOf="@id/news_push" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/article_push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/news_push" />
+
+    <TextView
+            style="@style/settingsTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Получать уведомления о новых «Материалах»."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/article_push"
+            app:layout_constraintTop_toTopOf="@id/article_push" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/favorite_push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/article_push" />
+
+    <TextView
+            style="@style/settingsTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="Получать уведомления  о добавлении в «Избранные»."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/favorite_push"
+            app:layout_constraintTop_toTopOf="@id/favorite_push" />
+
+    <TextView
+            android:id="@+id/infoSettings"
+            style="@style/rewizorText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/bordered_blue_btn"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="ИНФОРМАЦИЯ О ПРИЛОЖЕНИИ"
+            android:textColor="@color/fullBlack"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/favorite_push" />
+
+    <Button
+            android:id="@+id/saveSettings"
+            style="@style/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:text="Готово"
+            android:textColor="@color/fullBlack"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

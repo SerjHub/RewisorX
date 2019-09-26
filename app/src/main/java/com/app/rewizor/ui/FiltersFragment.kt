@@ -26,8 +26,8 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
     private val filterViewModel: FilterViewModel by inject()
     private val parentViewModel: TopicViewModel
         get() = (parentFragment as TopicTabFragment).viewModel
-    private val mainViewModel: MainViewModel
-        get() = (parentFragment as TopicTabFragment).parentViewModel
+    private val mainViewModel: MainViewModel?
+        get() = (parentFragment as? TopicTabFragment)?.parentViewModel
 
 
     override val layout: Int
@@ -43,7 +43,7 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
 
     private fun setObservers() {
         with(filterViewModel) {
-            this.mainViewModel = this@FiltersFragment.mainViewModel
+            this@FiltersFragment.mainViewModel?.let { this.mainViewModel = it }
 
             parentViewModel.filterStateLiveData.observeViewModel(viewLifecycleOwner) {
                 filterStateModel = it
@@ -52,6 +52,11 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
                 initInputListeners(it)
 
             }
+
+            resetUiLiveData.observeViewModel(viewLifecycleOwner) {
+                setUpFiltersUi(filterStateModel)
+            }
+
 
             categoriesLiveData.observeViewModel(viewLifecycleOwner) { list ->
 
@@ -151,6 +156,8 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
                 }
             }
         }
+
+        clearFilters.setOnClickListener { filterViewModel.onClear() }
     }
 
     private fun showEndDateDialog(c: Context, y: Int, m: Int, d: Int) {

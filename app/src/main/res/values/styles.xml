@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -10,6 +10,8 @@
         <item name="windowActionBar">false</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:textColorSecondary">@color/superWhite</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+<!--        <item name="searchViewStyle">@style/ss</item>-->
 
     </style>
 
@@ -32,6 +34,15 @@
 
     <style name="RewizorText">
         <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="settingsTitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/fullBlack</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+
+
     </style>
 
     <style name="ToolbarTheme" >
@@ -114,8 +125,27 @@
     </style>
 
 
-    <style name="switchers" parent="Theme.AppCompat.Light">
-        <item name="android:colorControlActivated">@color/green</item>
-    </style>
+<!--    <style name="switchers" parent="Theme.AppCompat.Light">-->
+<!--        <item name="android:colorControlActivated">@color/green</item>-->
+<!--    </style>-->
+        <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+            <item name="android:textColor">@color/superWhite</item>
+            <item name="android:textColorHint">@color/superWhite</item>
+            <item name="android:submitBackground">@color/transparent</item>
+        </style>
+
+<!--    <style name="ss" parent="Widget.AppCompat.SearchView.ActionBar">-->
+<!--        <item name="android:textColor">@color/superWhite</item>-->
+<!--        <item name="android:textColorHint">@color/superWhite</item>-->
+<!--        <item name="queryBackground">@null</item>-->
+<!--    </style>-->
+
+<!--    <style name="SearchViewMy" parent="Widget.AppCompat.Light.SearchView">-->
+<!--        <item name="submitBackground">@color/primaryColor</item>-->
+<!--        <item name="queryBackground">@color/primaryColor</item>-->
+<!--    </style>-->
+
+
+
 
 </resources>
