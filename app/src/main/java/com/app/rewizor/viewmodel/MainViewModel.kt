@@ -36,6 +36,9 @@ class MainViewModel(
     private val supportOpened: MutableLiveData<Boolean> = SingleLiveEvent()
     val supportOpenedLiveData: LiveData<Boolean> get() = supportOpened
 
+    private val settingOpened: MutableLiveData<Boolean> = SingleLiveEvent()
+    val settingOpenedLiveData: LiveData<Boolean> get() = settingOpened
+
     private val contentShowing: MutableLiveData<Boolean> = MutableLiveData()
     val contentShowingLiveData: LiveData<Boolean> get() = contentShowing
 
@@ -76,7 +79,7 @@ class MainViewModel(
         if (currentTopic.value == topic) return
         currentTopic.value = topic
         filterEnabled.value = topic.filters?.isCleared()?.not() ?: false
-        filterVisible.value = topic.filters != null
+        filterVisible.value = topic != TOPIC.MAIN && topic != TOPIC.PLACES
     }
 
     fun searchInserted(text: String?) {
@@ -107,6 +110,10 @@ class MainViewModel(
 
     fun supportClicked() {
         supportOpened.value = true
+    }
+
+    fun settingsClicked() {
+        settingOpened.value = true
     }
 
     private fun setProfile() {

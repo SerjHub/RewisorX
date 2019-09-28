@@ -6,8 +6,11 @@ data class Account(
     val lastName: String?,
     val firstName: String?,
     val middleName: String?,
-    val email: String,
-    val phone: String,
+    val email: String?,
+    val phone: String?,
+    val newsPushes: Boolean,
+    val materialsPushes: Boolean,
+    val favoritesPushes: Boolean,
     val region: Region?,
     val avatar: ImageInfo?,
     val accessToken: String?
@@ -20,6 +23,9 @@ data class Account(
             "",
             "",
             "",
+            false,
+            false,
+            false,
             Region.DEFAULT,
             ImageInfo.DEFAULT,
             ANONYM_TOKEN

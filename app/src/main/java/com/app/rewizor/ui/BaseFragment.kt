@@ -10,6 +10,7 @@ abstract class BaseFragment : Fragment() {
     abstract val layout: Int
     /**for logging*/
     abstract val TAG: String
+    abstract val toolbarTitle: String?
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

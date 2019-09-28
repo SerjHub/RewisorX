@@ -100,6 +100,9 @@ class TopicTabFragment : TabFragment() {
         viewModel.searchInserted(text)
     }
 
+    override val toolbarTitle: String?
+        get() = null
+
     companion object {
         fun getInstance(bundle: Bundle? = null) = TopicTabFragment().apply { arguments = bundle }
     }

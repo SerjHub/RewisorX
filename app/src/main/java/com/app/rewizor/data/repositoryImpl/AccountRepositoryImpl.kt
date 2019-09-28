@@ -18,6 +18,15 @@ class AccountRepositoryImpl(
         }
 
     override var account: Account = Account.DEFAULT
+        get() =
+            with(prefs.notificationsModel) {
+                field.copy(
+                    newsPushes = news,
+                    materialsPushes = articles,
+                    favoritesPushes = favorites
+                )
+            }
+
         set(value) {
             updateAccountSettings(value)
             field = value
@@ -45,8 +54,8 @@ class AccountRepositoryImpl(
                     account.lastName ?: "",
                     account.firstName ?: "",
                     account.middleName ?: "",
-                    account.email,
-                    account.phone,
+                    account.email ?: "",
+                    account.phone ?: "",
                     account.region?.id
                 )
             }
@@ -68,8 +77,8 @@ class AccountRepositoryImpl(
                         account.lastName ?: "",
                         account.firstName ?: "",
                         account.middleName ?: "",
-                        account.email,
-                        account.phone,
+                        account.email ?: "",
+                        account.phone ?: "",
                         region.id
                     )
                 }

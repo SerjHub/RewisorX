@@ -84,7 +84,7 @@
             style="@style/confirm_button"
             android:layout_width="match_parent"
             android:layout_height="62dp"
-            android:text="Готово"
+            android:text="ГОТОВО"
             android:textColor="@color/fullBlack"
             android:textSize="18sp"
             android:fontFamily="sans-serif"

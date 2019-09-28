@@ -34,6 +34,7 @@ val dataModule = module {
     single<SystemRepository> { SystemRepositoryImpl(get(), get(), get()) }
     single<RegistrationRepository> { RegistrationRepositoryImpl(get(), get()) }
     single<PublicationRepository> { PublicationRepositoryImpl(get(), get()) }
+    single<SettingsRepository> { SettingsRepositoryImpl(get(), get(), get()) }
 }
 
 val viewModelModule = module {
@@ -48,7 +49,8 @@ val viewModelModule = module {
     viewModel { PublicationViewModel(get()) }
     viewModel { SupportViewModel(get()) }
     viewModel { FilterViewModel(get()) }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get()) }
+    viewModel { ProfileViewModel(get()) }
 }
 
 

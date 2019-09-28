@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/lastNameProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="Фамилия:" />
+
+        <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/firstNameProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="Имя:" />
+
+        <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/middleNameProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="Отчество:" />
+
+        <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/phoneProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="Телефон:"
+            app:inputNumber="true" />
+
+        <com.app.rewizor.ui.custom.InputField
+            android:id="@+id/emailProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:inputFieldHint="E-mail:" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/saveProfile"
+        style="@style/confirm_button_standard"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:fontFamily="sans-serif"
+        android:text="СОХРАНИТЬ ИЗМЕНЕНИЯ"
+        android:textColor="@color/fullBlack"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/logoutProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+            android:id="@+id/logoutProfile"
+            style="@style/confirm_button_red"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:fontFamily="sans-serif"
+            android:text="ВЫЙТИ"
+            android:textColor="@color/superWhite"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

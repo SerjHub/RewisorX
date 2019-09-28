@@ -21,7 +21,7 @@ class RewizorResponse<T> {
     val isError
         get() = status != 0
 
-    fun map(default: T? = null) =
+    fun map(default: T? = null): RewizorResult<T> =
         RewizorResult(
             data,
             when {

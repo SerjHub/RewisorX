@@ -29,7 +29,7 @@ class LoginFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as AuthorizationActivity).toolbarTitle = TOOLBAR_TITLE
+        (activity as AuthorizationActivity).toolbarTitle = toolbarTitle
     }
 
     private fun getExtras() {
@@ -72,12 +72,12 @@ class LoginFragment : BaseFragment() {
         )
     }
 
+    override val toolbarTitle: String? = "Авторизация"
+
     override val TAG: String
         get() = LoginFragment::class.java.name
 
     companion object {
-        const val TOOLBAR_TITLE = "Авторизация"
-
         const val LOGIN_RECOVERED_PASSWORD_KEY = "recovered_password_login"
 
     }

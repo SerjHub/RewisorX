@@ -37,8 +37,8 @@
             android:id="@+id/support"
             android:title="@string/support"/>
     <item
-            android:id="@+id/about"
-            android:title="@string/about"/>
+            android:id="@+id/options"
+            android:title="@string/options"/>
     <!--<menu>-->
         <!--<item-->
             <!--android:guid="@+guid/support"-->

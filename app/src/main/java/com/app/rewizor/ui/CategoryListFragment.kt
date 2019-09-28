@@ -82,6 +82,8 @@ class CategoryListFragment : BaseFragment() {
 
     override val TAG = "CategoryListFragment"
 
+    override val toolbarTitle: String? = null
+
     companion object {
         const val CATEGORY_ID_ARG = "categoryId_arg"
         const val CATEGORY_NAME_ARG = "categoryName_arg"

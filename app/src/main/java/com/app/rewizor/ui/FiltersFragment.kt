@@ -212,6 +212,7 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
 
     private fun getAgeTitle(a: String) = if (a.isNotEmpty()) "Возраст $a+" else "Возраст"
 
+    override val toolbarTitle: String? = null
     companion object {
         const val TRANSACTION_TAG = "filtersFragment"
     }

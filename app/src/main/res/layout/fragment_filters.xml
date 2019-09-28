@@ -70,6 +70,7 @@
         <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/popularSwitch"
                 android:checked="true"
+                android:theme="@style/ColorSwitchStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <TextView
@@ -91,6 +92,7 @@
         <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/recommendedSwitch"
                 android:layout_width="wrap_content"
+                android:theme="@style/ColorSwitchStyle"
                 android:layout_height="wrap_content"/>
         <TextView
                 android:layout_width="wrap_content"
@@ -111,6 +113,7 @@
         <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/mostReadSwitch"
                 android:layout_width="wrap_content"
+                android:theme="@style/ColorSwitchStyle"
                 android:layout_height="wrap_content"/>
         <TextView
                 android:layout_width="wrap_content"

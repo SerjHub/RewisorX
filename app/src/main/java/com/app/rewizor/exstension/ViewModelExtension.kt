@@ -8,8 +8,8 @@ import com.app.rewizor.viewmodel.BaseViewModel
 
 fun <T> BaseViewModel.asyncRequest(
     loadData: suspend () -> RewizorResult<T>,
-    onFail: (error: RewizorError) -> Unit,
-    onSuccess: (data: T?) -> Unit,
+    onFail: ((error: RewizorError) -> Unit)?,
+    onSuccess: ((data: T?) -> Unit)?,
     postOnStart: PostBlock? = null,
     postOnFinish: PostBlock? = null
 ) {
@@ -18,8 +18,8 @@ fun <T> BaseViewModel.asyncRequest(
             executeBackGroundTask {
                 loadData.invoke() }
                 .processWith(
-                    { onFail.invoke(it) },
-                    { onSuccess.invoke(it) })
+                    { onFail?.invoke(it) },
+                    { onSuccess?.invoke(it) })
                 .also {
                     postOnFinish?.invoke()
                 }

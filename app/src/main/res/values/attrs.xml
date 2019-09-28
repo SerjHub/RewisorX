@@ -6,6 +6,7 @@
         <attr name="inputFieldText" format="string"/>
         <attr name="inputPassword" format="boolean"/>
         <attr name="inputEmail" format="boolean"/>
+        <attr name="inputNumber" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="PublicationTextItem">

@@ -18,6 +18,8 @@ interface Api {
         const val API_GET_PROFILE = "/api/users/profile"
         const val API_UPDATE_PROFILE = "/api/users/update"
         const val API_RECOVER_PASSWORD = "/api/users/password"
+        const val API_SETTINGS= "/api/users/settings/"
+        const val API_PUSH_TOKEN= "/api/users/push-token/"
 
         //nodes
         const val API_NODES = "api/nodes/"
@@ -84,6 +86,19 @@ interface Api {
     fun getSpecificNode(
         @Path("guid") guid: String
     ): Deferred<RewizorResponse<PublicationDetailed>>
+
+    @POST(API_SETTINGS)
+    @FormUrlEncoded
+    fun updateSettings(
+        @Field("NewsPushes") news: Boolean,
+        @Field("MaterialsPushes") articles: Boolean,
+        @Field("FavoritesPushes") favorite: Boolean
+    ): Deferred<RewizorResponse<Account>>
+
+    @POST(API_PUSH_TOKEN)
+    fun updatePushToken(
+        @Field("Token") token: String
+    ): Deferred<RewizorResponse<Account>>
 }
 
 /**

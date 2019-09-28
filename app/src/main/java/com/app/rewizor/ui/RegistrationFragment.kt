@@ -28,7 +28,7 @@ class RegistrationFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as AuthorizationActivity).toolbarTitle = TOOLBAR_TITLE
+        (activity as AuthorizationActivity).toolbarTitle = toolbarTitle
     }
 
     private fun setObservers() {
@@ -78,10 +78,10 @@ class RegistrationFragment : BaseFragment() {
 
     }
 
+    override val toolbarTitle: String?
+        get() = "Регистрация"
+
     override val TAG: String
         get() = RegistrationFragment::class.java.name
 
-    companion object {
-        const val TOOLBAR_TITLE = "Регистрация"
-    }
 }

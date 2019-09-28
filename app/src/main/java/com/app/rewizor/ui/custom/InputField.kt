@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.os.Build
 import android.text.InputType
+import android.text.InputType.TYPE_CLASS_NUMBER
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -40,6 +41,10 @@ class InputField @JvmOverloads constructor(
                     inputField.transformationMethod = PasswordTransformationMethod()
                     inputFieldLayout.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                }
+
+                getBoolean(R.styleable.InputField_inputNumber, false) -> {
+                    inputField.inputType = TYPE_CLASS_NUMBER
                 }
 
 //                getBoolean(R.styleable.InputField_inputEmail, false) -> {

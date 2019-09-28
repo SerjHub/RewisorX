@@ -54,6 +54,9 @@ class SupportFragment : BaseFragment() {
         message.inputField.text
     }
 
+    override val toolbarTitle: String?
+        get() = "Поддержка"
+
     companion object {
         const val SUPPORT_EMAIL = "info@rewizor.ru"
         const val SUBJECT = "Поддержка"

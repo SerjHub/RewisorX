@@ -137,6 +137,11 @@ class MainActivity : AppCompatActivity(), KoinComponent,
                     SupportFragment()
                 )
             }
+            settingOpenedLiveData.observeViewModel(this@MainActivity) {
+                openAdditionalView(
+                    SettingsFragment()
+                )
+            }
             onLoadSettingsErrorLiveEvent.observeViewModel(this@MainActivity) {
                 Alerts.showAlertToUser(this@MainActivity, it)
             }
@@ -192,6 +197,7 @@ class MainActivity : AppCompatActivity(), KoinComponent,
         fr_container.isVisible = false
         additional_container.isVisible = true
         replaceFragment(R.id.additional_container, fragment)
+        toolbarTitle = fragment.toolbarTitle!!
     }
 
     private fun closeAdditionalView(fragment: BaseFragment) {
@@ -243,11 +249,14 @@ class MainActivity : AppCompatActivity(), KoinComponent,
         Glide
             .with(this)
             .run {
-                if (account.avatar?.url == null) {
-                    load(ContextCompat.getDrawable(this@MainActivity, R.drawable.ic_avatar_icons))
-                } else {
+                if (account.avatar?.url == null)
+                    load(ContextCompat.getDrawable(
+                        this@MainActivity,
+                        R.drawable.ic_avatar_icons)
+                    )
+                else
                     load(account.avatar.url)
-                }
+
             }
             .into(avatar)
     }
@@ -296,8 +305,8 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             R.id.city -> {
                 viewModel.cityClicked()
             }
-            R.id.about -> {
-                viewModel.aboutClicked()
+            R.id.options -> {
+                viewModel.settingsClicked()
             }
             R.id.support -> {
                 viewModel.supportClicked()
@@ -340,10 +349,6 @@ class MainActivity : AppCompatActivity(), KoinComponent,
         menu?.findItem(R.id.searchBar)?.let {
             (it.actionView as android.widget.SearchView)
                 .apply {
-//                    findViewById<EditText>(androidx.appcompat.R.id.search_plate)
-//                        .also {
-//                            it.setBackgroundColor(Color.TRANSPARENT)
-//                        }
                     setOnQueryTextListener(
                         object : SearchView.OnQueryTextListener,
                             android.widget.SearchView.OnQueryTextListener {
