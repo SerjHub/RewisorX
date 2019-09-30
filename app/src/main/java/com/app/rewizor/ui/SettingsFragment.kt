@@ -30,10 +30,6 @@ class SettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         setListeners()
-
-        infoSettings.setOnClickListener {
-            mainViewModel?.aboutClicked()
-        }
     }
 
     private fun setObservers() {
@@ -67,6 +63,8 @@ class SettingsFragment : BaseFragment() {
             news_push.setOnCheckedChangeListener { buttonView, isChecked ->  notificationChecked(news = isChecked) }
             article_push.setOnCheckedChangeListener { buttonView, isChecked ->  notificationChecked(articles = isChecked) }
             favorite_push.setOnCheckedChangeListener { buttonView, isChecked ->  notificationChecked(favorites = isChecked) }
+            saveSettings.setOnClickListener { mainViewModel?.openLastTopic() }
+            infoSettings.setOnClickListener { mainViewModel?.aboutClicked() }
         }
     }
 

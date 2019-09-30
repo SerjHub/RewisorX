@@ -63,6 +63,9 @@ class RecoverPasswordFragment : BaseFragment() {
 
     }
 
+    override val toolbarTitle: String?
+        get() = null
+
     override val TAG: String
         get() = RecoverPasswordFragment::class.java.name
 

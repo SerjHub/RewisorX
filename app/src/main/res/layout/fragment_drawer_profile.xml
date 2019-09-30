@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
 
-              android:paddingBottom="16dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -39,16 +38,6 @@
             layout="@layout/grey_divider"
             style="@style/menu_divider"/>
 
-    <TextView
-            android:id="@+id/profileMenuItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/fullBlack"
-            android:layout_marginStart="12dp"
-            tools:visibility="visible"
-            android:textStyle="bold"
-            android:visibility="gone"
-            android:text="Профиль"/>
     <LinearLayout
             android:id="@+id/authButtons"
             android:layout_gravity="center_horizontal"

@@ -39,6 +39,9 @@ class RegionsListFragment : BaseFragment() {
         }
     }
 
+    override val toolbarTitle: String?
+        get() = null
+
     override val TAG: String
         get() = this::class.java.name
 

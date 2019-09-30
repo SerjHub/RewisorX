@@ -39,6 +39,9 @@ class MainViewModel(
     private val settingOpened: MutableLiveData<Boolean> = SingleLiveEvent()
     val settingOpenedLiveData: LiveData<Boolean> get() = settingOpened
 
+    private val profileOpened: MutableLiveData<Boolean> = SingleLiveEvent()
+    val profileOpenedLiveData: LiveData<Boolean> get() = profileOpened
+
     private val contentShowing: MutableLiveData<Boolean> = MutableLiveData()
     val contentShowingLiveData: LiveData<Boolean> get() = contentShowing
 
@@ -114,6 +117,10 @@ class MainViewModel(
 
     fun settingsClicked() {
         settingOpened.value = true
+    }
+
+    fun profileClicked() {
+        profileOpened.value = true
     }
 
     private fun setProfile() {

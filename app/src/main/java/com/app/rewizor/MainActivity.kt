@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -39,7 +40,6 @@ import kotlinx.android.synthetic.main.fragment_drawer_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
-
 
 
 class MainActivity : AppCompatActivity(), KoinComponent,
@@ -142,6 +142,11 @@ class MainActivity : AppCompatActivity(), KoinComponent,
                     SettingsFragment()
                 )
             }
+            profileOpenedLiveData.observeViewModel(this@MainActivity) {
+                openAdditionalView(
+                    ProfileFragment()
+                )
+            }
             onLoadSettingsErrorLiveEvent.observeViewModel(this@MainActivity) {
                 Alerts.showAlertToUser(this@MainActivity, it)
             }
@@ -157,7 +162,7 @@ class MainActivity : AppCompatActivity(), KoinComponent,
                     ?.setIcon(
                         if (it) R.drawable.btn_filter_active
                         else R.drawable.ic_filter
-                )
+                    )
             }
             filterVisibleLiveData.observeViewModel(this@MainActivity) { v ->
                 menu?.findItem(R.id.filter)?.let {
@@ -190,20 +195,49 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             title = "Ваш город: $regionName"
             isCheckable = false
         }
+        nav_view.menu.findItem(R.id.profile).isCheckable = false
+        nav_view.menu.findItem(R.id.support).isCheckable = false
+        nav_view.menu.findItem(R.id.options).isCheckable = false
     }
 
     private fun openAdditionalView(fragment: BaseFragment) {
-        setDrawerDisabled(true) { closeAdditionalView(fragment) }
+        val previousTitle = toolbarTitle?.toString() ?: ""
+        if (checkVerticalNavigation()) {
+            mToolBarNavigationListenerIsRegistered = false
+            setDrawerDisabled(true) {
+                openAdditionalView(
+                    SettingsFragment()
+                )
+                mToolBarNavigationListenerIsRegistered = false
+                setDrawerDisabled(true) {
+                    closeAdditionalView(fragment, previousTitle)
+                }
+            }
+        } else {
+            setDrawerDisabled(true) { closeAdditionalView(fragment, previousTitle) }
+        }
+
         fr_container.isVisible = false
         additional_container.isVisible = true
         replaceFragment(R.id.additional_container, fragment)
+        menu?.findItem(R.id.searchBar)?.apply { isVisible = false }
         toolbarTitle = fragment.toolbarTitle!!
     }
 
-    private fun closeAdditionalView(fragment: BaseFragment) {
+    private fun checkVerticalNavigation() =
+        supportFragmentManager.fragments.any { it is SettingsFragment }
+            .also {
+                Log.i("FindNavv","${supportFragmentManager.fragments.toString()}")
+
+            }
+
+
+    private fun closeAdditionalView(fragment: BaseFragment, previousTitle: String) {
         setDrawerDisabled(false)
         fr_container.isVisible = true
         additional_container.isVisible = false
+        menu?.findItem(R.id.searchBar)?.apply { isVisible = true }
+        toolbarTitle = previousTitle
         removeFragment(fragment)
     }
 
@@ -234,14 +268,20 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             viewModel.clearVm()
             return
         }
-
-        profileMenuItem.isVisible = false
+        menu?.findItem(R.id.profile)?.isVisible = false
         fio.text = "Неизвестный пользователь"
         avatar.setImageResource(R.drawable.ic_avatar_icons)
     }
 
     private fun setProfileView(account: Account) {
-        authButtons.isVisible = false
+        menu?.findItem(R.id.profile)?.isVisible = true
+        try {
+            authButtons.isVisible = false
+        } catch (e: IllegalStateException) {
+            viewModel.clearVm()
+            return
+        }
+
         profileDivider.isVisible = false
         val name =
             "${account.lastName ?: ""} ${account.firstName ?: ""} ${account.middleName ?: ""}"
@@ -250,9 +290,11 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             .with(this)
             .run {
                 if (account.avatar?.url == null)
-                    load(ContextCompat.getDrawable(
-                        this@MainActivity,
-                        R.drawable.ic_avatar_icons)
+                    load(
+                        ContextCompat.getDrawable(
+                            this@MainActivity,
+                            R.drawable.ic_avatar_icons
+                        )
                     )
                 else
                     load(account.avatar.url)
@@ -310,6 +352,9 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             }
             R.id.support -> {
                 viewModel.supportClicked()
+            }
+            R.id.profile -> {
+                viewModel.profileClicked()
             }
         }
 

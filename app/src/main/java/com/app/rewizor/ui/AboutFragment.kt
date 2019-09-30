@@ -17,7 +17,7 @@ class AboutFragment : BaseFragment() {
     override val TAG: String
         get() = "AboutFragment"
 
-    override val toolbarTitle: String? = null
+    override val toolbarTitle: String? = TOOLBAR_TITLE
 
     companion object {
         const val TOOLBAR_TITLE = "О приложении"

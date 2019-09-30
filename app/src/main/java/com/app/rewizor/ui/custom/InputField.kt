@@ -72,4 +72,9 @@ class InputField @JvmOverloads constructor(
         }
     }
 
+    fun setContent(text: String) {
+        if (inputField.text.isNullOrEmpty())
+            inputField.setText(text)
+    }
+
 }

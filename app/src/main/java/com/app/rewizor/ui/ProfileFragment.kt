@@ -1,6 +1,7 @@
 package com.app.rewizor.ui
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import com.app.rewizor.MainActivity
 import com.app.rewizor.R
@@ -23,7 +24,7 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
-        setListeners()
+        Handler().post { setListeners() }
 
     }
 
@@ -32,16 +33,17 @@ class ProfileFragment : BaseFragment() {
             parentViewModel?.let { mainViewModel = it }
             accountLiveData.observeViewModel(viewLifecycleOwner) { acc ->
                 with(acc) {
-                    firstName?.let { firstNameProfile.inputField.setText(it) }
-                    lastName?.let { lastNameProfile.inputField.setText(it) }
-                    middleName?.let { middleNameProfile.inputField.setText(it) }
-                    email?.let { emailProfile.inputField.setText(it) }
-                    phone?.let { phoneProfile.inputField.setText(it) }
+                    firstName?.let { firstNameProfile.setContent(it) }
+                    lastName?.let { lastNameProfile.setContent(it) }
+                    middleName?.let { middleNameProfile.setContent(it) }
+                    email?.let { emailProfile.setContent(it) }
+                    phone?.let { phoneProfile.setContent(it) }
                 }
             }
             saveErrorLiveData.observeViewModel(viewLifecycleOwner) {
                 showMessageAlert("Не удалось сохранить изменения, попробуйте позднее")
             }
+            onViewCreated()
         }
     }
 
@@ -57,6 +59,9 @@ class ProfileFragment : BaseFragment() {
         }
 
     }
+
+    override val toolbarTitle: String?
+        get() = "Профиль"
 
     override val TAG: String
         get() = "ProfileFragment"
