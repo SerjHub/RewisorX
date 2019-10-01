@@ -29,7 +29,8 @@ class PublicationRepositoryImpl(
                     filter?.age.getNotEmpty(),
                     filter?.period.getNotEmpty(),
                     filter?.searchText.getNotEmpty(),
-                    filter?.places.getNotEmpty(),
+           //         filter?.places?.let { listOf(it) }.toString(),
+                    null,
                     filter?.popular,
                     filter?.recommendations
                 )

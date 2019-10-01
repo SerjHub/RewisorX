@@ -8,7 +8,8 @@ sealed class FilterStateModel(
     var place: String? = null,
     var popular: Boolean? = null,
     var recommend: Boolean? = null,
-    var mostRead: Boolean? = null
+    var mostRead: Boolean? = null,
+    var dateToRemote: String? = dates
 ) {
     abstract fun clear()
     abstract fun isCleared(): Boolean

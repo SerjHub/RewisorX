@@ -1,5 +1,6 @@
 package com.app.rewizor.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.Account
@@ -93,7 +94,9 @@ class MainViewModel(
     }
 
     fun openLastTopic() {
+        Log.i("FindTopic", "topic: ${currentTopic.value}")
         currentTopic.value = currentTopic.value
+
     }
 
     fun cityChosen() {
@@ -144,7 +147,7 @@ class MainViewModel(
     fun logout() {
         anonModel.value = true
         accountRepository.logout()
-        onCleared()
+     //   onCleared()
     }
 
     fun clearVm() {

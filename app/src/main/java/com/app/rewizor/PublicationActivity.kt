@@ -3,6 +3,10 @@ package com.app.rewizor
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.app.rewizor.data.model.PublicationDetailed
@@ -84,21 +88,62 @@ class PublicationActivity : AppCompatActivity() {
 
             name?.let { this@PublicationActivity.name.text = it }
             (address ?: parentAddress)?.let { this@PublicationActivity.address.setContent(it) }
-            description?.let { this@PublicationActivity.description.setContent(it) }
+
 
             website?.let { setLink(this@PublicationActivity.website, it) }
             source?.let { setLink(this@PublicationActivity.source, it) }
 
             this@PublicationActivity.age.text = "$age+"
-            (fullDescription ?: description)
-                ?.let { this@PublicationActivity.description.setContent(it) }
 
+            when {
+                fullDescriptionTextImages != null -> {
+                    fullDescriptionTextImages.forEach {
+                        (if (it.startsWith("http", true))
+                            ImageView(this@PublicationActivity)
+                                .also { image ->
+                                    Glide
+                                        .with(this@PublicationActivity)
+                                        .load(it)
+                                        .into(image)
+                                }
+                        else {
+                            TextView(this@PublicationActivity)
+                                .also { textView ->
+                                    textView.text = it
+                                }
+                        })
+                            .also { v ->
+                                descriptionContainer.addView(
+                                    v,
+                                    ViewGroup.MarginLayoutParams(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT
+                                    )
+                                )
+                                (v.layoutParams as LinearLayout.LayoutParams)
+                                    .also { params ->
+                                        params.setMargins(0, 36, 0, 0)
+                                        v.layoutParams = params
+                                    }
+                            }
+
+
+                    }
+                }
+                else -> {
+                    (description ?: fullDescription)?.let {
+                        this@PublicationActivity.description.setContent(
+                            it
+                        )
+                    }
+                }
+            }
 
             phone?.let { this@PublicationActivity.phone.setContent(it) }
 
 
             city?.let { this@PublicationActivity.city.setContent(it) }
-            workingDaysHours?.let {  }
+            workingDaysHours?.let { }
             category?.let { }
 
 

@@ -128,12 +128,20 @@
             android:layout_weight="1"/>
 
     <Button
-            android:id="@+id/clearFilters"
+            android:id="@+id/saveFilters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Сбросить фильтр"
+            android:text="Применить"
             style="@style/confirm_button"/>
+
+    <Button
+            android:id="@+id/clearFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Сбросить"
+            style="@style/confirm_button_red"/>
 
 </LinearLayout>

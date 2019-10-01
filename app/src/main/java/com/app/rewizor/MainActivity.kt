@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity(), KoinComponent,
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
     private var menu: Menu? = null
+    private lateinit var itemProfile: MenuItem
 
     private val updaterReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -195,6 +196,7 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             title = "Ваш город: $regionName"
             isCheckable = false
         }
+
         nav_view.menu.findItem(R.id.profile).isCheckable = false
         nav_view.menu.findItem(R.id.support).isCheckable = false
         nav_view.menu.findItem(R.id.options).isCheckable = false
@@ -226,19 +228,26 @@ class MainActivity : AppCompatActivity(), KoinComponent,
 
     private fun checkVerticalNavigation() =
         supportFragmentManager.fragments.any { it is SettingsFragment }
-            .also {
-                Log.i("FindNavv","${supportFragmentManager.fragments.toString()}")
-
-            }
 
 
-    private fun closeAdditionalView(fragment: BaseFragment, previousTitle: String) {
+    private fun closeAdditionalView(fragment: BaseFragment? = null, previousTitle: String) {
         setDrawerDisabled(false)
         fr_container.isVisible = true
         additional_container.isVisible = false
         menu?.findItem(R.id.searchBar)?.apply { isVisible = true }
         toolbarTitle = previousTitle
-        removeFragment(fragment)
+        if (fragment != null) {
+            removeFragment(fragment)
+        } else {
+            with(supportFragmentManager) {
+                fragments.forEach {
+                    beginTransaction()
+                        .remove(it)
+                        .commit()
+                }
+            }
+        }
+
     }
 
     private fun closeCities() {
@@ -256,6 +265,7 @@ class MainActivity : AppCompatActivity(), KoinComponent,
     private fun openTopic(topic: TOPIC = TOPIC.MAIN) {
         toolbarTitle = topic.title
         setDrawerDisabled(false)
+        closeAdditionalView(previousTitle = topic.title)
         replaceFragment(fragment = TopicTabFragment.getInstance(
             Bundle().apply { putString(TOPIC_KEY, topic.name) }
         ))
@@ -268,13 +278,13 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             viewModel.clearVm()
             return
         }
-        menu?.findItem(R.id.profile)?.isVisible = false
+        nav_view.menu.findItem(R.id.profile).isVisible = false
         fio.text = "Неизвестный пользователь"
         avatar.setImageResource(R.drawable.ic_avatar_icons)
     }
 
     private fun setProfileView(account: Account) {
-        menu?.findItem(R.id.profile)?.isVisible = true
+        nav_view.menu.findItem(R.id.profile).isVisible = true
         try {
             authButtons.isVisible = false
         } catch (e: IllegalStateException) {
@@ -380,7 +390,8 @@ class MainActivity : AppCompatActivity(), KoinComponent,
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        this.menu = menu
+
+        Log.i("FindInit", "menu")
         menuInflater.inflate(R.menu.toolbar_menu, menu)
         initClickListeners()
         menu?.findItem(R.id.filter)?.apply {
@@ -390,6 +401,7 @@ class MainActivity : AppCompatActivity(), KoinComponent,
             }
             isVisible = false
         }
+        this.menu = menu
 
         menu?.findItem(R.id.searchBar)?.let {
             (it.actionView as android.widget.SearchView)

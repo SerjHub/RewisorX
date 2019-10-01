@@ -1,5 +1,6 @@
 package com.app.rewizor.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.RewizorCategory
@@ -67,6 +68,8 @@ class FilterViewModel(
 
     fun setStartDate(y: Int, m: Int, d: Int) {
         startDay.value = DateTime(y, m, d, 0, 0)
+        Log.i("FindDate", "y $y m $m d $d")
+        filterStateModel.dateToRemote = "$d.$m.$y"
         filterStateModel.dates =
             "${DatePrinter.dateToIso(startDay.value!!)}-${DatePrinter.dateToIso(DateTime(y, m, d, 23, 59))}"
         showSelectedDate()
@@ -84,6 +87,7 @@ class FilterViewModel(
 
     fun releaseDateFilter() {
         filterStateModel.dates = ""
+        filterStateModel.dateToRemote = ""
         date.value = ""
         mainViewModel.filterEnabled(!filterStateModel.isCleared())
     }
@@ -93,6 +97,7 @@ class FilterViewModel(
             .also {
                 if (it.isAfter(startDay.value)) {
                     filterStateModel.dates = "${DatePrinter.dateToIso(startDay.value!!)}-${DatePrinter.dateToIso(it)}"
+                    filterStateModel.dateToRemote = "${filterStateModel.dateToRemote}-$d.$m.$y"
                     date.value = DatePrinter.printIsoPeriod(filterStateModel.dates!!)
                     mainViewModel.filterEnabled(!filterStateModel.isCleared())
                 }

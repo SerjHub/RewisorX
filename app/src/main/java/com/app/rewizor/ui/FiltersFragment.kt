@@ -12,8 +12,7 @@ import com.app.rewizor.R
 import com.app.rewizor.exstension.observeViewModel
 import com.app.rewizor.exstension.onTextChange
 import com.app.rewizor.exstension.openItemsDialogListener
-import com.app.rewizor.ui.utils.DatePrinter
-import com.app.rewizor.ui.utils.FilterStateModel
+import com.app.rewizor.ui.utils.*
 import com.app.rewizor.viewmodel.FilterViewModel
 import com.app.rewizor.viewmodel.MainViewModel
 import com.app.rewizor.viewmodel.TopicViewModel
@@ -116,7 +115,7 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
                 AlertDialog.Builder(activity!!).let {
                     it.setTitle("Выберите возраст")
                     it.setNegativeButton("Отменить") { _, _ ->
-                        ages.currentFilterValue.setText(getAgeTitle("0"))
+                        ages.currentFilterValue.setText(getAgeTitle(""))
                         filterViewModel.setAge("0")
                     }
                     it.setPositiveButton("Применить") { _, _ -> }
@@ -142,11 +141,11 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
                         DatePickerDialog(
                             c,
                             { p: DatePicker, y: Int, m: Int, d: Int ->
-                                filterViewModel.setStartDate(y, m, d)
+                                filterViewModel.setStartDate(y, m + 1, d)
                                 showEndDateDialog(c, y, m, d)
                             },
                             it.year,
-                            it.monthOfYear,
+                            it.monthOfYear - 1,
                             it.dayOfMonth
                         ).apply {
                             setOnCancelListener { filterViewModel.releaseDateFilter() }
@@ -157,6 +156,7 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
             }
         }
 
+        saveFilters.setOnClickListener {  }
         clearFilters.setOnClickListener { filterViewModel.onClear() }
     }
 
@@ -164,7 +164,7 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
         DatePickerDialog(
             c,
             { pE: DatePicker, yE: Int, mE: Int, dE: Int ->
-                filterViewModel.setEndDate(yE, mE, dE)
+                filterViewModel.setEndDate(yE, mE + 1, dE)
             },
             y,
             m,
@@ -177,17 +177,26 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
 
     private fun setUpFiltersUi(model: FilterStateModel) {
         with(model) {
+
             searchText?.let {
                 events.isVisible = true
-                events.currentFilterValue.setText(it)
+                if (it.isNotEmpty()) events.currentFilterValue.setText(it)
+                else events.currentFilterValue.hint = when (this) {
+                    is Main -> searchTextTitle
+                    is Afisha -> searchTextTitle
+                    is Materials -> searchTextTitle
+                    is News -> searchTextTitle
+                    else -> "Поиск"
+                }
+
             }
             dates?.let {
                 date.isVisible = true
                 date.currentFilterValue.setText(DatePrinter.printIsoPeriod(it))
             }
-            category?.let {
-                categoryField.isVisible = true
-            }
+//            category?.let {
+//                categoryField.isVisible = true
+//            }
             age?.let {
                 ages.isVisible = true
                 ages.currentFilterValue.setText(getAgeTitle(it))
@@ -204,9 +213,9 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
                 recommendedItem.isVisible = true
                 recommendedSwitch.isChecked = it
             }
-//            mostRead?.let {
-//                mostReadItem.isVisible = true
-//            }
+            mostRead?.let {
+                mostReadItem.isVisible = true
+            }
         }
     }
 

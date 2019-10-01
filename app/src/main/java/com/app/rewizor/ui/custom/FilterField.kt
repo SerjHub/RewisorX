@@ -38,5 +38,4 @@ class FilterField @JvmOverloads constructor(
         clickableView.isVisible = false
     }
 
-
 }

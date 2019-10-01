@@ -73,7 +73,6 @@
             android:layout_height="72dp"
             android:fontFamily="sans-serif"
             android:text="ВЫЙТИ"
-            android:textColor="@color/superWhite"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,5 @@
 package com.app.rewizor.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.rewizor.data.model.Account
@@ -23,7 +22,6 @@ class ProfileViewModel(
     }
 
     fun onFirstNameInserted(string: String) {
-        Log.i("FindAcc", "listener")
         account.value?.let {
             account.value = it.copy(firstName = string)
         }
@@ -58,7 +56,7 @@ class ProfileViewModel(
             asyncRequest(
                 loadData = { accountRepository.updateAccount(it)},
                 onFail = { saveError.value = true },
-                onSuccess = { mainViewModel?.openLastTopic() })
+                onSuccess = { mainViewModel!!.openLastTopic() })
         }
     }
 

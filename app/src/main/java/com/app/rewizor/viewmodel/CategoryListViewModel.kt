@@ -60,7 +60,7 @@ class CategoryListViewModel(
         return filter?.run {
             PublicationRepository.Filter(
                 age,
-                dates,
+                dateToRemote,
                 searchText,
                 place,
                 popular,

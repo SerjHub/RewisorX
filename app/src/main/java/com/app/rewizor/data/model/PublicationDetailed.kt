@@ -7,6 +7,7 @@ data class PublicationDetailed(
     val subtitle: String?,
     val description: String?,
     val fullDescription: String?,
+    val fullDescriptionTextImages: List<String>?,
     val date: String?,
     val end: String?,
     val nearestDate: String?,

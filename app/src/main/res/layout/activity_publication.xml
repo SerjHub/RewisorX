@@ -157,14 +157,22 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     tools:visibility="visible"/>
-
-            <com.app.rewizor.ui.custom.PublicationTextItem
-                    android:id="@+id/description"
-                    app:title=""
+            <LinearLayout
+                    android:id="@+id/descriptionContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    tools:visibility="visible"/>
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                <com.app.rewizor.ui.custom.PublicationTextItem
+                        android:id="@+id/description"
+                        app:title=""
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+            </LinearLayout>
+
+
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/source"
@@ -173,6 +181,10 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     tools:visibility="visible"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"/>
 
         </LinearLayout>
 
