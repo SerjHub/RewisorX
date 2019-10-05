@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="@color/superWhite"
         android:layout_height="match_parent"
-        tools:context=".PublicationActivity">
+        android:background="@color/superWhite"
+        android:orientation="vertical"
+        tools:context=".DetailsActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -16,11 +16,12 @@
         <RelativeLayout
                 android:id="@+id/header_view"
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
 
-                android:layout_height="wrap_content">
+                app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                     android:id="@+id/main_image"
 
@@ -29,162 +30,218 @@
                     android:minHeight="220dp"
 
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.Toolbar
                     android:id="@+id/publicationToolbar"
-                    android:fitsSystemWindows="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:navigationIcon="@drawable/ic_back"
+                    android:background="@color/transparent"
+                    android:fitsSystemWindows="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/transparent"/>
+                    app:navigationIcon="@drawable/ic_back" />
 
             <TextView
                     android:id="@+id/name"
+                    style="@style/publicationItemTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/publicationItemTitle"
                     android:layout_alignBottom="@+id/main_image"
+                    android:background="@drawable/bg_item_title_gradient"
                     android:paddingTop="12dp"
                     android:paddingEnd="24dp"
-                    android:background="@drawable/bg_item_title_gradient"
-                    tools:text="Под Пермью начались съемки фильма Сердце Пармы по одноименной книге Алексея Иванова"/>
+                    tools:text="Под Пермью начались съемки фильма Сердце Пармы по одноименной книге Алексея Иванова" />
 
             <TextView
                     android:id="@+id/age"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_alignBottom="@+id/name"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginEnd="18dp"
-                    android:gravity="center"
                     android:layout_marginBottom="18dp"
                     android:background="@drawable/bg_rounded_stroke"
-                    android:textColor="@color/superWhite"
-                    tools:text="5+"
+                    android:gravity="center"
 
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignBottom="@+id/name"/>
+                    android:textColor="@color/superWhite"
+                    tools:text="5+" />
 
         </RelativeLayout>
 
 
         <LinearLayout
                 android:id="@+id/info_linear"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
+                android:orientation="vertical"
                 android:paddingStart="16dp"
+                android:paddingTop="16dp"
                 android:paddingEnd="16dp"
-                app:layout_constraintTop_toBottomOf="@id/header_view"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header_view">
 
             <include
                     android:id="@+id/actions"
 
-                layout="@layout/view_publication_actions"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+                    layout="@layout/view_publication_actions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             <include
                     android:id="@+id/tag"
                     layout="@layout/view_publication_tag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp" />
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/period"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:title="Период работы:"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Период работы:"
+                    tools:visibility="visible" />
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:title="Категория:"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Категория:"
+                    tools:visibility="visible" />
 
-            <com.app.rewizor.ui.custom.PublicationTextItem
-                    android:id="@+id/place"
-                    app:title="Место проведения:"
-                    android:layout_width="match_parent"
+            <RelativeLayout
+                    android:id="@+id/placeContainer"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    android:layout_marginBottom="21dp"
+                    tools:visibility="visible">
+
+                <TextView
+                        android:id="@+id/placeInfoTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/RewizorText"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:textSize="12sp"
+                        android:text="Место проведения:"/>
+
+
+                <TextView
+                        android:id="@+id/placeName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/fullBlack"
+                        android:fontFamily="sans-serif"
+                        android:layout_below="@id/placeInfoTitle"
+                        android:layout_alignParentStart="true"
+                        tools:text="Третьяковская галерея"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                    android:textStyle="bold"/>
+
+                <TextView
+                        android:id="@+id/placeAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/fullBlack"
+                        android:fontFamily="sans-serif"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_below="@id/placeName"
+                        tools:text="г. Москва, Лаврушенский переулок"/>
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                    android:src="@drawable/ic_chevrone"/>
+            </RelativeLayout>
+
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/city"
-                    app:title="Город:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Город:"
+                    tools:visibility="visible" />
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/address"
-                    app:title="Адрес:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Адрес:"
+                    tools:visibility="visible" />
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/nearMetro"
-                    app:title="Ближайшее метро:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Ближайшее метро:"
+                    tools:visibility="visible" />
+
+            <com.app.rewizor.ui.custom.PublicationTextItem
+                    android:id="@+id/workingHours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:title="Часы работы:"
+                    tools:visibility="visible" />
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/phone"
-                    app:title="Телефон:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Телефон:"
+                    tools:visibility="visible" />
 
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/website"
-                    app:title="Официальный сайт:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Официальный сайт:"
+                    tools:visibility="visible" />
+
             <LinearLayout
                     android:id="@+id/descriptionContainer"
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                 <com.app.rewizor.ui.custom.PublicationTextItem
                         android:id="@+id/description"
-                        app:title=""
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        tools:visibility="visible"/>
+                        app:title=""
+                        tools:visibility="visible" />
 
             </LinearLayout>
 
 
-
             <com.app.rewizor.ui.custom.PublicationTextItem
                     android:id="@+id/source"
-                    app:title="Источник информации"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"/>
+                    app:title="Источник информации"
+                    tools:visibility="visible" />
 
             <View
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"/>
+                    android:layout_height="48dp" />
 
         </LinearLayout>
 

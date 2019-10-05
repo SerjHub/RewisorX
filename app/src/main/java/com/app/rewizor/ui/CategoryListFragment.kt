@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.app.rewizor.DetailsActivity
+import com.app.rewizor.DetailsActivity.Companion.ID_INTENT_KEY
+import com.app.rewizor.DetailsActivity.Companion.PARENT_INTENT_KEY
 import com.app.rewizor.MainActivity
-import com.app.rewizor.PublicationActivity
-import com.app.rewizor.PublicationActivity.Companion.ID_INTENT_KEY
-import com.app.rewizor.PublicationActivity.Companion.PARENT_INTENT_KEY
 import com.app.rewizor.R
 import com.app.rewizor.data.model.PublicationCommon
 import com.app.rewizor.ui.adapter.PublicationsAdapter
@@ -45,7 +45,7 @@ class CategoryListFragment : BaseFragment() {
         (activity as MainActivity)
             .also {
                 startActivity(
-                    Intent(it, PublicationActivity::class.java).apply {
+                    Intent(it, DetailsActivity::class.java).apply {
                         putExtra(ID_INTENT_KEY, id)
                         putExtra(PARENT_INTENT_KEY, topicParam)
                     }

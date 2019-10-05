@@ -128,7 +128,7 @@ class PublicationsAdapter(
                     }
                     TOPIC.AFISHA -> {
                         containerView.description.isVisible = false
-                        containerView.addressLayout.isVisible = true
+                        containerView.addressLayout.isVisible = parentAddress != null
                         containerView.addressLayout.address.text = p.parentAddress
                         containerView.placeLayout.isVisible = true
                         containerView.placeLayout.place.text = p.parentName

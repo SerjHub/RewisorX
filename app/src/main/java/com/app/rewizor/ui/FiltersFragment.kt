@@ -156,7 +156,7 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
             }
         }
 
-        saveFilters.setOnClickListener {  }
+        saveFilters.setOnClickListener { mainViewModel?.filterClicked() }
         clearFilters.setOnClickListener { filterViewModel.onClear() }
     }
 
