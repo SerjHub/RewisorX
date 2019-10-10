@@ -100,7 +100,7 @@ data class Materials(
     age = "",
     dates = "",
     place = "",
-    mostRead = false,
+    popular = false,
     category = ""
 ) {
     override fun clear() {
@@ -108,8 +108,8 @@ data class Materials(
         age = ""
         dates = ""
         place = ""
-        mostRead = false
         category = ""
+        popular = false
 
     }
 

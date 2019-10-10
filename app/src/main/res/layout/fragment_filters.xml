@@ -74,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <TextView
+                android:id="@+id/popularTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/filter_item_text"
@@ -102,26 +103,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-            android:id="@+id/mostReadItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            tools:visibility="visible">
-        <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/mostReadSwitch"
-                android:layout_width="wrap_content"
-                android:theme="@style/ColorSwitchStyle"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/filter_item_text"
-                android:text="Ревизор рекомендует"/>
-
-    </LinearLayout>
     <View
             android:layout_width="wrap_content"
             android:layout_height="0dp"

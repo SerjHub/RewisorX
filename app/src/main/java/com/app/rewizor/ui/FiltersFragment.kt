@@ -185,6 +185,10 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
                     is Main -> searchTextTitle
                     is Afisha -> searchTextTitle
                     is Materials -> searchTextTitle
+                        .also {
+                            date.currentFilterValue.hint = "Дата публикации"
+                            popularTitle.text = "Самое читаемое"
+                        }
                     is News -> searchTextTitle
                     else -> "Поиск"
                 }
@@ -212,9 +216,6 @@ class FiltersFragment : BaseFragment(), PickerDialog.NumberListener {
             recommend?.let {
                 recommendedItem.isVisible = true
                 recommendedSwitch.isChecked = it
-            }
-            mostRead?.let {
-                mostReadItem.isVisible = true
             }
         }
     }

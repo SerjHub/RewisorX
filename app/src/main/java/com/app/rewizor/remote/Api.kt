@@ -77,7 +77,7 @@ interface Api {
         @Field("age") age: String? = null,
         @Field("period") period: String? = null,
         @Field("text") text: String? = null,
-        @Field("places") places: String? = null,
+        @Field("parentName") places: String? = null,
         @Field("popular") popular: Boolean? = null,
         @Field("recommendations") recommendations: Boolean? = null
     ): Deferred<RewizorResponse<PageInfo>>
